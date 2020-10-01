@@ -17,5 +17,7 @@ python manage.py migrate_schemas
 8. NO MODIFIQUE EL SETTINGS.PY SIN AVISAR ANTES
 9. si va a instalar nuevos paquetes actualice el requeriments.txt con el comando 
 pip freeze > requirements.txt
-
+10. NO ELIMINE O MODIFIQUE LA CARPETA INCIAL
+11. Revisen el .gitignore y verifique que funciona, por lo tanto no se deberian subir las carpetas de migraciones, el secrets.json suyo o el pycache
+12. Hacer uso de un ambiente es de su elección https://medium.com/@m.monroyc22/configurar-entorno-virtual-python-a860e820aace
 CUALQUIER DUDA SE LE AYUDA POR VIDEOLLAMADA
