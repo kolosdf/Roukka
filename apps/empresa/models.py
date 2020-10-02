@@ -14,7 +14,7 @@ class Empresa(TenantMixin):
     """
     Modelo que representará a los tenants en el sistema
     """
-    nombre = models.CharField(max_length=100, verbose_name='Nombre del tenant *')
+    nombre = models.CharField(max_length=100, verbose_name='Nombre de la tienda')
     plan = models.ForeignKey(Plan, on_delete=models.PROTECT)
     email = models.EmailField(unique=True, verbose_name='Correo', null=True)
     numero_tarjeta = models.IntegerField(verbose_name='Número de tarjeta', null=True)
@@ -31,7 +31,7 @@ class Dominio(DomainMixin):
     """
     Modelo que representará al dominio en el sistema
     """
-    pass
+   
 
 
 class Funciones(models.Model):
