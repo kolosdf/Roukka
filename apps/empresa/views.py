@@ -20,9 +20,13 @@ from rest_framework.parsers import FormParser
 def home(request):
     pass
 
+"""
+CRUD DE EMPRESAS 
+"""
 class listar_empresa(generics.ListAPIView):
-    serializer_class = EmpresaSerializer
     queryset = Empresa.objects.all()
+    serializer_class = EmpresaSerializer
+    
 
 class crear_empresa(generics.CreateAPIView):
     
@@ -52,10 +56,35 @@ class modificar_empresa(generics.UpdateAPIView):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaModificarSerializer
 
+"""
+CRUD DE FUNCIONES 
+"""
+
+class listar_funcion(generics.ListAPIView):
+    queryset = Funciones.objects.all()
+    serializer_class = FuncionesSerializer
+    
+
 class crear_funcion(generics.CreateAPIView):
     queryset = Funciones.objects.all()
     serializer_class = FuncionesSerializer
 
+class modificar_funcion(generics.UpdateAPIView): 
+    queryset = Funciones.objects.all()
+    serializer_class = FuncionesSerializer
+
+"""
+CRUD DE PLANES 
+"""
+class listar_plan(generics.ListAPIView):
+    queryset = Plan.objects.all()
+    serializer_class = PlanSerializer
+
+
 class crear_plan(generics.CreateAPIView):
+    queryset = Plan.objects.all()
+    serializer_class = PlanSerializer
+
+class modificar_plan(generics.UpdateAPIView): 
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
