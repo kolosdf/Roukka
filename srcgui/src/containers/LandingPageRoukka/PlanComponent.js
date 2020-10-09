@@ -3,9 +3,9 @@ import React, { Fragment } from 'react';
 import { Button, Row, Card, Col, UncontrolledTooltip, Badge } from 'reactstrap';
 import Header from './HeaderLandingPage';
 
-import plan1 from '../assets/images/stock-photos/plan1.jpg';
-import plan2 from '../assets/images/stock-photos/plan2.jpg';
-import plan3 from '../assets/images/stock-photos/plan3.jpg';
+import plan1 from '../../assets/images/stock-photos/plan1.jpg';
+import plan2 from '../../assets/images/stock-photos/plan2.jpg';
+import plan3 from '../../assets/images/stock-photos/plan3.jpg';
 
 
 const Plan = () => {
