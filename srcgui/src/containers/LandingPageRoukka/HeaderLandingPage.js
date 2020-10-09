@@ -6,9 +6,9 @@ import { Button, Nav, Collapse, Navbar, NavbarToggler, NavbarBrand, NavItem } fr
 
 import { connect } from 'react-redux';
 
-import { setSidebarToggleMobile } from '../reducers/ThemeOptions';
+import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
 import { NavLink } from 'react-router-dom'
-import HeaderUserbox from '../layout-components/HeaderUserbox';
+import HeaderUserbox from '../../layout-components/HeaderUserbox';
 
 class Header extends Component {
 
@@ -37,7 +37,7 @@ class Header extends Component {
         return (
             <Fragment>
             
-            <Navbar expand="md">
+            <Navbar light expand="md">
                 <div className="container">
                 <button
               className={clsx(
@@ -54,10 +54,10 @@ class Header extends Component {
                         Roukka
                     </NavbarBrand>
                     <Collapse isOpen={this.state.isNavOpen} navbar>
-                        <Nav className="navbar" navbar>
+                        <Nav className="navbar-nav" navbar>
 
                             <NavItem>
-                                <NavLink className="nav-link ml-5" to="/Home">
+                                <NavLink className="nav-link  ml-5" to="/Home">
                                     <span className="fa fa-home fa-lg"></span> Home
                                 </NavLink>
                                 
