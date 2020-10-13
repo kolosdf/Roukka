@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux'
 
 import {
   Table,
@@ -26,7 +27,8 @@ import avatar2 from '../../assets/images/avatars/avatar2.jpg';
 import avatar3 from '../../assets/images/avatars/avatar3.jpg';
 import PageTitle from '../../Components/PageTitle'
 
-export default function MPlanRoukka() {
+function MPlanRoukka(props) {
+    console.log(props.Plans)
   return (
     <Fragment>
     
@@ -350,4 +352,12 @@ export default function MPlanRoukka() {
           </div>
         </CardBody>
       </Card>
-      </Fragment>)}
+      </Fragment>)
+      
+    }
+
+const mapStateToProps = state => ({
+        Plans: state.PlanRoukka,
+});
+      
+export default connect(mapStateToProps)(MPlanRoukka);
