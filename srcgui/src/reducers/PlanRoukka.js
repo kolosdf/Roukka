@@ -3,7 +3,7 @@ import * as ActionTypes from '../config/ActionTypes'
 export default function reducer (state = {
     isLoading: true,
     errMess: null,
-    planes: []
+    plans: []
     }, action) {
     switch(action.type){
         case ActionTypes.ADD_PLANS:

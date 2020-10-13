@@ -9,7 +9,7 @@ export default function reducer (state = {
         case ActionTypes.ADD_FUNCS:
             return {...state, isLoading: false, errMess: null, funcionalidades: action.payload};
 
-        case ActionTypes.FUNCS_LOADINGS_LOADING:
+        case ActionTypes.FUNCS_LOADING:
             return {...state, isLoading: true, errMess: null, funcionalidades: []};
 
         case ActionTypes.FUNCS_FAILED:
