@@ -17,7 +17,7 @@ class Empresa(TenantMixin):
     nombre = models.CharField(max_length=100, verbose_name='Nombre de la tienda')
     plan = models.ForeignKey(Plan, on_delete=models.PROTECT)
     email = models.EmailField(unique=True, verbose_name='Correo', null=True)
-    numero_tarjeta = models.IntegerField(verbose_name='Número de tarjeta', null=True)
+    numero_tarjeta = models.BigIntegerField(verbose_name='Número de tarjeta', null=True)
     cvv = models.IntegerField(verbose_name='CVV', null=True)
     fecha_vencimiento = models.CharField(max_length=10, verbose_name='Fecha de vencimiento', null=True)
     titular = models.CharField(max_length=50, verbose_name='Titular', null=True)
@@ -36,7 +36,7 @@ class Dominio(DomainMixin):
 
 class Funciones(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre de la función')
-    plan = models.ManyToManyField(Plan)
+    plan = models.ManyToManyField(Plan, related_name='funciones')
 
     """
     Se crea el plan y luego se seleccionan las funcionalidades. Se elige una que ya está o se crea una nueva

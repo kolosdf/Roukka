@@ -5,4 +5,5 @@ from apps.empresa.views import home
 urlpatterns = [
     path('', home, name='home'),
     path('empresas/', include('apps.empresa.urls', namespace='empresas')),
+    path('usuarios/', include('apps.usuarios.urls', namespace='usuarios')),
 ]
