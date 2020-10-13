@@ -14,6 +14,7 @@ import Plan from './containers/LandingPageRoukka/PlanComponent'
 import Header from './containers/LandingPageRoukka/HeaderLandingPage'
 import Contact from './containers/LandingPageRoukka/ContactComponent'
 import About from './containers/LandingPageRoukka/AboutComponent'
+import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
 
 //Admin Roukka
 
@@ -93,7 +94,7 @@ const Routes = () => {
         
           <Redirect exact from="/" to="/Home" />
           
-          <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus']}>
+          <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus','/Comprar']}>
             <PresentationLayout>
               <Header />
               <Switch location={location} key={location.pathname}>
@@ -108,6 +109,7 @@ const Routes = () => {
                   <Route path="/Plans" component={Plan} />
                   <Route path="/Contactus" component={Contact} />
                   <Route path="/Aboutus" component={About} />
+                  <Route path="/Comprar" component={ComprarPlan} />
                   
                 </motion.div>
               </Switch>

@@ -1,7 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {connect} from 'react-redux'
+import {connect, useDispatch} from 'react-redux'
+
+
+
 
 import {
   Table,
@@ -26,9 +31,18 @@ import avatar1 from '../../assets/images/avatars/avatar1.jpg';
 import avatar2 from '../../assets/images/avatars/avatar2.jpg';
 import avatar3 from '../../assets/images/avatars/avatar3.jpg';
 import PageTitle from '../../Components/PageTitle'
+import { getPlans } from '../../config/ActionCreators';
 
 function MPlanRoukka(props) {
     console.log(props.Plans)
+
+
+    useEffect(() => {
+        dispatch(getPlans())
+      },[]);
+
+    const dispatch = useDispatch();
+
   return (
     <Fragment>
     
@@ -359,5 +373,21 @@ function MPlanRoukka(props) {
 const mapStateToProps = state => ({
         Plans: state.PlanRoukka,
 });
-      
+     
+
+
+
+
+/*
+  const mapDispatchToProps = (dispatch) => ({
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
+    fetchDishes: () => { dispatch(fetchDishes()) },
+    resetFeedBackForm: () => { dispatch(actions.reset('feedback')) },
+    fetchComments: () => { dispatch(fetchComments()) },
+    fetchPromos: () => { dispatch(fetchPromos()) },
+    fetchLeaders: () => { dispatch(fetchLeaders()) },
+    postFeedback: (feedback) => dispatch(postFeedback(feedback)),
+
+});
+*/
 export default connect(mapStateToProps)(MPlanRoukka);
