@@ -4,28 +4,26 @@ import { Row, Col, Card, CardBody, UncontrolledCarousel, Button } from 'reactstr
 import {Link} from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import hero8 from '../assets/images/stock-photos/plan1.jpg'
 
-import hero8 from '../../assets/images/stock-photos/plan1.jpg'
+import Cards5Examples29 from '../example-components/Cards5/Cards5Examples29'
 
+import stock1 from '../assets/images/stock-photos/stock-1.jpg';
+import stock2 from '../assets/images/stock-photos/stock-2.jpg';
+import stock3 from '../assets/images/stock-photos/stock-3.jpg';
 
+import plan1 from '../assets/images/stock-photos/plan1.jpg';
+import plan2 from '../assets/images/stock-photos/plan2.jpg';
+import plan3 from '../assets/images/stock-photos/plan3.jpg';
 
+import inventario from '../assets/images/stock-photos/inventario.jpg';
+import fact from '../assets/images/stock-photos/fact.jpg';
+import cliente from '../assets/images/stock-photos/cliente.jpg';
+import reporte from '../assets/images/stock-photos/reporte.jpg';
 
+import producto from '../assets/images/stock-photos/producto.jpg';
 
-import plan1 from '../../assets/images/stock-photos/plan1.jpg'
-import plan2 from '../../assets/images/stock-photos/plan2.jpg';
-import plan3 from '../../assets/images/stock-photos/plan3.jpg';
-
-
-
-
-import inventario from '../../assets/images/stock-photos/inventario.jpg';
-import fact from '../../assets/images/stock-photos/fact.jpg';
-import cliente from '../../assets/images/stock-photos/cliente.jpg';
-import reporte from '../../assets/images/stock-photos/reporte.jpg';
-
-import producto from '../../assets/images/stock-photos/producto.jpg';
-
-import menu from '../../assets/images/stock-photos/menu.jpg';
+import menu from '../assets/images/stock-photos/menu.jpg';
 
 
 const items = [
@@ -44,7 +42,7 @@ const items = [
         key: '2'
     },
     {
-        src: plan3 ,
+        src: plan3,
         altText: 'Plan Premium',
         caption: 'Lo que tu empresa necesita',
         header: 'Plan Premium',
