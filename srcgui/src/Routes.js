@@ -9,11 +9,22 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 
 
+//Landing Page Roukka
+import Plan from './containers/LandingPageRoukka/PlanComponent'
+import Header from './containers/LandingPageRoukka/HeaderLandingPage'
+import Contact from './containers/LandingPageRoukka/ContactComponent'
+import About from './containers/LandingPageRoukka/AboutComponent'
+import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
 
-import Plan from './Components/PlanComponent'
-import Header from './Components/HeaderLandingPage'
-import Contact from './Components/ContactComponent'
-import About from './Components/AboutComponent'
+//Admin Roukka
+
+import LeftAdminRoukka from './containers/AdminRoukka/LeftAdminRoukka'
+import MPlanRoukka from './containers/AdminRoukka/MPlanRoukka'
+import MUserRoukka from './containers/AdminRoukka/MUserRoukka'
+import MClientRoukka from './containers/AdminRoukka/MClientRoukka'
+import MDashboardRoukka from './containers/AdminRoukka/MDashboardRoukka'
+
+
 // Example Pages
 
 import Buttons from './example-pages/Buttons';
@@ -35,8 +46,7 @@ const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
 const Cards3 = lazy(() => import('./example-pages/Cards3'));
 const ListGroups = lazy(() => import('./example-pages/ListGroups'));
 const LandingPage = lazy(() => import('./example-pages/LandingPage'));
-const LandingPagePri = lazy(() => import ('./Components/LandingPage')) ;
-const Home = lazy(() => import ('./Components/HomeComponent')) ;
+const Home = lazy(() => import ('./containers/LandingPageRoukka/HomeComponent')) ;
 const Modals = lazy(() => import('./example-pages/Modals'));
 const Notifications = lazy(() => import('./example-pages/Notifications'));
 const Carousels = lazy(() => import('./example-pages/Carousels'));
@@ -79,14 +89,16 @@ const Routes = () => {
               Please wait while we load the live preview examples
             </div>
           </div>
-        }>
-         
+        }>  
         <Switch>
+        
           <Redirect exact from="/" to="/Home" />
-          <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus']}>
+          
+          <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus','/Comprar']}>
             <PresentationLayout>
-            <Header/>
+              <Header />
               <Switch location={location} key={location.pathname}>
+              
                 <motion.div
                   initial="initial"
                   animate="in"
@@ -97,7 +109,7 @@ const Routes = () => {
                   <Route path="/Plans" component={Plan} />
                   <Route path="/Contactus" component={Contact} />
                   <Route path="/Aboutus" component={About} />
-                  <Route path="/LandingPage" component={LandingPagePri} />
+                  <Route path="/Comprar" component={ComprarPlan} />
                   
                 </motion.div>
               </Switch>
@@ -174,6 +186,44 @@ const Routes = () => {
               </Switch>
             </LeftSidebar>
           </Route>
+
+          {
+          //Admin Roukka
+          }
+          <Route path={['/DashboardRoukka','/PlanRoukka', '/ClientRoukka', '/UserRoukka']}>
+            <LeftAdminRoukka>
+
+            <Switch location={location} key={location.pathname}>
+            <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}>
+                  <Route
+                    path="/DashboardRoukka"
+                    component={MDashboardRoukka}
+                  />
+                  <Route
+                    path="/PlanRoukka"
+                    component={MPlanRoukka}
+                  />
+                  <Route
+                    path="/ClientRoukka"
+                    component={MClientRoukka}
+                  />
+                  <Route
+                    path="/UserRoukka"
+                    component={MUserRoukka}
+                  />
+              </motion.div>
+            </Switch>
+
+
+            </LeftAdminRoukka>
+            
+          </Route>
+
         </Switch>
       </Suspense>
     </AnimatePresence>
