@@ -25,7 +25,7 @@ const ComprarPlan = (props) => {
         cvv: '',
         fecha_vencimiento: '',
         titular: '',
-        plan: 9
+        plan: 1
     })
 
     const dispatch = useDispatch();

@@ -18,7 +18,7 @@ class Empresa(TenantMixin):
     plan = models.ForeignKey(Plan, on_delete=models.PROTECT)
     email = models.EmailField(unique=True, verbose_name='Correo', null=True)
     numero_tarjeta = models.BigIntegerField(verbose_name='Número de tarjeta', null=True)
-    cvv = models.IntegerField(verbose_name='CVV', null=True)
+    cvc = models.IntegerField(verbose_name='CVV', null=True)
     fecha_vencimiento = models.CharField(max_length=10, verbose_name='Fecha de vencimiento', null=True)
     titular = models.CharField(max_length=50, verbose_name='Titular', null=True)
 

@@ -40,12 +40,12 @@ class ClienteSerializer(serializers.ModelSerializer):
 class ClienteModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['first_name','last_name','numero_tarjeta', 'cvv', 'fecha_vencimiento', 'titular']
+        fields = ['first_name','last_name','numero_tarjeta', 'cvc', 'fecha_vencimiento', 'titular']
 
 class ClienteListaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['id','first_name','last_name', 'email','numero_tarjeta', 'cvv', 'fecha_vencimiento', 'titular']
+        fields = ['id','first_name','last_name', 'email','numero_tarjeta', 'cvc', 'fecha_vencimiento', 'titular']
 
 
 
