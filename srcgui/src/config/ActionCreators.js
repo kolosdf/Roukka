@@ -98,3 +98,31 @@ export const  postRegisterEmpresa = (empresa) => (dispatch) => {
         .then(res => dispatch(addEmpresa(res.data)))
         .catch(error => console.log(error));
 }
+
+// FUNCIONALIDADES
+
+export const getFunc = () => (dispacth) => { 
+    dispacth(funcLoading(true));
+    const url = `${API_URL}/listarFuncion/`;
+    return axios.get(url)
+        .then(funcionalidades => dispacth(addFunc(funcionalidades.data)))    
+        .catch(error => console.log(error));
+    
+}
+
+
+export const addFunc = (funcionalidades) => ({
+    type: ActionTypes.ADD_FUNCS,
+    payload: funcionalidades
+})
+
+
+export const funcLoading = () => ({
+    type: ActionTypes.FUNCS_LOADING,
+
+})
+
+export const funcFailed = (errmess) => ({
+    type: ActionTypes.FUNCS_FAILED,
+    payload: errmess
+})
