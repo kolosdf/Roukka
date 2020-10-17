@@ -22,6 +22,7 @@ venv.bak/
 */migrations/
 secrets.json
 
+
 ### Project cache ###
 */*/__pycache__/
 */__pycache__/
