@@ -25,7 +25,7 @@ const CardPlan = (props) => {
 
     const planes = props.plans.map((plan) => {
         return(
-            <Col xl="4" lg="6">
+            <Col xl="4" lg="6"  key={plan.id}>
                 <Link to={`/Comprar/${plan.id}`}>
                 <Card className="card-transparent mb-5">
                     <div className="card-img-wrapper">
@@ -35,7 +35,7 @@ const CardPlan = (props) => {
                         <h5 className="card-title font-weight-bold font-size-lg">
                             {plan.nombre}
                         </h5>
-                        <p className="card-text">
+                        <p>
                             {plan.precio}
                         </p>
                         <p>Usuarios : 1</p>

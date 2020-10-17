@@ -21,7 +21,7 @@ import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
 import LeftAdminRoukka from './containers/AdminRoukka/LeftAdminRoukka'
 import MPlanRoukka from './containers/AdminRoukka/MPlanRoukka'
 import MUserRoukka from './containers/AdminRoukka/MUserRoukka'
-import MClientRoukka from './containers/AdminRoukka/MClientRoukka'
+import MEmpresaRoukka from './containers/AdminRoukka/MEmpresaRoukka'
 import MDashboardRoukka from './containers/AdminRoukka/MDashboardRoukka'
 
 
@@ -109,7 +109,7 @@ const Routes = () => {
                   <Route path="/Plans" component={Plan} />
                   <Route path="/Contactus" component={Contact} />
                   <Route path="/Aboutus" component={About} />
-                  <Route path="/Comprar" component={ComprarPlan} />
+                  <Route path="/Comprar/:idPlan" component={ComprarPlan} />
                   
                 </motion.div>
               </Switch>
@@ -190,7 +190,7 @@ const Routes = () => {
           {
           //Admin Roukka
           }
-          <Route path={['/DashboardRoukka','/PlanRoukka', '/ClientRoukka', '/UserRoukka']}>
+          <Route path={['/DashboardRoukka','/PlanRoukka', '/EmpresaRoukka', '/UserRoukka']}>
             <LeftAdminRoukka>
 
             <Switch location={location} key={location.pathname}>
@@ -209,8 +209,8 @@ const Routes = () => {
                     component={MPlanRoukka}
                   />
                   <Route
-                    path="/ClientRoukka"
-                    component={MClientRoukka}
+                    path="/EmpresaRoukka"
+                    component={MEmpresaRoukka}
                   />
                   <Route
                     path="/UserRoukka"
