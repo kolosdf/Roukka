@@ -20,7 +20,7 @@ class PageTitle extends Component {
             </div>
           </div>
           <div className="d-flex align-items-center mt-3 mt-lg-0">
-            <Button size="sm" color="success" id="AddEntryTooltip20">
+            <Button size="sm" color="success" onClick={this.props.modal} id="AddEntryTooltip20">
               <span className="btn-wrapper--icon">
                 <FontAwesomeIcon
                   icon={['fas', 'plus']}

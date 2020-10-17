@@ -16,7 +16,8 @@ export default function reducer (state = {
             return {...state, isLoading: false, errMess: action.payload, empresas: []};
         
         case ActionTypes.ADD_EMPRESA:
-            var empresa = action.payload;         
+            var empresa = action.payload;   
+            console.log(empresa)      
             return {...state, empresas: state.empresas.concat(empresa)};
     
         default:

@@ -55,9 +55,39 @@ export const plansFailed = (errmess) => ({
 })
 
 
+
+export const getEmpresas = () => (dispacth) => { 
+    dispacth(plansLoading(true));
+    const url = `${API_URL}/`;
+    return axios.get(url)
+        .then(empresas => dispacth(addEmpresas(empresas.data)))    
+        .catch(error => console.log(error));
+    
+}
+
+
+
+export const addEmpresas = (empresas) => ({
+    type: ActionTypes.ADD_EMPRESAS,
+    payload: empresas
+})
+
+
+export const empresasLoading = () => ({
+    type: ActionTypes.EMPRESAS_LOADING,
+
+})
+
+export const empresasFailed = (errmess) => ({
+    type: ActionTypes.EMPRESAS_FAILED,
+    payload: errmess
+})
+
+
 export const addEmpresa = ( empresa) => ({
     type: ActionTypes.ADD_EMPRESA,
     payload: empresa
+    
 });
 
 
