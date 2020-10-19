@@ -49,6 +49,8 @@ SHARED_APPS = (
     'django_tenants',  
     'django.contrib.contenttypes',
     'apps.empresa',
+    'apps.usuarios',
+
 
     
     'django.contrib.auth',
@@ -66,6 +68,7 @@ SHARED_APPS = (
 TENANT_APPS = (
     
     'django.contrib.contenttypes',
+    'apps.usuarios',
 
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -181,6 +184,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+AUTH_USER_MODEL = 'usuarios.Usuario'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),

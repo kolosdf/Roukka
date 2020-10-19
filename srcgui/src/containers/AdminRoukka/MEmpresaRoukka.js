@@ -1,13 +1,8 @@
-import React, { Fragment, useEffect,  useState } from 'react';
-
-import planIm1 from '../../assets/images/stock-photos/plan1.jpg';
-import planIm2 from '../../assets/images/stock-photos/plan2.jpg';
-import planIm3 from '../../assets/images/stock-photos/plan3.jpg';
-
+import React, { useEffect, Fragment } from 'react'
+import PageTitle from '../../Components/PageTitle'
+import { useDispatch, connect } from 'react-redux'
+import { getEmpresas } from '../../config/ActionCreators';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect, useDispatch } from 'react-redux'
-
-
 
 
 import {
@@ -26,27 +21,12 @@ import {
     Button,
     UncontrolledDropdown,
     DropdownToggle,
-    DropdownMenu,Modal, InputGroup, Input, FormGroup,InputGroupText
+    DropdownMenu
 } from 'reactstrap';
-
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import PageTitle from '../../Components/PageTitle'
-import { getPlans } from '../../config/ActionCreators';
-
-
 
 function FilaTable(props) {
 
-    const imagen = (planId) => {
-        switch (planId) {
-            case 1: return planIm1;
-            case 2: return planIm2;
-            case 3: return planIm3;
-            default: return planIm1;
-        }
-    }
+
 
     return (
         <tr>
@@ -54,7 +34,7 @@ function FilaTable(props) {
                 <div className="d-flex align-items-center">
                     <div className="avatar-icon-wrapper mr-2">
                         <div className="avatar-icon">
-                            <img alt="..." className="" width="100" src={imagen(props.plan.id)} />
+                            <p>{props.empresa.id}</p>
                         </div>
                     </div>
                     <div>
@@ -63,18 +43,18 @@ function FilaTable(props) {
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.plan.nombre}
+                            {props.empresa.nombre}
                         </a>
                         <span className="text-black-50 d-block">
-                            $ {props.plan.precio}
+                            {props.empresa.email}
                         </span>
                     </div>
                 </div>
             </td>
             <td className="text-center">
                 <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
+                    Plan {props.empresa.plan}
+                </Badge>
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -124,116 +104,29 @@ function FilaTable(props) {
     )
 }
 
+function MEmpresaRoukka(props) {
 
-function ModalRegistrarPlan (props) {
 
 
-    
-
-    return(
-        <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
-            <div>
-                <Card className="bg-secondary shadow-none border-0">
-                    <div className="card-header d-block bg-white pt-4 pb-5">
-                        <div className="text-muted text-center mb-3">
-                            <small>Sign in with</small>
-                        </div>
-                        <div className="text-center">
-                            <Button color="facebook" className="mr-2">
-                                <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon icon={['fab', 'facebook']} />
-                                </span>
-                                <span className="btn-wrapper--label">Facebook</span>
-                            </Button>
-                            <Button color="twitter" className="ml-2">
-                                <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon icon={['fab', 'twitter']} />
-                                </span>
-                                <span className="btn-wrapper--label">Twitter</span>
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="card-body px-lg-5 py-lg-5">
-                        <div className="text-center text-muted mb-4">
-                            <small>Or sign in with credentials</small>
-                        </div>
-                        <form>
-                            <div className="form-group mb-3">
-                                <div className="input-group input-group-alternative">
-                                    <div className="input-group-prepend">
-                                        <InputGroupText>
-                                            <FontAwesomeIcon icon={['far', 'envelope']} />
-                                        </InputGroupText>
-                                    </div>
-                                    <Input placeholder="Email" type="email" />
-                                </div>
-                            </div>
-                            <FormGroup>
-                                <div className="input-group input-group-alternative">
-                                    <div className="input-group-prepend">
-                                        <InputGroupText>
-                                            <FontAwesomeIcon icon={['fas', 'unlock-alt']} />
-                                        </InputGroupText>
-                                    </div>
-                                    <Input placeholder="Password" type="password" />
-                                </div>
-                            </FormGroup>
-                            <div className="custom-control custom-control-alternative custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                                    id="customCheckLogin"
-                                    type="checkbox"
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor="customCheckLogin">
-                                    <span>Remember me</span>
-                                </label>
-                            </div>
-                            <div className="text-center">
-                                <Button color="second" className="mt-4">
-                                    Sign in
-                    </Button>
-                            </div>
-                        </form>
-                    </div>
-                </Card>
-            </div>
-        </Modal>)
-}
-
-function MPlanRoukka(props) {
-
-    const modificarPlan = (id, nombre, precio) => {
-
-    }
-
-    const [modal5, setModal5] = useState(false);
-    const toggle5 = () => setModal5(!modal5);
-    
-    const planes = props.plans.plans.map((plan) => {
+    const empresas = props.empresas.empresas.map((empresa) => {
         return (
-            <FilaTable plan={plan} key={plan.id} />
+            <FilaTable empresa={empresa} key={empresa.id} />
         )
     })
 
     console.log(props.Plans)
 
-
     useEffect(() => {
-        dispatch(getPlans())
+        dispatch(getEmpresas())
     }, []);
 
     const dispatch = useDispatch();
 
     return (
         <Fragment>
-
-            <ModalRegistrarPlan modalState={modal5} modelToggle={toggle5} />
-
             <PageTitle
-                titleHeading="Planes de funcionalidades"
-                titleDescription="Conjunto de planes presentes en la aplicación" modal={toggle5}/>
+                titleHeading="Empresa"
+                titleDescription="Conjunto de empresas presentes en la aplicación" />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -262,7 +155,7 @@ function MPlanRoukka(props) {
                             <thead className="thead-light">
                                 <tr>
                                     <th style={{ width: '40%' }}>Plan</th>
-                                    <th className="text-center">Status</th>
+                                    <th className="text-center">Tipo de plan</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -270,7 +163,7 @@ function MPlanRoukka(props) {
 
 
                             <tbody>
-                                {planes}
+                                {empresas}
                             </tbody>
                         </Table>
                     </div>
@@ -344,23 +237,8 @@ function MPlanRoukka(props) {
 }
 
 const mapStateToProps = state => ({
-    plans: state.PlanRoukka,
+    empresas: state.EmpresaRoukka,
 });
 
 
-
-
-
-/*
-  const mapDispatchToProps = (dispatch) => ({
-    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
-    fetchDishes: () => { dispatch(fetchDishes()) },
-    resetFeedBackForm: () => { dispatch(actions.reset('feedback')) },
-    fetchComments: () => { dispatch(fetchComments()) },
-    fetchPromos: () => { dispatch(fetchPromos()) },
-    fetchLeaders: () => { dispatch(fetchLeaders()) },
-    postFeedback: (feedback) => dispatch(postFeedback(feedback)),
-
-});
-*/
-export default connect(mapStateToProps)(MPlanRoukka);
+export default connect(mapStateToProps)(MEmpresaRoukka)
