@@ -1,7 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
-import plan1 from '../../assets/images/stock-photos/plan1.jpg'
+import planIm1 from '../../assets/images/stock-photos/plan1.jpg';
+import planIm2 from '../../assets/images/stock-photos/plan2.jpg';
+import planIm3 from '../../assets/images/stock-photos/plan3.jpg';
 import {
     Row, Col,
     FormText,
@@ -9,11 +11,57 @@ import {
     Label,
     FormGroup,
     Input,
-    Button, Card, CardBody
+    Button, Card, CardBody,Alert
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import {useDispatch} from 'react-redux'
+import {useDispatch, connect } from 'react-redux'
 import { postRegisterEmpresa } from '../../config/ActionCreators';
+import {getPlans} from '../../config/ActionCreators'
+
+
+
+
+const CardBuyPlan = (props) => {
+
+    const imagen = (planId) => {
+        switch(planId){
+            case 1 : return planIm1;
+            case 2 : return planIm2;
+            case 3 : return planIm3;
+            default: return planIm1; 
+        }
+    }
+
+    if(props.plan == null){
+        return <Fragment></Fragment>
+    }
+    else{
+        return(
+            <Card className="mb-3">
+                <img alt="..." className="card-img-top" src={imagen(props.plan.id)} />
+                <Col lg="7" className="px-0 mx-auto d-flex align-items-center">
+                    <div className="text-center">
+                        <div className="ml-5 px-4 px-sm-0  mt-4">
+                            <h3 className=" mr-5 mb-1 font-weight-bold">
+                                Plan {props.plan.nombre}
+                            </h3>
+                           
+                        </div>
+                        <div className=" px-4 px-sm-0 ">
+                        <h4 className="mx-auto font-weight-bold">
+                        Valor: $ {props.plan.precio}
+                        </h4>
+                        </div>
+                        
+                    </div>
+                    
+                </Col>
+                
+        </Card>
+        )
+    }
+}
 
 const ComprarPlan = (props) => {
 
@@ -25,8 +73,33 @@ const ComprarPlan = (props) => {
         cvv: '',
         fecha_vencimiento: '',
         titular: '',
-        plan: 1
+        plan: '',
     })
+
+    useEffect(() => {
+        const actualizar = () => {
+            setState({
+                ...state,
+                plan:props.match.params.idPlan,
+            })
+        }
+        actualizar();
+        dispatch(getPlans())
+    }, [])
+
+    const initForm = () => {
+        setState({
+            ...state,
+            schema_name: '',
+            nombre: '',
+            email: '',
+            numero_tarjeta: '',
+            cvv: '',
+            fecha_vencimiento: '',
+            titular: '',
+            plan: '',
+        })
+    }
 
     const dispatch = useDispatch();
 
@@ -53,12 +126,15 @@ const ComprarPlan = (props) => {
     const handleSubmit = (e) =>{
         e.preventDefault()
         dispatch(postRegisterEmpresa(state))
+        initForm()
+        return <Alert/>
         
     }
 
     return (
+        
         <Fragment>
-
+{   console.log(state)}
             <div className="hero-wrapper bg-composed-wrapper min-vh-100">
                 <div className="flex-grow-1 w-100 d-flex align-items-center">
                     <div className="bg-composed-wrapper--content pt-5 pb-2 py-lg-5">
@@ -77,21 +153,8 @@ const ComprarPlan = (props) => {
 
 
                             <Row className="mb-3 ">
-                                <Col>
-                                    <Card className=" mb-3">
-                                        <img alt="..." className="card-img-top" src={plan1} />
-                                        <Col lg="10" className="px-0 mx-auto d-flex align-items-center">
-
-                                            <div className="text-center">
-                                                <div className="px-4 px-sm-0  mt-4">
-                                                    <h3 className=" mb-5 font-weight-bold">
-                                                        Plan Empresarial
-                                                </h3>
-
-                                                </div></div>
-
-                                        </Col>
-                                    </Card>
+                                <Col >
+                                    <CardBuyPlan plan={props.plans.plans.filter((plan) => plan.id == props.match.params.idPlan)[0]}/>
                                     <Card className="mb-3">
                                         <Col lg="10" className="px-0 mx-auto d-flex align-items-center">
                                             <div className="text-center">
@@ -106,7 +169,7 @@ const ComprarPlan = (props) => {
                                                     <Cards
                                                         cvc={state.cvv}
                                                         expiry={state.fecha_vencimiento}
-                                                        focused={focus}
+                                                        focused={focus.focus}
                                                         name={state.titular}
                                                         number={state.numero_tarjeta}
                                                     />
@@ -130,8 +193,9 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="schema_name"
+                                                                value={state.schema_name}
                                                                 id="schema_name"
-                                                                placeholder="*****.Qbano"
+                                                                placeholder="Qbano.localhost"
                                                                 onChange={handleChange}
                                                                 onFocus={handleFocus}
                                                                 required
@@ -146,6 +210,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="nombre"
+                                                                value={state.nombre}
                                                                 id="nombre"
                                                                 placeholder="Qbano"
                                                                 onChange={handleChange}
@@ -163,6 +228,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="email"
                                                                 name="email"
+                                                                value={state.email}
                                                                 id="email"
                                                                 placeholder="juan@gmail.com"
                                                                 onChange={handleChange}
@@ -180,6 +246,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="numero_tarjeta"
+                                                                value={state.numero_tarjeta}
                                                                 id="numero_tarjeta"
                                                                 placeholder="1233 3434 2223 2333"
                                                                 maxLength="16"
@@ -198,6 +265,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="fecha_vencimiento"
+                                                                value={state.fecha_vencimiento}
                                                                 id="fecha_vencimiento"
                                                                 placeholder="0221"
                                                                 maxLength="4"
@@ -216,6 +284,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="cvv"
+                                                                value={state.cvv}
                                                                 id="cvv"
                                                                 placeholder="213"
                                                                 maxLength="4"
@@ -235,6 +304,7 @@ const ComprarPlan = (props) => {
                                                             <Input
                                                                 type="text"
                                                                 name="titular"
+                                                                value={state.titular}
                                                                 id="titular"
                                                                 placeholder="Juan Camilo Gonzalez"
                                                                 onChange={handleChange}
@@ -243,7 +313,7 @@ const ComprarPlan = (props) => {
                                                             />
                                                         </Col>
                                                     </FormGroup>
-                                                    <Button  type="submit" className="col-md-6 offset-3" color="primary">Registrar Pago</Button>
+                                                    <Button  type="submit" className="col-12 col-md-6 offset-md-3" color="primary">Registrar Pago</Button>
                                                 </Form>
                                             </CardBody>
                                         </Card>
@@ -259,4 +329,10 @@ const ComprarPlan = (props) => {
         </Fragment>
     );
 };
-export default ComprarPlan;
+
+
+const mapStateToProps = state => ({
+    plans: state.PlanRoukka,
+});
+
+export default connect(mapStateToProps)(ComprarPlan);
