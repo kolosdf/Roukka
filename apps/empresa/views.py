@@ -52,7 +52,7 @@ class crear_empresa(generics.CreateAPIView):
             return Response(empresa.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-class modificar_empresa(generics.UpdateAPIView): 
+class modificar_empresa(generics.RetrieveUpdateAPIView): 
     queryset = Empresa.objects.all()
     serializer_class = EmpresaModificarSerializer
 
@@ -69,7 +69,7 @@ class crear_funcion(generics.CreateAPIView):
     queryset = Funciones.objects.all()
     serializer_class = FuncionesSerializer
 
-class modificar_funcion(generics.UpdateAPIView): 
+class modificar_funcion(generics.RetrieveUpdateAPIView): 
     queryset = Funciones.objects.all()
     serializer_class = FuncionesSerializer
 
@@ -85,6 +85,6 @@ class crear_plan(generics.CreateAPIView):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
 
-class modificar_plan(generics.UpdateAPIView): 
+class modificar_plan(generics.RetrieveUpdateAPIView): 
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer

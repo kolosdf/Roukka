@@ -33,7 +33,7 @@ class crear_empleado(generics.CreateAPIView):
         else:
             return Response(empleado.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class modificar_empleado(generics.UpdateAPIView):
+class modificar_empleado(generics.RetrieveUpdateAPIView):
     queryset = Empleado.objects.all()
     serializer_class = EmpleadoModificarSerializer
 
@@ -41,10 +41,11 @@ class listar_empleado(generics.ListAPIView):
     queryset = Empleado.objects.all()
     serializer_class = EmpleadoListaSerializer
 
+"""
 class desactivar_empleado(generics.UpdateAPIView):
     queryset = Empleado.objects.all()
     serializer_class = EmpleadoDesactivarSerializer
-
+"""
 """
 CRUD DE CLIENTES
 """
@@ -63,7 +64,7 @@ class crear_cliente(generics.CreateAPIView):
         else:
             return Response(cliente.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class modificar_cliente(generics.UpdateAPIView):
+class modificar_cliente(generics.RetrieveUpdateAPIView):
     queryset = Cliente.objects.all()
     serializer_class = ClienteModificarSerializer
 

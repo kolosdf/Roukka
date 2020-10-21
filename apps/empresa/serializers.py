@@ -9,7 +9,7 @@ class EmpresaSerializer(serializers.ModelSerializer):
 class EmpresaModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empresa
-        fields = ['nombre','email']
+        fields = ['nombre','email','imagen']
 
 
 class PlanSerializer(serializers.ModelSerializer):
