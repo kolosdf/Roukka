@@ -94,7 +94,7 @@ const ComprarPlan = (props) => {
             nombre: '',
             email: '',
             numero_tarjeta: '',
-            cvv: '',
+            cvc: '',
             fecha_vencimiento: '',
             titular: '',
             plan: '',
@@ -167,7 +167,7 @@ const ComprarPlan = (props) => {
                                             <div className="mr-2">
                                                 <CardBody >
                                                     <Cards
-                                                        cvc={state.cvv}
+                                                        cvc={state.cvc}
                                                         expiry={state.fecha_vencimiento}
                                                         focused={focus.focus}
                                                         name={state.titular}
@@ -277,15 +277,15 @@ const ComprarPlan = (props) => {
                                                     </FormGroup>
 
                                                     <FormGroup row>
-                                                        <Label for="cvv" sm={4}>
+                                                        <Label for="cvc" sm={4}>
                                                             CVC
                                                 </Label>
                                                         <Col sm={8}>
                                                             <Input
                                                                 type="text"
-                                                                name="cvv"
-                                                                value={state.cvv}
-                                                                id="cvv"
+                                                                name="cvc"
+                                                                value={state.cvc}
+                                                                id="cvc"
                                                                 placeholder="213"
                                                                 maxLength="4"
                                                                 onChange={handleChange}
