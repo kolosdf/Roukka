@@ -10,6 +10,9 @@ class Plan(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre del plan')
     precio = models.IntegerField(verbose_name='Precio')
 
+    def __str__(self):
+        return self.nombre
+
 class Empresa(TenantMixin):
     """
     Modelo que representará a los tenants en el sistema
@@ -21,6 +24,7 @@ class Empresa(TenantMixin):
     cvc = models.IntegerField(verbose_name='CVV', null=True)
     fecha_vencimiento = models.CharField(max_length=10, verbose_name='Fecha de vencimiento', null=True)
     titular = models.CharField(max_length=50, verbose_name='Titular', null=True)
+    imagen = models.TextField(null=True)
 
 
     def __str__(self):
