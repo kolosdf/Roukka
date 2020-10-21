@@ -13,10 +13,14 @@ import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 
 import Cards5Examples29 from '../../example-components/Cards5/Cards5Examples29'
 
-const About = () => {
+const About = (props) => {
+    const URLactual = window.location.hostname.split('.').shift();
+
     return (
         <Fragment>
-
+            {alert(URLactual)}
+            {console.log(props)}
+            {console.log(props.match.params)}
             <div className="hero-wrapper bg-composed-wrapper min-vh-100">
                 <div className="flex-grow-1 w-100 d-flex align-items-center">
                     <div className="bg-composed-wrapper--content pt-5 pb-2 py-lg-5">

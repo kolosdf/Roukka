@@ -9,12 +9,18 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 
 
+
 //Landing Page Roukka
 import Plan from './containers/LandingPageRoukka/PlanComponent'
 import Header from './containers/LandingPageRoukka/HeaderLandingPage'
 import Contact from './containers/LandingPageRoukka/ContactComponent'
 import About from './containers/LandingPageRoukka/AboutComponent'
 import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
+
+
+//A ver
+
+import LandingPage2 from './containers/AdminEmpresa/LandingPage'
 
 //Admin Roukka
 
@@ -97,8 +103,7 @@ const Routes = () => {
           <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus','/Comprar']}>
             <PresentationLayout>
               <Header />
-              <Switch location={location} key={location.pathname}>
-              
+              <Switch location={location} key={location.pathname}>          
                 <motion.div
                   initial="initial"
                   animate="in"
@@ -109,8 +114,23 @@ const Routes = () => {
                   <Route path="/Plans" component={Plan} />
                   <Route path="/Contactus" component={Contact} />
                   <Route path="/Aboutus" component={About} />
-                  <Route path="/Comprar/:idPlan" component={ComprarPlan} />
-                  
+                  <Route path="/Comprar/:idPlan" component={ComprarPlan} />         
+                </motion.div>
+              </Switch>
+            </PresentationLayout>
+          </Route>
+
+          <Route path={['/LandingPageTenant']}>
+            <PresentationLayout>
+              <Switch location={location} key={location.pathname}>          
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}>
+                  <Route path="/LandingPageTenant" component={LandingPage2} />
+                          
                 </motion.div>
               </Switch>
             </PresentationLayout>
