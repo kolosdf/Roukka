@@ -4,18 +4,18 @@ import planIm1 from '../../assets/images/stock-photos/plan1.jpg';
 import planIm2 from '../../assets/images/stock-photos/plan2.jpg';
 import planIm3 from '../../assets/images/stock-photos/plan3.jpg';
 
+import avatar1 from '../../assets/images/avatars/avatar1.jpg';
+import avatar2 from '../../assets/images/avatars/avatar2.jpg';
+import avatar3 from '../../assets/images/avatars/avatar3.jpg';
+import PageTitle from '../../Components/PageTitle'
+import ModalFormPlan from '../../Components/ModalFormPlan';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect, useDispatch } from 'react-redux'
-
-
-
 
 import {
     Table,
     CardBody,
     Card,
-    CardHeader,
-    CustomInput,
     Badge,
     Nav,
     NavItem,
@@ -26,15 +26,8 @@ import {
     Button,
     UncontrolledDropdown,
     DropdownToggle,
-    DropdownMenu,Modal, InputGroup, Input, FormGroup,InputGroupText
+    DropdownMenu,
 } from 'reactstrap';
-
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import PageTitle from '../../Components/PageTitle'
-import { getPlans } from '../../config/ActionCreators';
-
 
 
 function FilaTable(props) {
@@ -95,10 +88,10 @@ function FilaTable(props) {
                             className="nav-primary flex-column pt-2 pb-3">
                             <NavItem className="px-3">
                                 <NavLink
-                                    href="#/"
-                                    onClick={e => e.preventDefault()}
+                                    href="#"
+                                    onClick={props.modificar.bind(this,props.plan.id, props.plan.nombre, props.plan.precio)}
                                     active>
-                                    <span>View details</span>
+                                    <span>Ver detalles </span>
                                     <Badge color="first" className="ml-auto">
                                         New
                         </Badge>
@@ -107,7 +100,7 @@ function FilaTable(props) {
                             <li className="dropdown-divider" />
                             <NavItem>
                                 <NavLink
-                                    href="#/"
+                                    href="#"
                                     onClick={e => e.preventDefault()}
                                     className="text-danger mx-3">
                                     <div className="nav-link-icon">
@@ -125,115 +118,51 @@ function FilaTable(props) {
 }
 
 
-function ModalRegistrarPlan (props) {
 
-
-    
-
-    return(
-        <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
-            <div>
-                <Card className="bg-secondary shadow-none border-0">
-                    <div className="card-header d-block bg-white pt-4 pb-5">
-                        <div className="text-muted text-center mb-3">
-                            <small>Sign in with</small>
-                        </div>
-                        <div className="text-center">
-                            <Button color="facebook" className="mr-2">
-                                <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon icon={['fab', 'facebook']} />
-                                </span>
-                                <span className="btn-wrapper--label">Facebook</span>
-                            </Button>
-                            <Button color="twitter" className="ml-2">
-                                <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon icon={['fab', 'twitter']} />
-                                </span>
-                                <span className="btn-wrapper--label">Twitter</span>
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="card-body px-lg-5 py-lg-5">
-                        <div className="text-center text-muted mb-4">
-                            <small>Or sign in with credentials</small>
-                        </div>
-                        <form>
-                            <div className="form-group mb-3">
-                                <div className="input-group input-group-alternative">
-                                    <div className="input-group-prepend">
-                                        <InputGroupText>
-                                            <FontAwesomeIcon icon={['far', 'envelope']} />
-                                        </InputGroupText>
-                                    </div>
-                                    <Input placeholder="Email" type="email" />
-                                </div>
-                            </div>
-                            <FormGroup>
-                                <div className="input-group input-group-alternative">
-                                    <div className="input-group-prepend">
-                                        <InputGroupText>
-                                            <FontAwesomeIcon icon={['fas', 'unlock-alt']} />
-                                        </InputGroupText>
-                                    </div>
-                                    <Input placeholder="Password" type="password" />
-                                </div>
-                            </FormGroup>
-                            <div className="custom-control custom-control-alternative custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                                    id="customCheckLogin"
-                                    type="checkbox"
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor="customCheckLogin">
-                                    <span>Remember me</span>
-                                </label>
-                            </div>
-                            <div className="text-center">
-                                <Button color="second" className="mt-4">
-                                    Sign in
-                    </Button>
-                            </div>
-                        </form>
-                    </div>
-                </Card>
-            </div>
-        </Modal>)
-}
 
 function MPlanRoukka(props) {
 
     const modificarPlan = (id, nombre, precio) => {
-
+        setState({
+            id:id,
+            nombre: nombre,
+            precio: precio,
+        },toggle5())
+        setNuevo(false)        
     }
 
+    const [state, setState] = useState({
+        id: '',
+        nombre: '',
+        precio: ''
+    })
+
     const [modal5, setModal5] = useState(false);
+    
+    const [nuevo, setNuevo] = useState(false);
+
     const toggle5 = () => setModal5(!modal5);
+
+    const modalNuevo = () => {
+        setNuevo(true)
+        toggle5()
+    }
     
     const planes = props.plans.plans.map((plan) => {
         return (
-            <FilaTable plan={plan} key={plan.id} />
+            <FilaTable modificar={modificarPlan} plan={plan} key={plan.id} />
         )
     })
 
-    console.log(props.Plans)
-
-
-    useEffect(() => {
-        dispatch(getPlans())
-    }, []);
-
-    const dispatch = useDispatch();
-
     return (
         <Fragment>
-
-            <ModalRegistrarPlan modalState={modal5} modelToggle={toggle5} />
+            
+            {console.log(props.plans.plans.indexOf({id: 48, nombre: "Premio roja", precio: 1500}))}
+            <ModalFormPlan postRegisterPlan={props.postRegisterPlan} putUpdatePlan={props.putUpdatePlan} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Planes de funcionalidades"
-                titleDescription="Conjunto de planes presentes en la aplicación" modal={toggle5}/>
+                titleDescription="Conjunto de planes presentes en la aplicación" modal={modalNuevo}/>
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -258,7 +187,7 @@ function MPlanRoukka(props) {
                 </div>
                 <CardBody className="p-0">
                     <div className="table-responsive-md">
-                        <Table hover striped className="text-nowrap mb-0">
+                        <Table hover striped className="text-nowrap mb-0 ">
                             <thead className="thead-light">
                                 <tr>
                                     <th style={{ width: '40%' }}>Plan</th>
@@ -266,9 +195,6 @@ function MPlanRoukka(props) {
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
-
-
-
                             <tbody>
                                 {planes}
                             </tbody>
@@ -343,24 +269,4 @@ function MPlanRoukka(props) {
 
 }
 
-const mapStateToProps = state => ({
-    plans: state.PlanRoukka,
-});
-
-
-
-
-
-/*
-  const mapDispatchToProps = (dispatch) => ({
-    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
-    fetchDishes: () => { dispatch(fetchDishes()) },
-    resetFeedBackForm: () => { dispatch(actions.reset('feedback')) },
-    fetchComments: () => { dispatch(fetchComments()) },
-    fetchPromos: () => { dispatch(fetchPromos()) },
-    fetchLeaders: () => { dispatch(fetchLeaders()) },
-    postFeedback: (feedback) => dispatch(postFeedback(feedback)),
-
-});
-*/
-export default connect(mapStateToProps)(MPlanRoukka);
+export default MPlanRoukka;

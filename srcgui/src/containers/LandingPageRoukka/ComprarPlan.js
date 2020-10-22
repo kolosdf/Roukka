@@ -16,8 +16,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {useDispatch, connect } from 'react-redux'
-import { postRegisterEmpresa } from '../../config/ActionCreators';
-import {getPlans} from '../../config/ActionCreators'
+import { postRegisterEmpresa, getPlans} from '../../config/ActionCreators';
+
 
 
 
@@ -70,7 +70,7 @@ const ComprarPlan = (props) => {
         nombre: '',
         email: '',
         numero_tarjeta: '',
-        cvv: '',
+        cvc: '',
         fecha_vencimiento: '',
         titular: '',
         plan: '',

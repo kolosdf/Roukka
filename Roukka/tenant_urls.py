@@ -2,6 +2,8 @@ from django.urls import path, include
 
 from django.views.generic import TemplateView
 
+from apps.empresa.views import home
+
 
 urlpatterns = [
     path('LandingPageTenant', TemplateView.as_view(template_name='index.html')),
