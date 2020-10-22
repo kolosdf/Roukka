@@ -9,6 +9,8 @@ from django_tenants.postgresql_backend.base import is_valid_schema_name
 class Plan(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre del plan')
     precio = models.IntegerField(verbose_name='Precio')
+    imagen = models.TextField(null=True)
+    estado = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre
