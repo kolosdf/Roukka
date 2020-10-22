@@ -107,7 +107,7 @@ PUBLIC_SCHEMA_URLCONF = 'Roukka.public_urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'srcgui/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -188,7 +188,7 @@ USE_TZ = True
 AUTH_USER_MODEL = 'usuarios.Usuario'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "srcgui/build/static"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_collected')
 

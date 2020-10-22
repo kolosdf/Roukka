@@ -77,6 +77,11 @@ class Header extends Component {
                                     <span className="fa fa-address-card fa-lg"></span> Contactanos
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link ml-5" to="/PlanRoukka">
+                                    <span className="fa fa-address-card fa-lg"></span> Ir
+                                </NavLink>
+                            </NavItem>
                         </Nav>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
