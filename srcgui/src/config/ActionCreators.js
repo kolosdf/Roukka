@@ -36,6 +36,26 @@ export const getPlans = () => (dispacth) => {
     
 }
 
+export const  postRegisterPlan = (plan) => (dispatch) => {
+    const url = `${API_URL}/crearPlan/`;
+    return axios.post(url, plan)
+        .then(res => dispatch(addPlan(res.data)))
+        .catch(error => console.log(error));
+}
+
+export const putUpdatePlan = (plan) => (dispatch) => {
+    const url = `${API_URL}/modificarPlan/${plan.id}/`;
+    return axios.put(url, plan)
+        .then(res => dispatch(updatePlan(res.data)))
+        .catch(error => console.log(error));
+
+}
+
+
+export const updatePlan = (plan) => ({
+    type: ActionTypes.UPDATE_PLAN,
+    payload: plan
+})
 
 
 export const addPlans = (plans) => ({
@@ -54,6 +74,11 @@ export const plansFailed = (errmess) => ({
     payload: errmess
 })
 
+export const addPlan = ( plan) => ({
+    type: ActionTypes.ADD_PLAN,
+    payload: plan
+    
+});
 
 
 export const getEmpresas = () => (dispacth) => { 
@@ -101,28 +126,28 @@ export const  postRegisterEmpresa = (empresa) => (dispatch) => {
 
 // FUNCIONALIDADES
 
-export const getFunc = () => (dispacth) => { 
-    dispacth(funcLoading(true));
+export const getFuncs = () => (dispacth) => { 
+    dispacth(funcsLoading(true));
     const url = `${API_URL}/listarFuncion/`;
     return axios.get(url)
-        .then(funcionalidades => dispacth(addFunc(funcionalidades.data)))    
+        .then(funcionalidades => dispacth(addFuncs(funcionalidades.data)))    
         .catch(error => console.log(error));
     
 }
 
 
-export const addFunc = (funcionalidades) => ({
+export const addFuncs = (funcionalidades) => ({
     type: ActionTypes.ADD_FUNCS,
     payload: funcionalidades
 })
 
 
-export const funcLoading = () => ({
+export const funcsLoading = () => ({
     type: ActionTypes.FUNCS_LOADING,
 
 })
 
-export const funcFailed = (errmess) => ({
+export const funcsFailed = (errmess) => ({
     type: ActionTypes.FUNCS_FAILED,
     payload: errmess
 })

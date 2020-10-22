@@ -1,12 +1,15 @@
-import React, { lazy, Suspense } from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import React, { Component, lazy, Suspense } from 'react';
+import { Switch, Route, Redirect, useLocation, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { connect } from 'react-redux'
+
 
 // Layout Blueprints
 
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
-
+//Acciones
+import {getPlans, getEmpresas, getFuncs, postRegisterPlan, putUpdatePlan} from './config/ActionCreators'
 
 
 
@@ -62,10 +65,19 @@ const Tabs = lazy(() => import('./example-pages/Tabs'));
 const ApexCharts = lazy(() => import('./example-pages/ApexCharts'));
 const Maps = lazy(() => import('./example-pages/Maps'));
 
-const Routes = () => {
-  const location = useLocation();
+class Routes extends Component {
+  constructor(props){
+    super(props);
+  }
 
-  const pageVariants = {
+  componentDidMount(){
+    this.props.getPlans()
+    this.props.getEmpresas()
+    this.props.getFuncs()
+  }
+  
+
+  pageVariants = {
     initial: {
       opacity: 0,
       scale: 0.99
@@ -80,174 +92,198 @@ const Routes = () => {
     }
   };
 
-  const pageTransition = {
+  pageTransition = {
     type: 'tween',
     ease: 'anticipate',
     duration: 0.4
   };
 
-  return (
-    <AnimatePresence>
-      <Suspense
-        fallback={
-          <div className="d-flex align-items-center vh-100 justify-content-center text-center font-weight-bold font-size-lg py-3">
-            <div className="w-50 mx-auto">
-              Please wait while we load the live preview examples
+
+  render(){
+    return (
+      
+      <AnimatePresence>
+        <Suspense
+          fallback={
+            <div className="d-flex align-items-center vh-100 justify-content-center text-center font-weight-bold font-size-lg py-3">
+              <div className="w-50 mx-auto">
+                Please wait while we load the live preview examples
+              </div>
             </div>
-          </div>
-        }>  
-        <Switch>
-        
-          <Redirect exact from="/" to="/Home" />
+          }>  
+          <Switch>
           
-          <Route path={['/LandingPage', '/Home', '/Plans','/Contactus','/Aboutus','/Comprar']}>
-            <PresentationLayout>
-              <Header />
-              <Switch location={location} key={location.pathname}>          
-                <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}>
-                  <Route path="/Home" component={Home} />
-                  <Route path="/Plans" component={Plan} />
-                  <Route path="/Contactus" component={Contact} />
-                  <Route path="/Aboutus" component={About} />
-                  <Route path="/Comprar/:idPlan" component={ComprarPlan} />         
-                </motion.div>
-              </Switch>
-            </PresentationLayout>
-          </Route>
-
-          <Route path={['/LandingPageTenant']}>
-            <PresentationLayout>
-              <Switch location={location} key={location.pathname}>          
-                <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}>
-                  <Route path="/LandingPageTenant" component={LandingPage2} />
-                          
-                </motion.div>
-              </Switch>
-            </PresentationLayout>
-          </Route>
-
-          <Route
-            path={[
-              '/DashboardDefault',
-              '/Buttons',
-              '/Dropdowns',
-              '/NavigationMenus',
-              '/ProgressBars',
-              '/Pagination',
-              '/Scrollable',
-              '/Badges',
-              '/Icons',
-              '/UtilitiesHelpers',
-              '/Cards3',
-              '/ListGroups',
-              '/Modals',
-              '/Notifications',
-              '/Carousels',
-              '/Popovers',
-              '/Tooltips',
-              '/Tabs',
-              '/RegularTables1',
-              '/RegularTables4',
-              '/FormsLayout',
-              '/FormsControls',
-              '/ApexCharts',
-              '/Maps',
-            ]}>
-            <LeftSidebar>
-              <Switch location={location} key={location.pathname}>
-                <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}>
-                  <Route
-                    path="/DashboardDefault"
-                    component={DashboardDefault}
-                  />
-                
-                  <Route path="/Buttons" component={Buttons} />
-                  <Route path="/Dropdowns" component={Dropdowns} />
-                  <Route path="/NavigationMenus" component={NavigationMenus} />
-                  <Route path="/ProgressBars" component={ProgressBars} />
-                  <Route path="/Pagination" component={Pagination} />
-                  <Route path="/Scrollable" component={Scrollable} />
-                  <Route path="/Badges" component={Badges} />
-                  <Route path="/Icons" component={Icons} />
-                  <Route
-                    path="/UtilitiesHelpers"
-                    component={UtilitiesHelpers}
-                  />
-                  <Route path="/Cards3" component={Cards3} />
-                  <Route path="/ListGroups" component={ListGroups} />
-                  <Route path="/Modals" component={Modals} />
-                  <Route path="/Notifications" component={Notifications} />
-                  <Route path="/Carousels" component={Carousels} />
-                  <Route path="/Popovers" component={Popovers} />
-                  <Route path="/Tooltips" component={Tooltips} />
-                  <Route path="/Tabs" component={Tabs} />
-                  <Route path="/RegularTables1" component={RegularTables1} />
-                  <Route path="/RegularTables4" component={RegularTables4} />
-                  <Route path="/FormsLayout" component={FormsLayout} />
-                  <Route path="/FormsControls" component={FormsControls} />
-                  <Route path="/ApexCharts" component={ApexCharts} />
-                  <Route path="/Maps" component={Maps} />
-                </motion.div>
-              </Switch>
-            </LeftSidebar>
-          </Route>
-
-          {
-          //Admin Roukka
-          }
-          <Route path={['/DashboardRoukka','/PlanRoukka', '/EmpresaRoukka', '/UserRoukka']}>
-            <LeftAdminRoukka>
-
-            <Switch location={location} key={location.pathname}>
-            <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}>
-                  <Route
-                    path="/DashboardRoukka"
-                    component={MDashboardRoukka}
-                  />
-                  <Route
-                    path="/PlanRoukka"
-                    component={MPlanRoukka}
-                  />
-                  <Route
-                    path="/EmpresaRoukka"
-                    component={MEmpresaRoukka}
-                  />
-                  <Route
-                    path="/UserRoukka"
-                    component={MUserRoukka}
-                  />
-              </motion.div>
-            </Switch>
-
-
-            </LeftAdminRoukka>
+            <Redirect exact from="/" to="/Home" />
             
-          </Route>
+            <Route path={['/LandingPage', '/Home', '/Plans', '/Contactus','/Aboutus','/Comprar']}>
+              <PresentationLayout>
+                <Header />
+                <Switch location={this.props.location} key={this.props.location.key}>    
+                {console.log(this.props.location.pathname)} 
+                {console.log(this.props.location)}  
+                {console.log(this.props.location.key)}      
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={this.pageVariants}
+                    transition={this.pageTransition}>
+                    <Route path="/Home" component={Home} />
+                    <Route path="/Plans" component={() => <Plan plans={this.props.plans} />} />
+                    <Route path="/Contactus" component={Contact} />
+                    <Route path="/Aboutus" component={About} />
+                    <Route path="/Comprar/:idPlan" component={ComprarPlan} />         
+                  </motion.div>
+                </Switch>
+              </PresentationLayout>
+            </Route>
 
-        </Switch>
-      </Suspense>
-    </AnimatePresence>
-  );
+            <Route path={['/LandingPageTenant']}>
+              <PresentationLayout>
+                <Switch location={this.props.location} key={this.props.location.key}>          
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={this.pageVariants}
+                    transition={this.pageTransition}>
+                    <Route path="/LandingPageTenant" component={LandingPage2} />
+                            
+                  </motion.div>
+                </Switch>
+              </PresentationLayout>
+            </Route>
+
+            <Route
+              path={[
+                '/DashboardDefault',
+                '/Buttons',
+                '/Dropdowns',
+                '/NavigationMenus',
+                '/ProgressBars',
+                '/Pagination',
+                '/Scrollable',
+                '/Badges',
+                '/Icons',
+                '/UtilitiesHelpers',
+                '/Cards3',
+                '/ListGroups',
+                '/Modals',
+                '/Notifications',
+                '/Carousels',
+                '/Popovers',
+                '/Tooltips',
+                '/Tabs',
+                '/RegularTables1',
+                '/RegularTables4',
+                '/FormsLayout',
+                '/FormsControls',
+                '/ApexCharts',
+                '/Maps',
+              ]}>
+              <LeftSidebar>
+                <Switch location={this.props.location} key={this.props.location.key}>
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={this.pageVariants}
+                    transition={this.pageTransition}>
+                    <Route
+                      path="/DashboardDefault"
+                      component={DashboardDefault}
+                    />
+                  
+                    <Route path="/Buttons" component={Buttons} />
+                    <Route path="/Dropdowns" component={Dropdowns} />
+                    <Route path="/NavigationMenus" component={NavigationMenus} />
+                    <Route path="/ProgressBars" component={ProgressBars} />
+                    <Route path="/Pagination" component={Pagination} />
+                    <Route path="/Scrollable" component={Scrollable} />
+                    <Route path="/Badges" component={Badges} />
+                    <Route path="/Icons" component={Icons} />
+                    <Route
+                      path="/UtilitiesHelpers"
+                      component={UtilitiesHelpers}
+                    />
+                    <Route path="/Cards3" component={Cards3} />
+                    <Route path="/ListGroups" component={ListGroups} />
+                    <Route path="/Modals" component={Modals} />
+                    <Route path="/Notifications" component={Notifications} />
+                    <Route path="/Carousels" component={Carousels} />
+                    <Route path="/Popovers" component={Popovers} />
+                    <Route path="/Tooltips" component={Tooltips} />
+                    <Route path="/Tabs" component={Tabs} />
+                    <Route path="/RegularTables1" component={RegularTables1} />
+                    <Route path="/RegularTables4" component={RegularTables4} />
+                    <Route path="/FormsLayout" component={FormsLayout} />
+                    <Route path="/FormsControls" component={FormsControls} />
+                    <Route path="/ApexCharts" component={ApexCharts} />
+                    <Route path="/Maps" component={Maps} />
+                  </motion.div>
+                </Switch>
+              </LeftSidebar>
+            </Route>
+
+            {
+            //Admin Roukka
+            }
+            <Route path={['/DashboardRoukka','/PlanRoukka', '/EmpresaRoukka', '/UserRoukka']}>
+              <LeftAdminRoukka>
+
+              <Switch location={this.props.location} key={this.props.location.key}>
+              <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={this.pageVariants}
+                    transition={this.pageTransition}>
+                    <Route
+                      path="/DashboardRoukka"
+                      component={MDashboardRoukka}
+                    />     
+                    <Route
+                      path="/PlanRoukka"
+                      component={() => <MPlanRoukka plans={this.props.plans}  
+                                                    postRegisterPlan={this.props.postRegisterPlan}
+                                                    putUpdatePlan={this.props.putUpdatePlan}/>}
+                    />
+                    <Route
+                      path="/EmpresaRoukka"
+                      component={() => <MEmpresaRoukka empresas={this.props.empresas} />}
+                    />
+                    <Route 
+                      path="/UserRoukka" 
+                      component={MUserRoukka}
+                    />
+                </motion.div>
+              </Switch>
+              </LeftAdminRoukka>           
+            </Route>
+          </Switch>
+        </Suspense>
+      </AnimatePresence>
+    );}
 };
 
-export default Routes;
+
+const mapStateToProps = state => {
+  return {
+      plans: state.Plans,
+      empresas: state.Empresas,
+      funcionalidades: state.funcionalidades,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+
+  getPlans:() =>  {dispatch(getPlans())},
+  getEmpresas: () => {dispatch(getEmpresas())},
+  getFuncs: () => {dispatch(getFuncs())},
+  postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
+  putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa))
+  
+
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Routes));

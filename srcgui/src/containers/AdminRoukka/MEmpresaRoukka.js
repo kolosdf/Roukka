@@ -4,24 +4,8 @@ import { useDispatch, connect } from 'react-redux'
 import { getEmpresas } from '../../config/ActionCreators';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
-import {
-    Table,
-    CardBody,
-    Card,
-    CardHeader,
-    CustomInput,
-    Badge,
-    Nav,
-    NavItem,
-    NavLink,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
-    Button,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu
+import {Table,CardBody,Card,CardHeader,CustomInput,Badge,Nav,NavItem,NavLink,Pagination,
+    PaginationItem,PaginationLink,Button,UncontrolledDropdown, DropdownToggle,DropdownMenu
 } from 'reactstrap';
 
 function FilaTable(props) {
@@ -116,11 +100,7 @@ function MEmpresaRoukka(props) {
 
     console.log(props.Plans)
 
-    useEffect(() => {
-        dispatch(getEmpresas())
-    }, []);
-
-    const dispatch = useDispatch();
+    
 
     return (
         
@@ -237,9 +217,7 @@ function MEmpresaRoukka(props) {
 
 }
 
-const mapStateToProps = state => ({
-    empresas: state.EmpresaRoukka,
-});
 
 
-export default connect(mapStateToProps)(MEmpresaRoukka)
+
+export default MEmpresaRoukka

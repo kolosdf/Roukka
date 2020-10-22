@@ -44,7 +44,7 @@ const sidebarMenuContent = [
     label: 'Maps',
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
-    to: '/Maps'
+    to: '/Plans'
   }
 ];
 

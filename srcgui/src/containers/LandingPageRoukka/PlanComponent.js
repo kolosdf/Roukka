@@ -61,11 +61,11 @@ const CardPlan = (props) => {
 
 const Plan = (props) => {
     
-    const dispatch = useDispatch();
+    
 
-    useEffect(() => {
-        dispatch(getPlans())
-    },[]);
+    /* useEffect(() => {
+        props.getPlans()
+    },[]); */
 
       
 
@@ -103,8 +103,14 @@ const Plan = (props) => {
     );
 };
 
-const mapStateToProps = state => ({
-    plans: state.PlanRoukka,
+/* const mapStateToProps = state => ({
+    plans: state.Plans,
 });
 
-export default connect(mapStateToProps)(Plan);
+const mapDispatchToProps = (dispatch) => ({
+
+    getPlans:() =>  {dispatch(getPlans())}
+  
+  }); */
+
+export default Plan;
