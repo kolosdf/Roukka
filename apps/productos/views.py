@@ -45,6 +45,10 @@ class listar_platillo(generics.ListAPIView):
     queryset = Platillo.objects.all()
     serializer_class = PlatilloSerializer
 
+class detalle_platillo(generics.RetrieveAPIView):
+    queryset = Platillo.objects.all()
+    serializer_class = PlatilloSerializer
+
 """
 CRUD DE MENUS
 """
@@ -57,5 +61,9 @@ class modificar_menu(generics.RetrieveUpdateAPIView):
     serializer_class = MenuSerializer
 
 class listar_menu(generics.ListAPIView):
+    queryset = Menu.objects.all()
+    serializer_class = MenuSerializer
+
+class detalle_menu(generics.RetrieveAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer

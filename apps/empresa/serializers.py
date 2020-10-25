@@ -4,13 +4,12 @@ from .models import *
 class EmpresaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empresa
-        fields = '__all__'
+        exclude = ['estado']
 
 class EmpresaModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empresa
-        fields = ['nombre','email','imagen']
-
+        exclude = ['schema_name']
 
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
