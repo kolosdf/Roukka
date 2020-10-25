@@ -23,3 +23,6 @@ class Menu(models.Model):
     nombre = models.TextField(max_length=50)
     platillos = models.ManyToManyField(Platillo)
     imagen = models.TextField()
+
+    def __str__(self):
+        return self.nombre
