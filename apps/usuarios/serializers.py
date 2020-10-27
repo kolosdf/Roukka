@@ -19,6 +19,11 @@ class UsuarioModificarSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ['first_name','last_name','is_active']
 
+class UsuarioListarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['first_name','last_name','email','is_active']
+
 
 #EMPLEADOS
 

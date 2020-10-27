@@ -5,6 +5,8 @@ app_name = 'usuarios'
 urlpatterns = [
     #URLS de usuario gerente y admin de roukka
     path('crearSuper/',views.crear_usuario.as_view(), name='crear_usuario'),
+    path('listarSuper/',views.listar_usuario.as_view(), name='listar_usuario'),
+    path('modificarSuper/<int:pk>/',views.modificar_usuario.as_view(), name='modificar_usuario'),
     #URLS de empleados
     path('crearEmpleado/',views.crear_empleado.as_view(), name='crear_empleado'),
     path('listarEmpleado/',views.listar_empleado.as_view(), name='listar_empleado'),
