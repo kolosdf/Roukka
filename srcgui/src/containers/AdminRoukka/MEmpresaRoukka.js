@@ -8,6 +8,7 @@ import {Table,CardBody,Card,CardHeader,CustomInput,Badge,Nav,NavItem,NavLink,Pag
     PaginationItem,PaginationLink,Button,UncontrolledDropdown, DropdownToggle,DropdownMenu
 } from 'reactstrap';
 
+
 function FilaTable(props) {
 
 

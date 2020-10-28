@@ -192,8 +192,10 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_collected')
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
        'http://localhost:3000',
+       #is_well_formed_link = re:compile(r'^https?://.+/.+$') # https://example.com/hello expression regular
+       
 )

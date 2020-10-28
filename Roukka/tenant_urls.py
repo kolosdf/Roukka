@@ -6,7 +6,7 @@ from apps.empresa.views import home
 
 
 urlpatterns = [
-    path('LandingPageTenant', TemplateView.as_view(template_name='index.html')),
+    path('LandingPage', TemplateView.as_view(template_name='index.html')),
     path('Aboutus', TemplateView.as_view(template_name='index.html')),
     path('PlanRoukka', TemplateView.as_view(template_name='index.html')),
     path('usuarios/', include('apps.usuarios.urls', namespace='usuarios')),
