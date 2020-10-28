@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
-import {getPlans, getEmpresas, getFuncs, postRegisterPlan, putUpdatePlan} from './config/ActionCreators'
+import {getPlans, getEmpresas, getFuncs, postRegisterPlan, putUpdatePlan, postRegisterEmpresa} from './config/ActionCreators'
 
 
 
@@ -21,9 +21,12 @@ import About from './containers/LandingPageRoukka/AboutComponent'
 import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
 
 
-//A ver
+//Landing Page Tenant
 
-import LandingPage2 from './containers/AdminEmpresa/LandingPage'
+import HomeTenant from './containers/LandingPageEmpresa/HomeTenant'
+import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
+import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
+
 
 //Admin Roukka
 
@@ -32,6 +35,10 @@ import MPlanRoukka from './containers/AdminRoukka/MPlanRoukka'
 import MUserRoukka from './containers/AdminRoukka/MUserRoukka'
 import MEmpresaRoukka from './containers/AdminRoukka/MEmpresaRoukka'
 import MDashboardRoukka from './containers/AdminRoukka/MDashboardRoukka'
+
+//Admin Tenant
+
+import DashboardTenant from './containers/AdminEmpresa/DashboardTenant'
 
 
 // Example Pages
@@ -49,6 +56,7 @@ import RegularTables1 from './example-pages/RegularTables1';
 import RegularTables4 from './example-pages/RegularTables4';
 import FormsLayout from './example-pages/FormsLayout';
 import FormsControls from './example-pages/FormsControls';
+import axios from 'axios'
 //import Home from './Components/HomeComponent'
 
 const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
@@ -64,6 +72,10 @@ const Tooltips = lazy(() => import('./example-pages/Tooltips'));
 const Tabs = lazy(() => import('./example-pages/Tabs'));
 const ApexCharts = lazy(() => import('./example-pages/ApexCharts'));
 const Maps = lazy(() => import('./example-pages/Maps'));
+//pruebas
+const API_URL = 'localhost:8000/';
+
+const URLactual = window.location.hostname.split('.').shift();
 
 class Routes extends Component {
   constructor(props){
@@ -71,9 +83,18 @@ class Routes extends Component {
   }
 
   componentDidMount(){
-    this.props.getPlans()
-    this.props.getEmpresas()
-    this.props.getFuncs()
+    if(URLactual==='localhost'){
+      this.props.getPlans()
+      this.props.getEmpresas()
+      this.props.getFuncs()
+    }else{
+      console.log('funcionaa')
+        const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
+        return axios.get(url)
+        .then(empresas => {console.log(empresas.data)})    
+        .catch(error => console.log(error));
+    }
+    
   }
   
 
@@ -98,6 +119,8 @@ class Routes extends Component {
     duration: 0.4
   };
 
+  
+
 
   render(){
     return (
@@ -115,31 +138,31 @@ class Routes extends Component {
           
             <Redirect exact from="/" to="/Home" />
             
-            <Route path={['/LandingPage', '/Home', '/Plans', '/Contactus','/Aboutus','/Comprar']}>
+            <Route path={['/Home', '/Plans', '/Contactus','/Aboutus','/Comprar']}>
               <PresentationLayout>
                 <Header />
                 <Switch location={this.props.location} key={this.props.location.key}>    
-                {console.log(this.props.location.pathname)} 
-                {console.log(this.props.location)}  
-                {console.log(this.props.location.key)}      
                   <motion.div
                     initial="initial"
                     animate="in"
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
+
+
                     <Route path="/Home" component={Home} />
                     <Route path="/Plans" component={() => <Plan plans={this.props.plans} />} />
                     <Route path="/Contactus" component={Contact} />
                     <Route path="/Aboutus" component={About} />
-                    <Route path="/Comprar/:idPlan" component={ComprarPlan} />         
+                    <Route path="/Comprar/:idPlan" component={ComprarPlan} />  
                   </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPageTenant']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa']}>
               <PresentationLayout>
+                <HeaderTenant tenant={URLactual}/>
                 <Switch location={this.props.location} key={this.props.location.key}>          
                   <motion.div
                     initial="initial"
@@ -147,8 +170,9 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
-                    <Route path="/LandingPageTenant" component={LandingPage2} />
-                            
+
+                    <Route path="/LandingPage" component={() => <HomeTenant tenant={URLactual}/>} />  
+                    <Route path="/ContactusEmpresa" component={ContactTenant} />                        
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -229,7 +253,7 @@ class Routes extends Component {
             //Admin Roukka
             }
             <Route path={['/DashboardRoukka','/PlanRoukka', '/EmpresaRoukka', '/UserRoukka']}>
-              <LeftAdminRoukka>
+              <LeftAdminRoukka >
 
               <Switch location={this.props.location} key={this.props.location.key}>
               <motion.div
@@ -240,7 +264,7 @@ class Routes extends Component {
                     transition={this.pageTransition}>
                     <Route
                       path="/DashboardRoukka"
-                      component={MDashboardRoukka}
+                      component={() => <MDashboardRoukka plans={this.props.plans} />}
                     />     
                     <Route
                       path="/PlanRoukka"
@@ -258,9 +282,27 @@ class Routes extends Component {
                     />
                 </motion.div>
               </Switch>
-              </LeftAdminRoukka>           
+              
+              </LeftAdminRoukka>    
             </Route>
-          </Switch>
+
+            <Route path={['/AdminTenant', '/DashboardTenant']}>
+              <PresentationLayout>
+              <LeftAdminRoukka >
+                <Switch location={this.props.location} key={this.props.location.key}>          
+                  <motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={this.pageVariants}
+                    transition={this.pageTransition}>
+                    <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />                         
+                  </motion.div>
+                </Switch>
+                </LeftAdminRoukka >
+              </PresentationLayout>  
+            </Route>
+          </Switch>  
         </Suspense>
       </AnimatePresence>
     );}
@@ -281,7 +323,9 @@ const mapDispatchToProps = (dispatch) => ({
   getEmpresas: () => {dispatch(getEmpresas())},
   getFuncs: () => {dispatch(getFuncs())},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
-  putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa))
+  putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
+  postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa))
+
   
 
 });

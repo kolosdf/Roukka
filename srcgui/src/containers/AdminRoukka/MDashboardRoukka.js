@@ -1,17 +1,51 @@
 import React, { Component } from 'react'
 import PageTitle from '../../Components/PageTitle'
 
-class MUserRoukka extends Component {
-    render() {
+import {Card, Col, Row} from 'reactstrap'
+
+
+
+function CardUser(props){
+
+    return(
+        <Row>
+            <Col md={5}>
+                <Card className="p-3 mb-3">
+
+                    <h1>nombre :{props.nombre} </h1>
+                    <p>edad: {props.edad} </p>
+                    
+                    arroz: {props.arroz} 
+                </Card>
+            </Col>
+        </Row>
+    )
+
+} 
+
+
+
+
+
+
+
+
+function MDashBoardRoukka (props) {  
+
+    const users = props.plans.plans.map(plan => {
+        return(
+            <CardUser  nombre={plan.id} edad={plan.nombre} arroz={plan.precio}/>
+        )
+    })
         return (
             <div>
                 <PageTitle
                     titleHeading="Dashboard principal"
-                    titleDescription="Conjunto de datos de la aplicación"/>
-               Soy un Dashboard
+                    titleDescription="Conjunto de datos de la aplicación"/>     
+                    {users}
             </div>
         )
     }
-}
 
-export default MUserRoukka
+
+export default MDashBoardRoukka

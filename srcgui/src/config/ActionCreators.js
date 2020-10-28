@@ -27,7 +27,7 @@ const API_URL = 'http://localhost:8000/empresas';
 } */
 
 
-export const getPlans = () => (dispacth) => { 
+export const getPlans = (tenant) => (dispacth) => { 
     dispacth(plansLoading(true));
     const url = `${API_URL}/listarPlan/`;
     return axios.get(url)
