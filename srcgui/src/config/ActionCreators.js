@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes'
 import axios from 'axios';
 const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
-const API_URL_UT = 'http://empresa1.localhost:8000/usuarios'; //usuarios del tenant
+const API_URL_UT = 'http://qbano.localhost:8000/usuarios'; //usuarios del tenant
 
 
 /* export const getPlans =  () => (dispacth) => {

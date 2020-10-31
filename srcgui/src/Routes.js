@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
-import {getPlans, getEmpresas, getFuncs, postRegisterPlan, putUpdatePlan, postRegisterEmpresa} from './config/ActionCreators'
+import {getPlans, getEmpresas, getFuncs, getUsuariosT, getEmpleados, getClientes, postRegisterPlan, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, postRegisterEmpresa} from './config/ActionCreators'
 
 
 
@@ -39,6 +39,10 @@ import MDashboardRoukka from './containers/AdminRoukka/MDashboardRoukka'
 //Admin Tenant
 
 import DashboardTenant from './containers/AdminEmpresa/DashboardTenant'
+import LeftAdminTenant from './containers/AdminEmpresa/LeftAdminTenant'
+import MUsuarioTenant from './containers/AdminEmpresa/MUsuarioTenant'
+import MEmpleadoTenant from './containers/AdminEmpresa/MEmpleadoTenant'
+import MClienteTenant from './containers/AdminEmpresa/MClienteTenant'
 
 
 // Example Pages
@@ -89,6 +93,9 @@ class Routes extends Component {
       this.props.getFuncs()
     }else{
       console.log('funcionaa')
+      this.props.getUsuariosT()
+      this.props.getEmpleados()
+      this.props.getClientes()
         const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
         return axios.get(url)
         .then(empresas => {console.log(empresas.data)})    
@@ -286,9 +293,13 @@ class Routes extends Component {
               </LeftAdminRoukka>    
             </Route>
 
-            <Route path={['/AdminTenant', '/DashboardTenant']}>
+            { 
+            //Admin tenant
+            }
+           
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant']}>
               <PresentationLayout>
-              <LeftAdminRoukka >
+              <LeftAdminTenant >
                 <Switch location={this.props.location} key={this.props.location.key}>          
                   <motion.div
                     initial="initial"
@@ -296,12 +307,18 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
-                    <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />                         
+                    <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />
+                    <Route path="/UsuarioTenant" component={() => <MUsuarioTenant tenant={URLactual}/>} />
+                    <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant tenant={URLactual}/>} />
+                    <Route path="/ClienteTenant" component={() => <MClienteTenant tenant={URLactual}/>} />     
+                                      
                   </motion.div>
                 </Switch>
-                </LeftAdminRoukka >
+                </LeftAdminTenant >
               </PresentationLayout>  
             </Route>
+
+
           </Switch>  
         </Suspense>
       </AnimatePresence>
@@ -314,6 +331,9 @@ const mapStateToProps = state => {
       plans: state.Plans,
       empresas: state.Empresas,
       funcionalidades: state.funcionalidades,
+      usuarios: state.usuarios,
+      empleados: state.empleados,
+      clientes: state.clientes,
   }
 }
 
@@ -322,9 +342,19 @@ const mapDispatchToProps = (dispatch) => ({
   getPlans:() =>  {dispatch(getPlans())},
   getEmpresas: () => {dispatch(getEmpresas())},
   getFuncs: () => {dispatch(getFuncs())},
+  getUsuariosT: () => {dispatch(getUsuariosT())},
+  getEmpleados: () => {dispatch(getEmpleados())},
+  getClientes: () => {dispatch(getClientes())},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
+  postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
+  postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario)),
+  postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado)),
+  postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
-  postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa))
+  putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario)),
+  putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado)),
+  putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente)),
+  
 
   
 

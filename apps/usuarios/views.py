@@ -93,7 +93,7 @@ class crear_usuario(generics.CreateAPIView):
             return Response(usuario.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class listar_usuario(generics.ListAPIView):
-    queryset = Usuario.objects.all()
+    queryset = Usuario.objects.filter(is_superuser=True)
     serializer_class = UsuarioListarSerializer
 
 class modificar_usuario(generics.RetrieveUpdateAPIView):
