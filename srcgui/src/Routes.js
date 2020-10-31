@@ -89,6 +89,7 @@ class Routes extends Component {
       this.props.getFuncs()
     }else{
       console.log('funcionaa')
+      this.props.getEmpresas()
         const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
         return axios.get(url)
         .then(empresas => {console.log(empresas.data)})    
@@ -154,7 +155,7 @@ class Routes extends Component {
                     <Route path="/Plans" component={() => <Plan plans={this.props.plans} />} />
                     <Route path="/Contactus" component={Contact} />
                     <Route path="/Aboutus" component={About} />
-                    <Route path="/Comprar/:idPlan" component={ComprarPlan} />  
+                    <Route path="/Comprar/:idPlan" component={({match}) => <ComprarPlan postRegisterEmpresa={this.props.postRegisterEmpresa} plans={this.props.plans} match={match}/>} />  
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -171,7 +172,10 @@ class Routes extends Component {
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
 
-                    <Route path="/LandingPage" component={() => <HomeTenant tenant={URLactual}/>} />  
+                    <Route path="/LandingPage" component={() => <HomeTenant tenant={this.props.empresas.empresas.filter(
+                                                                                    empresa => empresa.schema_name == URLactual
+                                                                                    )[0]}/>} 
+                                                                />  
                     <Route path="/ContactusEmpresa" component={ContactTenant} />                        
                   </motion.div>
                 </Switch>

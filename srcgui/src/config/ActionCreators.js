@@ -173,12 +173,12 @@ export const addUsuarios = (usuarios) => ({
 
 
 export const usuariosLoading = () => ({
-    type: ActionTypes.USUARIOS_LOADING,
+    type: ActionTypes.USUARIO_LOADING,
 
 })
 
 export const usuariosFailed = (errmess) => ({
-    type: ActionTypes.USUARIOS_FAILED,
+    type: ActionTypes.USUARIO_FAILED,
     payload: errmess
 })
 
@@ -228,12 +228,12 @@ export const addUsuariosT = (usuarios) => ({
 
 
 export const usuariosLoadingT = () => ({
-    type: ActionTypes.USUARIOS_LOADING,
+    type: ActionTypes.USUARIO_LOADING,
 
 })
 
 export const usuariosFailedT = (errmess) => ({
-    type: ActionTypes.USUARIOS_FAILED,
+    type: ActionTypes.USUARIO_FAILED,
     payload: errmess
 })
 

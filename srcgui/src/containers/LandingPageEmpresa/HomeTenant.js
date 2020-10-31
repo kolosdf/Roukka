@@ -6,16 +6,24 @@ export class HomeTenant extends Component {
     }
     
     render() {
+
+        if(this.props.tenant== null){
+            return <div></div>
+        }else{
+            return (
+                <div>
+                    <img width="20" height="400" alt="..." className="card-img-top" src={this.props.tenant.imagen} />
+                   
+                    
+                    {console.log(this.props.tenant)}
+    
+    
+                    que es esta mierda
+                </div>
+            )
+        }
         
-        return (
-            <div>
-                Hola soy el tenant = {this.props.tenant}
-                {console.log(this.props.tenant)}
-
-
-                que es esta mierda
-            </div>
-        )
+        
     }
 }
 
