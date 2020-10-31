@@ -1,12 +1,5 @@
 import React, { Fragment, useEffect,  useState } from 'react';
 
-import planIm1 from '../../assets/images/stock-photos/plan1.jpg';
-import planIm2 from '../../assets/images/stock-photos/plan2.jpg';
-import planIm3 from '../../assets/images/stock-photos/plan3.jpg';
-
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
 import PageTitle from '../../Components/PageTitle'
 import ModalFormPlan from '../../Components/ModalFormPlan';
 
@@ -32,22 +25,13 @@ import {
 
 function FilaTable(props) {
 
-    const imagen = (planId) => {
-        switch (planId) {
-            case 1: return planIm1;
-            case 2: return planIm2;
-            case 3: return planIm3;
-            default: return planIm1;
-        }
-    }
-
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
                     <div className="avatar-icon-wrapper mr-2">
                         <div className="avatar-icon">
-                            <img alt="..." className="" width="100" src={imagen(props.plan.id)} />
+                            <img alt="..." className="" width="100" src={props.plan.imagen} />
                         </div>
                     </div>
                     <div>
