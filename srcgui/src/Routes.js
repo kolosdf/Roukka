@@ -88,16 +88,20 @@ class Routes extends Component {
 
   componentDidMount(){
     if(URLactual==='localhost'){
+      this.props.getClientes(URLactual)
       this.props.getPlans()
       this.props.getEmpresas()
       this.props.getFuncs()
+      
     }else{
       console.log('funcionaa')
+      this.props.getClientes(URLactual)
       this.props.getEmpresas()
 
-      this.props.getUsuariosT()
-      this.props.getEmpleados()
-      this.props.getClientes()
+      this.props.getUsuariosT(URLactual)
+      this.props.getEmpleados(URLactual)
+      this.props.getClientes(URLactual)
+
         const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
         return axios.get(url)
         .then(empresas => {console.log(empresas.data)})    
@@ -312,10 +316,15 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
+                    <Route path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente} 
+                                                                                  clientes={this.props.clientes} 
+                                                                                  putUpdateCliente={this.props.putUpdateCliente}/>} /> 
                     <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />
                     <Route path="/UsuarioTenant" component={() => <MUsuarioTenant tenant={URLactual}/>} />
-                    <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant tenant={URLactual}/>} />
-                    <Route path="/ClienteTenant" component={() => <MClienteTenant tenant={URLactual}/>} />     
+                    <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado} 
+                                                                                  empleados={this.props.empleados} 
+                                                                                  putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
+                    
                                       
                   </motion.div>
                 </Switch>
@@ -335,10 +344,10 @@ const mapStateToProps = state => {
   return {
       plans: state.Plans,
       empresas: state.Empresas,
-      funcionalidades: state.funcionalidades,
-      usuarios: state.usuarios,
-      empleados: state.empleados,
-      clientes: state.clientes,
+      funcionalidades: state.Funcionalidades,
+      usuarios: state.Usuarios,
+      empleados: state.Empleados,
+      clientes: state.Clientes,
   }
 }
 
@@ -347,18 +356,18 @@ const mapDispatchToProps = (dispatch) => ({
   getPlans:() =>  {dispatch(getPlans())},
   getEmpresas: () => {dispatch(getEmpresas())},
   getFuncs: () => {dispatch(getFuncs())},
-  getUsuariosT: () => {dispatch(getUsuariosT())},
-  getEmpleados: () => {dispatch(getEmpleados())},
-  getClientes: () => {dispatch(getClientes())},
+  getUsuariosT: (tenant) => {dispatch(getUsuariosT(tenant))},
+  getEmpleados: (tenant) => {dispatch(getEmpleados(tenant))},
+  getClientes: (tenant) => {dispatch(getClientes(tenant))},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
   postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario)),
-  postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado)),
-  postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente)),
+  postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
+  postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
   putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario)),
-  putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado)),
-  putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente)),
+  putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
+  putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   
 
   

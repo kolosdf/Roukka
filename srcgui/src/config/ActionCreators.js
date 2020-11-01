@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes'
 import axios from 'axios';
 const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
-const API_URL_UT = 'http://qbano.localhost:8000/usuarios'; //usuarios del tenant
+const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -173,12 +173,12 @@ export const addUsuarios = (usuarios) => ({
 
 
 export const usuariosLoading = () => ({
-    type: ActionTypes.USUARIO_LOADING,
+    type: ActionTypes.USUARIOS_LOADING,
 
 })
 
 export const usuariosFailed = (errmess) => ({
-    type: ActionTypes.USUARIO_FAILED,
+    type: ActionTypes.USUARIOS_FAILED,
     payload: errmess
 })
 
@@ -212,9 +212,9 @@ export const putUpdateUsuario = (usuario) => (dispatch) => {
 
 //SUPERUSUARIO TENANT
 
-export const getUsuariosT = () => (dispacth) => { 
+export const getUsuariosT = (tenant) => (dispacth) => { 
     dispacth(usuariosLoadingT(true));
-    const url = `${API_URL_UT}/listarSuper/`;
+    const url = `http://${tenant}${API_URL_UT}/listarSuper/`;
     return axios.get(url)
         .then(usuarios => dispacth(addUsuariosT(usuarios.data)))    
         .catch(error => console.log(error));    
@@ -228,12 +228,12 @@ export const addUsuariosT = (usuarios) => ({
 
 
 export const usuariosLoadingT = () => ({
-    type: ActionTypes.USUARIO_LOADING,
+    type: ActionTypes.USUARIOS_LOADING,
 
 })
 
 export const usuariosFailedT = (errmess) => ({
-    type: ActionTypes.USUARIO_FAILED,
+    type: ActionTypes.USUARIOS_FAILED,
     payload: errmess
 })
 
@@ -267,9 +267,9 @@ export const putUpdateUsuarioT = (usuario) => (dispatch) => {
 
 //EMPLEADOS
 
-export const getEmpleados = () => (dispacth) => { 
+export const getEmpleados = (tenant) => (dispacth) => { 
     dispacth(empleadosLoading(true));
-    const url = `${API_URL_UT}/listarEmpleado`;
+    const url = `http://${tenant}${API_URL_UT}/listarEmpleado/`;
     return axios.get(url)
         .then(empleados => dispacth(addEmpleados(empleados.data)))    
         .catch(error => console.log(error));
@@ -306,15 +306,15 @@ export const updateEmpleado = (empleado) => ({
 
 
 
-export const  postRegisterEmpleado = (empleado) => (dispatch) => {
-    const url = `${API_URL_UT}/crearEmpleado/`;
+export const  postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/crearEmpleado/`;
     return axios.post(url, empleado)
-        .then(res => dispatch(addEmpresa(res.data)))
+        .then(res => dispatch(addEmpleado(res.data)))
         .catch(error => console.log(error));
 }
 
-export const putUpdateEmpleado = (empleado) => (dispatch) => {
-    const url = `${API_URL_UT}/modificarEmpleado/${empleado.id}/`;
+export const putUpdateEmpleado = (empleado, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/modificarEmpleado/${empleado.id}/`;
     return axios.put(url, empleado)
         .then(res => dispatch(updateEmpleado(res.data)))
         .catch(error => console.log(error));
@@ -323,9 +323,9 @@ export const putUpdateEmpleado = (empleado) => (dispatch) => {
 
 // CLIENTES
 
-export const getClientes = () => (dispacth) => { 
+export const getClientes = (tenant) => (dispacth) => { 
     dispacth(clientesLoading(true));
-    const url = `${API_URL_UT}/listarCliente`;
+    const url = `http://${tenant}${API_URL_UT}/listarCliente/`;
     return axios.get(url)
         .then(clientes => dispacth(addClientes(clientes.data)))    
         .catch(error => console.log(error));
@@ -361,17 +361,17 @@ export const updateCliente = (cliente) => ({
 })
 
 
-export const  postRegisterCliente = (cliente) => (dispatch) => {
-    const url = `${API_URL_UT}/crearCliente/`;
+export const  postRegisterCliente =  (cliente, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/crearCliente/`;
     return axios.post(url, cliente)
         .then(res => dispatch(addCliente(res.data)))
         .catch(error => console.log(error));
 }
 
-export const putUpdateCliente = (cliente) => (dispatch) => {
-    const url = `${API_URL_UT}/modificarCliente/${cliente.id}/`;
+export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/modificarCliente/${cliente.id}/`;
     return axios.put(url, cliente)
-        .then(res => dispatch(updateCliente(res.data)))
+        .then(res => console.log((res.data)))
         .catch(error => console.log(error));
 
 }

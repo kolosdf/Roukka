@@ -18,7 +18,7 @@ export default function reducer (state = {
         case ActionTypes.ADD_EMPLEADO:
             var empleado = action.payload;   
             console.log(empleado)      
-            return {...state, empresas: state.empleados.concat(empleado)};
+            return {...state, empleados: state.empleados.concat(empleado)};
         
         case ActionTypes.UPDATE_EMPLEADO:
             var empleado = action.payload;   
