@@ -9,10 +9,10 @@ export default function reducer (state = {
         case ActionTypes.ADD_USUARIOS:
             return {...state, isLoading: false, errMess: null, usuarios: action.payload};
 
-        case ActionTypes.USUARIO_LOADING:
+        case ActionTypes.USUARIOS_LOADING:
             return {...state, isLoading: true, errMess: null, usuarios: []};
 
-        case ActionTypes.USUARIO_FAILED:
+        case ActionTypes.USUARIOS_FAILED:
             return {...state, isLoading: false, errMess: action.payload, usuarios: []};
         
         case ActionTypes.ADD_USUARIO:
