@@ -7,6 +7,8 @@ import UsuariosT from './UsuarioTenant'
 import Empleados from './EmpleadoTenant'
 import Clientes from './ClienteTenant'
 import Ingredientes from './IngredientesTenant'
+import Platillos from './PlatillosTenant'
+import Menus from './MenusTenant'
 
 
 export default {
@@ -19,4 +21,6 @@ export default {
   Clientes,
   Ingredientes,
   UsuariosT
+  Platillos,
+  Menus,
 };
