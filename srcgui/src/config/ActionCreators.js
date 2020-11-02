@@ -130,31 +130,57 @@ export const  postRegisterEmpresa = (empresa) => (dispatch) => {
 
 // FUNCIONALIDADES
 
-export const getFuncs = () => (dispacth) => { 
-    dispacth(funcsLoading(true));
+export const getFuncionalidades = () => (dispacth) => { 
+    dispacth(funcionalidadesLoading(true));
     const url = `${API_URL}/listarFuncion/`;
     return axios.get(url)
-        .then(funcionalidades => dispacth(addFuncs(funcionalidades.data)))    
+        .then(funcionalidades => dispacth(addFuncionalidades(funcionalidades.data)))    
         .catch(error => console.log(error));
     
 }
 
 
-export const addFuncs = (funcionalidades) => ({
-    type: ActionTypes.ADD_FUNCS,
+export const addFuncionalidades = (funcionalidades) => ({
+    type: ActionTypes.ADD_FUNCIONALIDADES,
     payload: funcionalidades
 })
 
 
-export const funcsLoading = () => ({
-    type: ActionTypes.FUNCS_LOADING,
+export const funcionalidadesLoading = () => ({
+    type: ActionTypes.FUNCIONALIDADES_LOADING,
 
 })
 
-export const funcsFailed = (errmess) => ({
-    type: ActionTypes.FUNCS_FAILED,
+export const funcionalidadesFailed = (errmess) => ({
+    type: ActionTypes.FUNCIONALIDADES_FAILED,
     payload: errmess
 })
+
+export const addFuncionalidad = (funcionalidad) => ({
+    type: ActionTypes.ADD_FUNCIONALIDAD,
+    payload: funcionalidad
+})
+
+export const updateFuncionalidad = (funcionalidad) => ({
+    type: ActionTypes.UPDATE_FUNCIONALIDAD,
+    payload: funcionalidad
+})
+
+export const  postRegisterFuncionalidad = (funcionalidad) => (dispatch) => {
+    const url = `${API_URL}/crearFuncion/`;
+    return axios.post(url, funcionalidad)
+        .then(res => dispatch(addFuncionalidad(res.data)))
+        .catch(error => console.log(error));
+}
+
+export const putUpdateFuncionalidad = (funcionalidad) => (dispatch) => {
+    const url = `${API_URL}/modificarFuncion/${funcionalidad.id}/`;
+    return axios.put(url, funcionalidad)
+        .then(res => dispatch(updateFuncionalidad(res.data)))
+        .catch(error => console.log(error));
+
+}
+
 
 //SUPERUSUARIO ROUKKA
 
@@ -223,43 +249,43 @@ export const getUsuariosT = (tenant) => (dispacth) => {
 
 
 export const addUsuariosT = (usuarios) => ({
-    type: ActionTypes.ADD_USUARIOS,
+    type: ActionTypes.ADD_USUARIOST,
     payload: usuarios
 })
 
 
 export const usuariosLoadingT = () => ({
-    type: ActionTypes.USUARIOS_LOADING,
+    type: ActionTypes.USUARIOST_LOADING,
 
 })
 
 export const usuariosFailedT = (errmess) => ({
-    type: ActionTypes.USUARIOS_FAILED,
+    type: ActionTypes.USUARIOST_FAILED,
     payload: errmess
 })
 
 
 export const addUsuarioT = (usuario) => ({
-    type: ActionTypes.ADD_USUARIO,
+    type: ActionTypes.ADD_USUARIOT,
     payload: usuario
     
 });
 
 export const updateUsuarioT = (usuario) => ({
-    type: ActionTypes.UPDATE_USUARIO,
+    type: ActionTypes.UPDATE_USUARIOT,
     payload: usuario
 })
 
 
-export const  postRegisterUsuarioT = (usuario) => (dispatch) => {
-    const url = `${API_URL_UT}/crearSuper/`;
+export const  postRegisterUsuarioT = (usuario, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/crearSuper/`;
     return axios.post(url, usuario)
         .then(res => dispatch(addUsuarioT(res.data)))
         .catch(error => console.log(error));
 }
 
-export const putUpdateUsuarioT = (usuario) => (dispatch) => {
-    const url = `${API_URL_UT}/modificarSuper/${usuario.id}/`;
+export const putUpdateUsuarioT = (usuario, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_UT}/modificarSuper/${usuario.id}/`;
     return axios.put(url, usuario)
         .then(res => dispatch(updateUsuarioT(res.data)))
         .catch(error => console.log(error));

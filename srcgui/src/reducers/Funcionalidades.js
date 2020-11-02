@@ -6,14 +6,24 @@ export default function reducer (state = {
     funcionalidades: []
     }, action) {
     switch(action.type){
-        case ActionTypes.ADD_FUNCS:
+        case ActionTypes.ADD_FUNCIONALIDADES:
             return {...state, isLoading: false, errMess: null, funcionalidades: action.payload};
 
-        case ActionTypes.FUNCS_LOADING:
+        case ActionTypes.FUNCIONALIDADES_LOADING:
             return {...state, isLoading: true, errMess: null, funcionalidades: []};
 
-        case ActionTypes.FUNCS_FAILED:
+        case ActionTypes.FUNCIONALIDADES_FAILED:
             return {...state, isLoading: false, errMess: action.payload, funcionalidades: []};
+
+        case ActionTypes.ADD_FUNCIONALIDAD:
+            var funcionalidad = action.payload;        
+            return {...state, funcionalidades: state.funcionalidades.concat(funcionalidad)};
+        
+        case ActionTypes.UPDATE_FUNCIONALIDAD:
+            var funcionalidad = action.payload;   
+            return {...state, 
+                        funcionalidades: state.funcionalidades.splice(state.funcionalidades.indexOf(state.funcionalidades.filter(func => func.id === funcionalidad.id)[0]), 1, funcionalidad),
+                    ...state};
         
         default:
             return state;

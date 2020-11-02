@@ -99,7 +99,7 @@ function FilaTable(props){
 
 
 
-function MUsuarioTenant(props) {
+function MUsuarioRoukka(props) {
 
     console.log(props.usuarios)
 
@@ -135,7 +135,7 @@ function MUsuarioTenant(props) {
     
     
 
-    const usuarios = props.usuariosT.usuariosT.map((usuario) => {
+    const usuarios = props.usuarios.usuarios.map((usuario) => {
         return (
             <FilaTable modificar={modificarUsuario} usuario={usuario} key={usuario.id} />
         )
@@ -146,7 +146,7 @@ function MUsuarioTenant(props) {
         <Fragment>
             
             
-            <ModalFormUsuario postRegisterUsuario={props.postRegisterUsuarioT} putUpdateUsuario={props.putUpdateUsuarioT} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
+            <ModalFormUsuario postRegisterUsuario={props.postRegisterUsuario} putUpdateUsuario={props.putUpdateUsuario} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Usuarios"
@@ -257,4 +257,4 @@ function MUsuarioTenant(props) {
 }
 
 
-export default MUsuarioTenant
+export default MUsuarioRoukka

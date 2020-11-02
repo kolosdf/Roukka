@@ -16,9 +16,6 @@ export class HomeTenant extends Component {
                    
                     
                     {console.log(this.props.tenant)}
-    
-    
-                    que es esta mierda
                 </div>
             )
         }

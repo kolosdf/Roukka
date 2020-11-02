@@ -21,42 +21,48 @@ const sidebarMenuContent = [
   },
 
   {
-    label: 'Usuarios',
+    label: 'Gestión de Usuarios',
     icon: 'pe-7s-box2',
     description:'Wide selection of cards with multiple styles, borders, actions and hover effects.',
     to: '/UsuarioTenant'
     
   },
   {
-    label: 'Empleados',
+    label: 'Gestión de Empleados',
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpleadoTenant'
   },
   {
-    label: 'Clientes',
+    label: ' Gestión de Clientes',
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
     to: '/ClienteTenant'
   },
   {
-    label: 'Menus',
+    label: 'Gestión de Menus',
     icon: 'pe-7s-map-2',
-    description: 'Implement in your applications Google or vector maps.',
-    to: '/MenuTenant'
+    content: [
+      {
+        label: 'Menus',
+        description: 'Implement in your applications Google or vector maps.',
+        to: '/MenuTenant'
+      },
+      {
+        label: 'Platillos',
+        description:
+          'A drop-down list is a graphical control element, similar to a list box, that allows the user to choose one value from a list.',
+          to: '/PlatilloTenant'
+      },
+      {
+        label: 'Ingredientes',
+        description: 'Implement in your applications Google or vector maps.',
+        to: '/IngredienteTenant'
+      }
+    ]
   },
-  {
-    label: 'Platillos',
-    icon: 'pe-7s-map-2',
-    description: 'Implement in your applications Google or vector maps.',
-    to: '/PlatilloTenant'
-  },
-  {
-    label: 'Ingredientes',
-    icon: 'pe-7s-map-2',
-    description: 'Implement in your applications Google or vector maps.',
-    to: '/IngredienteTenant'
-  }
+ 
+  
 
 ];
 
