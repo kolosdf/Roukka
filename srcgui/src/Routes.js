@@ -13,6 +13,8 @@ import {getPlans, getEmpresas, getFuncs, getUsuariosT, getEmpleados, getClientes
         postRegisterPlan, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente,
         putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, postRegisterEmpresa,
         getIngredientes, postRegisterIngrediente, putUpdateIngrediente,
+        getPlatillos, postRegisterPlatillo, putUpdatePlatillo,
+        getMenus, postRegisterMenu, putUpdateMenu,
         } from './config/ActionCreators'
 
 
@@ -331,8 +333,12 @@ class Routes extends Component {
                     <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado} 
                                                                                     empleados={this.props.empleados} 
                                                                                     putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
-                    <Route path="/MenuTenant" component={() => <MMenuTenant tenant={URLactual}/>} />
-                    <Route path="/PlatilloTenant" component={() => <MPlatilloTenant tenant={URLactual}/>} />
+                    <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu} 
+                                                                                          menus={this.props.menus} 
+                                                                                          putUpdateMenu={this.props.putUpdateMenu} />} />
+                    <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo} 
+                                                                                          platillos={this.props.platillos} 
+                                                                                          putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
                     <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente} 
                                                                                           ingredientes={this.props.ingredientes} 
                                                                                           putUpdateIngrediente={this.props.putUpdateIngrediente} />} />                   
@@ -361,6 +367,8 @@ const mapStateToProps = state => {
       empleados: state.Empleados,
       clientes: state.Clientes,
       ingredientes : state.Ingredientes,
+      platillos: state.Platillos,
+      menus: state.Menus,
   }
 }
 
@@ -373,17 +381,23 @@ const mapDispatchToProps = (dispatch) => ({
   getEmpleados: (tenant) => {dispatch(getEmpleados(tenant))},
   getClientes: (tenant) => {dispatch(getClientes(tenant))},
   getIngredientes: (tenant) => {dispatch(getIngredientes(tenant))},
+  getPlatillos: (tenant) => {dispatch(getPlatillos(tenant))},
+  getMenus: (tenant) => {dispatch(getMenus(tenant))},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
   postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario)),
   postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
   postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
   postRegisterIngrediente: (ingrediente) => dispatch(postRegisterIngrediente(ingrediente, URLactual)),
+  postRegisterPlatillo: (platillo) => dispatch(postRegisterPlatillo(platillo, URLactual)),
+  postRegisterMenu: (menu) => dispatch(postRegisterMenu(menu, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
   putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario)),
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
-  putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual))
+  putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual)),
+  putUpdatePlatillo: (platillo) => dispatch(putUpdateIngrediente(platillo, URLactual)),
+  putUpdateMenu: (menu) => dispatch(putUpdateIngrediente(menu, URLactual))
 
   
 

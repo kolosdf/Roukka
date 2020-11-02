@@ -434,3 +434,115 @@ export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
         .catch(error => console.log(error));
 
 }
+
+// PLATILLOS
+
+export const getPlatillos = (tenant) => (dispacth) => { 
+    dispacth(platillosLoadingT(true));
+    const url = `http://${tenant}${API_URL_P}/listarPlatillo/`;
+    return axios.get(url)
+        .then(platillos => dispacth(addPlatillosT(platillos.data)))    
+        .catch(error => console.log(error));    
+}
+
+
+export const addPlatillosT = (platillos) => ({
+    type: ActionTypes.ADD_PLATILLOS,
+    payload: platillos
+})
+
+
+export const platillosLoadingT = () => ({
+    type: ActionTypes.PLATILLO_LOADING,
+
+})
+
+export const platillosFailedT = (errmess) => ({
+    type: ActionTypes.PLATILLO_FAILED,
+    payload: errmess
+})
+
+
+export const addPlatilloT = (platillo) => ({
+    type: ActionTypes.ADD_PLATILLO,
+    payload: platillo
+    
+});
+
+export const updatePlatilloT = (platillo) => ({
+    type: ActionTypes.UPDATE_PLATILLO,
+    payload: platillo
+})
+
+
+
+export const  postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/crearPlatillo/`;
+    return axios.post(url, platillo)
+        .then(res => dispatch(addPlatilloT(res.data)))
+        .catch(error => console.log(error));
+}
+
+export const putUpdatePlatillo = (platillo, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/modificarPlatillo/${platillo.id}/`;
+    return axios.put(url, platillo)
+        .then(res => dispatch(updatePlatilloT(res.data)))
+        .catch(error => console.log(error));
+
+}
+
+// MENUS
+
+export const getMenus = (tenant) => (dispacth) => { 
+    dispacth(menusLoadingT(true));
+    const url = `http://${tenant}${API_URL_P}/listarMenu/`;
+    return axios.get(url)
+        .then(menus => dispacth(addMenusT(menus.data)))    
+        .catch(error => console.log(error));    
+}
+
+
+export const addMenusT = (menus) => ({
+    type: ActionTypes.ADD_MENUS,
+    payload: menus
+})
+
+
+export const menusLoadingT = () => ({
+    type: ActionTypes.MENU_LOADING,
+
+})
+
+export const menusFailedT = (errmess) => ({
+    type: ActionTypes.MENU_FAILED,
+    payload: errmess
+})
+
+
+export const addMenuT = (menu) => ({
+    type: ActionTypes.ADD_MENU,
+    payload: menu
+    
+});
+
+export const updateMenuT = (menu) => ({
+    type: ActionTypes.UPDATE_MENU,
+    payload: menu
+})
+
+
+
+export const  postRegisterMenu = (menu, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/crearMenu/`;
+    return axios.post(url, menu)
+        .then(res => dispatch(addMenuT(res.data)))
+        .catch(error => console.log(error));
+}
+
+export const putUpdateMenu = (menu, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/modificarMenu/${menu.id}/`;
+    return axios.put(url, menu)
+        .then(res => dispatch(updateMenuT(res.data)))
+        .catch(error => console.log(error));
+
+}
