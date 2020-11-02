@@ -12,7 +12,7 @@ SOLO HAY UN GENERENTE, PUEDE MODIFICAR SUS DATOS
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['first_name','last_name','email','password']
+        fields = ['id','first_name','last_name','email','password']
 
 class UsuarioModificarSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +36,7 @@ EL EMPLEADO SE PUEDE MODIFICAR EL NOMBRE Y APELLIDO
 class EmpleadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empleado
-        fields = ['first_name','last_name','email','password','rol']
+        fields = ['id','first_name','last_name','email','password','rol']
 
 class EmpleadoModificarSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,7 +60,7 @@ LOS CLIENTES SE MODIFICAN A SI MISMOS
 class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['first_name','last_name','email','password']
+        fields = ['id','first_name','last_name','email','password']
 
 class ClienteModificarSerializer(serializers.ModelSerializer):
     class Meta:
