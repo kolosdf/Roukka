@@ -1,8 +1,7 @@
-
 import React, { Fragment, useEffect,  useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
-import ModalFormUsuario from '../../Components/ModalFormUsuario';
+import ModalFormFuncionalidad from '../../Components/ModalFormFuncionalidad';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -24,7 +23,8 @@ import {
 } from 'reactstrap';
 
 
-function FilaTable(props){
+function FilaTable(props) {
+
     return (
         <tr>
             <td>
@@ -35,11 +35,8 @@ function FilaTable(props){
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.usuario.first_name+' '+props.usuario.last_name}
+                            {props.funcion.nombre}
                         </a>
-                        <span className="text-black-50 d-block">
-                                {props.usuario.email}
-                        </span>
                     </div>
                 </div>
             </td>
@@ -68,7 +65,7 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.usuario.id, props.usuario.first_name, props.usuario.last_name, props.usuario.email)}
+                                    onClick={props.modificar.bind(this,props.funcion.id, props.funcion.nombre)}
                                     active>
                                     <span>Ver detalles </span>
                                     <Badge color="first" className="ml-auto">
@@ -99,25 +96,19 @@ function FilaTable(props){
 
 
 
-function MUsuarioTenant(props) {
+function MFuncionRoukka(props) {
 
-    console.log(props.usuarios)
-
-    const modificarUsuario = (id, first_name, last_name, email) => {
+    const modificarFuncion = (id, nombre) => {
         setState({
             id:id,
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
+            nombre: nombre,
         },toggle5())
         setNuevo(false)        
     }
 
     const [state, setState] = useState({
         id: '',
-        first_name: '',
-        last_name: '',
-        email:''
+        nombre: ''
     })
 
     const [modal5, setModal5] = useState(false);
@@ -126,31 +117,25 @@ function MUsuarioTenant(props) {
 
     const toggle5 = () => setModal5(!modal5);
 
-
-
     const modalNuevo = () => {
         setNuevo(true)
         toggle5()
     }
     
-    
-
-    const usuarios = props.usuariosT.usuariosT.map((usuario) => {
+    const funcionalidades = props.funcionalidades.funcionalidades.map((funcion) => {
         return (
-            <FilaTable modificar={modificarUsuario} usuario={usuario} key={usuario.id} />
+            <FilaTable modificar={modificarFuncion} funcion={funcion} key={funcion.id} />
         )
-    }) 
-
+    })
 
     return (
         <Fragment>
             
-            
-            <ModalFormUsuario postRegisterUsuario={props.postRegisterUsuarioT} putUpdateUsuario={props.putUpdateUsuarioT} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
+            <ModalFormFuncionalidad postRegisterFuncionalidad={props.postRegisterFuncionalidad} putUpdateFuncionalidad={props.putUpdateFuncionalidad} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
-                titleHeading="Usuarios"
-                titleDescription="Usuarios" modal={modalNuevo}/>
+                titleHeading="Planes de funcionalidades"
+                titleDescription="Conjunto de planes presentes en la aplicación" modal={modalNuevo}/>
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -178,13 +163,13 @@ function MUsuarioTenant(props) {
                         <Table hover striped className="text-nowrap mb-0 ">
                             <thead className="thead-light">
                                 <tr>
-                                    <th style={{ width: '40%' }}>Usuarios</th>
+                                    <th style={{ width: '40%' }}>Funcionalidad</th>
                                     <th className="text-center">Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {usuarios}
+                                {funcionalidades}
                             </tbody>
                         </Table>
                     </div>
@@ -254,7 +239,7 @@ function MUsuarioTenant(props) {
                 </CardBody>
             </Card>
         </Fragment>)
+
 }
 
-
-export default MUsuarioTenant
+export default MFuncionRoukka;

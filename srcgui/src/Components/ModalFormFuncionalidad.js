@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from 'react'
 
 import {Modal, InputGroup,Label, Input, FormGroup,Card, Col, Button} from 'reactstrap'
-function ModalFormPlan (props) {
+
+function ModalFormFuncionalidad (props) {
 
     //El estado del formulario, que corresponde a los datos de los inputs
     const [state, setState] = useState({
         id: '',
         nombre: '',
-        precio: '',
-        imagen:'',
-        estado: false,
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -24,9 +22,6 @@ function ModalFormPlan (props) {
             setState({
                 id: props.datos.id,
                 nombre: props.datos.nombre,
-                precio: props.datos.precio,
-                imagen: props.datos.imagen,
-                estado: props.datos.estado,
             })
         }
         actualizar();       
@@ -39,12 +34,12 @@ function ModalFormPlan (props) {
         if(props.nuevo){
             initForm();
             setDatosForm({
-                titulo:'Registrar nuevo plan',
+                titulo:'Registrar nueva Funcionalidad',
                 boton: 'Registrar'
             })  
         } else{
             setDatosForm({
-                titulo:'Modificar Plan',
+                titulo:'Modificar Funcionalidad',
                 boton: 'Modificar'
             }) 
         }        
@@ -56,19 +51,13 @@ function ModalFormPlan (props) {
             ...state,
             id: '',
             nombre: '',
-            precio: '',
-            imagen: '',
-            estado: false,
         })
     }    
 
     //Con esta funcion controlo los inputs para que cada valor que ingrese, 
     //se almacene en el respectivo estado
     const handleChange = (e) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        
+        const { name, value } = e.target;
 
         setState({ 
             ...state,
@@ -84,11 +73,13 @@ function ModalFormPlan (props) {
         e.preventDefault()
         console.log(datosForm.boton)
         if(datosForm.boton==='Registrar'){
-            props.postRegisterPlan({nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado})
+            props.postRegisterFuncionalidad({nombre: state.nombre,})
             initForm() 
         }
         else if(datosForm.boton==='Modificar'){   
-            props.putUpdatePlan(state)
+            props.putUpdateFuncionalidad({id: state.id,                                   
+                                    nombre: state.nombre,}
+                                    )
         }
     }
     
@@ -106,68 +97,31 @@ function ModalFormPlan (props) {
                         <form method="post" onSubmit={(event) => handleSubmit(event)} >
                             <FormGroup row>
                                 <Label for="nombre" sm={5}>
-                                    Nombre del Plan
+                                    Nombre de la Funcionalidad
                                 </Label>
                                 <Col sm={7}>
                                     <Input
                                         type="text"
                                         name="nombre"
                                         value={state.nombre}
-                                        id="nombre"
-                                        placeholder="213"
+                                        id="firts_name"
+                                        placeholder="Juan Carlos"
                                         maxLength="20"
                                         onChange={handleChange}
                                         required
                                     />
                                 </Col>
                             </FormGroup>
-                            <FormGroup row>
-                                <Label for="precio" sm={5}>
-                                    Precio del Plan
-                                </Label>
-                                <Col sm={7}>
-                                    <Input
-                                        type="text"
-                                        name="precio"
-                                        value={state.precio}
-                                        id="precio"
-                                        placeholder="213"
-                                        maxLength="20"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="imagen" sm={5}>
-                                    Imagen del Plan
-                                </Label>
-                                <Col sm={7}>
-                                    <Input
-                                        type="text"
-                                        name="imagen"
-                                        value={state.imagen}
-                                        id="imagen"
-                                        placeholder="213"
-                                        maxLength="300"
-                                        onChange={handleChange}
-                                        
-                                    />
-                                </Col>
-                            </FormGroup>
-                            
+                
                             <div className="custom-control custom-control-alternative custom-checkbox">
                                 <input
                                     className="custom-control-input"
-                                    id="estado"
+                                    id="customCheckLogin"
                                     type="checkbox"
-                                    name="estado"
-                                    checked={state.estado}
-                                    onChange={handleChange}
                                 />
                                 <label
                                     className="custom-control-label"
-                                    htmlFor="estado">
+                                    htmlFor="customCheckLogin">
                                     <span>Estado</span>
                                 </label>
                             </div>
@@ -183,4 +137,4 @@ function ModalFormPlan (props) {
         </Modal>)
 }
 
-export default ModalFormPlan;
+export default ModalFormFuncionalidad;

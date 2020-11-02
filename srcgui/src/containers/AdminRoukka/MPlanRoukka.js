@@ -73,7 +73,7 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.plan.id, props.plan.nombre, props.plan.precio)}
+                                    onClick={props.modificar.bind(this,props.plan.id, props.plan.nombre, props.plan.precio, props.plan.imagen, props.plan.estado)}
                                     active>
                                     <span>Ver detalles </span>
                                     <Badge color="first" className="ml-auto">
@@ -106,11 +106,13 @@ function FilaTable(props) {
 
 function MPlanRoukka(props) {
 
-    const modificarPlan = (id, nombre, precio) => {
+    const modificarPlan = (id, nombre, precio, imagen, estado) => {
         setState({
             id:id,
             nombre: nombre,
             precio: precio,
+            imagen: imagen,
+            estado: estado
         },toggle5())
         setNuevo(false)        
     }
@@ -118,7 +120,9 @@ function MPlanRoukka(props) {
     const [state, setState] = useState({
         id: '',
         nombre: '',
-        precio: ''
+        precio: '',
+        imagen: '',
+        estado: ''
     })
 
     const [modal5, setModal5] = useState(false);
@@ -141,7 +145,6 @@ function MPlanRoukka(props) {
     return (
         <Fragment>
             
-            {console.log(props.plans.plans.indexOf({id: 48, nombre: "Premio roja", precio: 1500}))}
             <ModalFormPlan postRegisterPlan={props.postRegisterPlan} putUpdatePlan={props.putUpdatePlan} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle

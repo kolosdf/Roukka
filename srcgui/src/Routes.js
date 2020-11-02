@@ -9,10 +9,9 @@ import { connect } from 'react-redux'
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
-import {getPlans, getEmpresas, getFuncs, getUsuariosT, getEmpleados, getClientes, 
-        postRegisterPlan, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente,
-        putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, postRegisterEmpresa,
-        getIngredientes, postRegisterIngrediente, putUpdateIngrediente,
+import {getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes,
+        postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente,postRegisterEmpresa, postRegisterIngrediente,postRegisterFuncionalidad,
+        putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad,
         } from './config/ActionCreators'
 
 
@@ -36,9 +35,10 @@ import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 
 import LeftAdminRoukka from './containers/AdminRoukka/LeftAdminRoukka'
 import MPlanRoukka from './containers/AdminRoukka/MPlanRoukka'
-import MUserRoukka from './containers/AdminRoukka/MUserRoukka'
+import MUsuarioRoukka from './containers/AdminRoukka/MUsuarioRoukka'
 import MEmpresaRoukka from './containers/AdminRoukka/MEmpresaRoukka'
 import MDashboardRoukka from './containers/AdminRoukka/MDashboardRoukka'
+import MFuncionRoukka from './containers/AdminRoukka/MFuncionRoukka'
 
 //Admin Tenant
 
@@ -94,16 +94,15 @@ class Routes extends Component {
 
   componentDidMount(){
     if(URLactual==='localhost'){
-      this.props.getClientes(URLactual)
       this.props.getPlans()
       this.props.getEmpresas()
-      this.props.getFuncs()
+      this.props.getFuncionalidades()
+      this.props.getUsuarios()
       
     }else{
       console.log('funcionaa')
       this.props.getClientes(URLactual)
       this.props.getEmpresas()
-
       this.props.getUsuariosT(URLactual)
       this.props.getEmpleados(URLactual)
       this.props.getClientes(URLactual)
@@ -275,7 +274,7 @@ class Routes extends Component {
             {
             //Admin Roukka
             }
-            <Route path={['/DashboardRoukka','/PlanRoukka', '/EmpresaRoukka', '/UserRoukka']}>
+            <Route path={['/DashboardRoukka','/PlanRoukka', '/FuncionRoukka','/EmpresaRoukka', '/UserRoukka']}>
               <LeftAdminRoukka >
 
               <Switch location={this.props.location} key={this.props.location.key}>
@@ -295,13 +294,21 @@ class Routes extends Component {
                                                     postRegisterPlan={this.props.postRegisterPlan}
                                                     putUpdatePlan={this.props.putUpdatePlan}/>}
                     />
+                    <Route 
+                      path="/FuncionRoukka" 
+                      component={() => <MFuncionRoukka  funcionalidades={this.props.funcionalidades}  
+                                                        postRegisterFuncionalidad={this.props.postRegisterFuncionalidad}
+                                                        putUpdateFuncionalidad={this.props.putUpdateFuncionalidad}/>}
+                    />
                     <Route
                       path="/EmpresaRoukka"
                       component={() => <MEmpresaRoukka empresas={this.props.empresas} />}
                     />
                     <Route 
                       path="/UserRoukka" 
-                      component={MUserRoukka}
+                      component={() => <MUsuarioRoukka usuarios={this.props.usuarios}  
+                                                    postRegisterUsuario={this.props.postRegisterUsuario}
+                                                    putUpdateUsuario={this.props.putUpdateUsuario}/>}
                     />
                 </motion.div>
               </Switch>
@@ -312,7 +319,6 @@ class Routes extends Component {
             { 
             //Admin tenant
             }
-           
             <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant']}>
               <PresentationLayout>
               <LeftAdminTenant >
@@ -327,7 +333,9 @@ class Routes extends Component {
                                                                                   clientes={this.props.clientes} 
                                                                                   putUpdateCliente={this.props.putUpdateCliente}/>} /> 
                     <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />
-                    <Route path="/UsuarioTenant" component={() => <MUsuarioTenant tenant={URLactual}/>} />
+                    <Route path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT} 
+                                                                                  usuariosT={this.props.usuariosT} 
+                                                                                  putUpdateUsuarioT={this.props.putUpdateUsuarioT}/>} />
                     <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado} 
                                                                                     empleados={this.props.empleados} 
                                                                                     putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
@@ -361,6 +369,7 @@ const mapStateToProps = state => {
       empleados: state.Empleados,
       clientes: state.Clientes,
       ingredientes : state.Ingredientes,
+      usuariosT: state.UsuariosT,
   }
 }
 
@@ -368,22 +377,28 @@ const mapDispatchToProps = (dispatch) => ({
 
   getPlans:() =>  {dispatch(getPlans())},
   getEmpresas: () => {dispatch(getEmpresas())},
-  getFuncs: () => {dispatch(getFuncs())},
+  getFuncionalidades: () => {dispatch(getFuncionalidades())},
+  getUsuarios: () => {dispatch(getUsuarios())},
   getUsuariosT: (tenant) => {dispatch(getUsuariosT(tenant))},
   getEmpleados: (tenant) => {dispatch(getEmpleados(tenant))},
   getClientes: (tenant) => {dispatch(getClientes(tenant))},
   getIngredientes: (tenant) => {dispatch(getIngredientes(tenant))},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
+  postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
-  postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario)),
+  postRegisterUsuario: (usuario) => dispatch(postRegisterUsuario(usuario)),
+  postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario, URLactual)),
   postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
   postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
   postRegisterIngrediente: (ingrediente) => dispatch(postRegisterIngrediente(ingrediente, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
-  putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario)),
+  putUpdateFuncionalidad: (funcionalidad) => dispatch(putUpdateFuncionalidad(funcionalidad)),
+  putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario, URLactual)),
+  putUpdateUsuario: (usuario) => dispatch(putUpdateUsuario(usuario)),
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual))
+
 
   
 
