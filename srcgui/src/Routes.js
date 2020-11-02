@@ -9,7 +9,11 @@ import { connect } from 'react-redux'
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
-import {getPlans, getEmpresas, getFuncs, getUsuariosT, getEmpleados, getClientes, postRegisterPlan, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, postRegisterEmpresa} from './config/ActionCreators'
+import {getPlans, getEmpresas, getFuncs, getUsuariosT, getEmpleados, getClientes, 
+        postRegisterPlan, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente,
+        putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, postRegisterEmpresa,
+        getIngredientes, postRegisterIngrediente, putUpdateIngrediente,
+        } from './config/ActionCreators'
 
 
 
@@ -43,7 +47,9 @@ import LeftAdminTenant from './containers/AdminEmpresa/LeftAdminTenant'
 import MUsuarioTenant from './containers/AdminEmpresa/MUsuarioTenant'
 import MEmpleadoTenant from './containers/AdminEmpresa/MEmpleadoTenant'
 import MClienteTenant from './containers/AdminEmpresa/MClienteTenant'
-
+import MMenuTenant from './containers/AdminEmpresa/MMenuTenant'
+import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
+import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
 
 // Example Pages
 
@@ -101,6 +107,7 @@ class Routes extends Component {
       this.props.getUsuariosT(URLactual)
       this.props.getEmpleados(URLactual)
       this.props.getClientes(URLactual)
+      this.props.getIngredientes(URLactual)
 
         const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
         return axios.get(url)
@@ -306,7 +313,7 @@ class Routes extends Component {
             //Admin tenant
             }
            
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant']}>
               <PresentationLayout>
               <LeftAdminTenant >
                 <Switch location={this.props.location} key={this.props.location.key}>          
@@ -322,9 +329,14 @@ class Routes extends Component {
                     <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />
                     <Route path="/UsuarioTenant" component={() => <MUsuarioTenant tenant={URLactual}/>} />
                     <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado} 
-                                                                                  empleados={this.props.empleados} 
-                                                                                  putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
-                    
+                                                                                    empleados={this.props.empleados} 
+                                                                                    putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
+                    <Route path="/MenuTenant" component={() => <MMenuTenant tenant={URLactual}/>} />
+                    <Route path="/PlatilloTenant" component={() => <MPlatilloTenant tenant={URLactual}/>} />
+                    <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente} 
+                                                                                          ingredientes={this.props.ingredientes} 
+                                                                                          putUpdateIngrediente={this.props.putUpdateIngrediente} />} />                   
+                          
                                       
                   </motion.div>
                 </Switch>
@@ -348,6 +360,7 @@ const mapStateToProps = state => {
       usuarios: state.Usuarios,
       empleados: state.Empleados,
       clientes: state.Clientes,
+      ingredientes : state.Ingredientes,
   }
 }
 
@@ -359,15 +372,19 @@ const mapDispatchToProps = (dispatch) => ({
   getUsuariosT: (tenant) => {dispatch(getUsuariosT(tenant))},
   getEmpleados: (tenant) => {dispatch(getEmpleados(tenant))},
   getClientes: (tenant) => {dispatch(getClientes(tenant))},
+  getIngredientes: (tenant) => {dispatch(getIngredientes(tenant))},
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
   postRegisterUsuarioT: (usuario) => dispatch(postRegisterUsuarioT(usuario)),
   postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
   postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
+  postRegisterIngrediente: (ingrediente) => dispatch(postRegisterIngrediente(ingrediente, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
   putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario)),
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
+  putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual))
+
   
 
   

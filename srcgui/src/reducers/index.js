@@ -5,6 +5,7 @@ import Empresas from './EmpresaRoukka'
 import Usuarios from './UsuarioRoukka'
 import Empleados from './EmpleadoTenant'
 import Clientes from './ClienteTenant'
+import Ingredientes from './IngredientesTenant'
 
 
 export default {
@@ -15,5 +16,6 @@ export default {
   Usuarios,
   Empleados,
   Clientes,
+  Ingredientes
 
 };
