@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
+const API_URL_P = '.localhost:8000/productos';
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -264,6 +265,64 @@ export const putUpdateUsuarioT = (usuario) => (dispatch) => {
         .catch(error => console.log(error));
 
 }
+
+
+// INGREDIENTES
+
+export const getIngredientes = (tenant) => (dispacth) => { 
+    dispacth(ingredientesLoadingT(true));
+    const url = `http://${tenant}${API_URL_P}/listarIngrediente/`;
+    return axios.get(url)
+        .then(ingredientes => dispacth(addIngredientesT(ingredientes.data)))    
+        .catch(error => console.log(error));    
+}
+
+
+export const addIngredientesT = (ingredientes) => ({
+    type: ActionTypes.ADD_INGREDIENTES,
+    payload: ingredientes
+})
+
+
+export const ingredientesLoadingT = () => ({
+    type: ActionTypes.INGREDIENTE_LOADING,
+
+})
+
+export const ingredientesFailedT = (errmess) => ({
+    type: ActionTypes.INGREDIENTE_FAILED,
+    payload: errmess
+})
+
+
+export const addIngredienteT = (ingrediente) => ({
+    type: ActionTypes.ADD_INGREDIENTE,
+    payload: ingrediente
+    
+});
+
+export const updateIngredienteT = (ingrediente) => ({
+    type: ActionTypes.UPDATE_INGREDIENTE,
+    payload: ingrediente
+})
+
+
+
+export const  postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/crearIngrediente/`;
+    return axios.post(url, ingrediente)
+        .then(res => dispatch(addIngredienteT(res.data)))
+        .catch(error => console.log(error));
+}
+
+export const putUpdateIngrediente = (ingrediente, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/modificarIngrediente/${ingrediente.id}/`;
+    return axios.put(url, ingrediente)
+        .then(res => dispatch(updateIngredienteT(res.data)))
+        .catch(error => console.log(error));
+
+}
+
 
 //EMPLEADOS
 

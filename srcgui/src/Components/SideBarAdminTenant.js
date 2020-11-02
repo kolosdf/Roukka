@@ -38,7 +38,26 @@ const sidebarMenuContent = [
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
     to: '/ClienteTenant'
+  },
+  {
+    label: 'Menus',
+    icon: 'pe-7s-map-2',
+    description: 'Implement in your applications Google or vector maps.',
+    to: '/MenuTenant'
+  },
+  {
+    label: 'Platillos',
+    icon: 'pe-7s-map-2',
+    description: 'Implement in your applications Google or vector maps.',
+    to: '/PlatilloTenant'
+  },
+  {
+    label: 'Ingredientes',
+    icon: 'pe-7s-map-2',
+    description: 'Implement in your applications Google or vector maps.',
+    to: '/IngredienteTenant'
   }
+
 ];
 
 
