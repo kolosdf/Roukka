@@ -13,6 +13,10 @@ class Usuario(AbstractUser):
         -first_name
         -last_name
     """
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 roles=(('vendedor','Vendedor'),('administrador','Administrador'))
 

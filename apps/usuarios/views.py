@@ -37,6 +37,20 @@ class modificar_empleado(generics.RetrieveUpdateAPIView):
     queryset = Empleado.objects.all()
     serializer_class = EmpleadoModificarSerializer
 
+    def put(self, request, *args, **kwargs):
+        
+        empleado=self.get_object()
+        serializer=EmpleadoModificarSerializer(empleado,data=request.data)
+        
+        if serializer.is_valid():
+            e = serializer.save()
+            e.username = serializer.data['email']
+            e.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class listar_empleado(generics.ListAPIView):
     queryset = Empleado.objects.all()
     serializer_class = EmpleadoListaSerializer
@@ -68,6 +82,19 @@ class modificar_cliente(generics.RetrieveUpdateAPIView):
     queryset = Cliente.objects.all()
     serializer_class = ClienteModificarSerializer
 
+    def put(self, request, *args, **kwargs):
+        
+        cliente=self.get_object()
+        serializer=ClienteModificarSerializer(cliente,data=request.data)
+        
+        if serializer.is_valid():
+            e = serializer.save()
+            e.username = serializer.data['email']
+            e.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class listar_cliente(generics.ListAPIView):
     queryset = Cliente.objects.all()
     serializer_class = ClienteListaSerializer
@@ -97,8 +124,20 @@ class listar_usuario(generics.ListAPIView):
     serializer_class = UsuarioListarSerializer
 
 class modificar_usuario(generics.RetrieveUpdateAPIView):
-    queryset = Usuario.objects.all()
+    queryset = Usuario.objects.filter(is_superuser=True)
     serializer_class = UsuarioModificarSerializer
 
+    def put(self, request, *args, **kwargs):
+        
+        usuario=self.get_object()
+        serializer=UsuarioModificarSerializer(usuario,data=request.data)
+        
+        if serializer.is_valid():
+            e = serializer.save()
+            e.username = serializer.data['email']
+            e.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

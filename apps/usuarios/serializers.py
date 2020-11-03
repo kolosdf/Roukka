@@ -17,7 +17,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class UsuarioModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id','first_name','last_name','is_active']
+        fields = ['id','first_name','last_name','email','is_active']
 
 class UsuarioListarSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,7 +41,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 class EmpleadoModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empleado
-        fields = ['id','first_name','last_name','rol','is_active']
+        fields = ['id','first_name','last_name','email','rol','is_active']
 
 class EmpleadoListaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,7 +65,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 class ClienteModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['id','first_name','last_name','numero_tarjeta', 'cvc', 'fecha_vencimiento', 'titular','is_active']
+        fields = ['id','first_name','last_name','email','numero_tarjeta', 'cvc', 'fecha_vencimiento', 'titular','is_active']
 
 class ClienteListaSerializer(serializers.ModelSerializer):
     class Meta:
