@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 
 import { Button, Row, Card, Col, UncontrolledTooltip, Badge } from 'reactstrap';
-import Header from './HeaderLandingPage';
 
 import planIm1 from '../../assets/images/stock-photos/plan1.jpg';
 import planIm2 from '../../assets/images/stock-photos/plan2.jpg';
@@ -12,29 +11,25 @@ import {Link} from 'react-router-dom'
 
 
 
-const CardPlan = (props) => {
+const CardMenu = (props) => {
 
 
-    const planes = props.plans.map((plan) => {
+    const menus = props.menus.map((menu) => {
         return(
-            <Col xl="4" lg="6"  key={plan.id}>
-                <Link to={`/Comprar/${plan.id}`}>
+            <Col xl="4" lg="6"  key={menu.id}>
+                <Link to={`/Comprar/${menu.id}`}>
                 <Card className="card-transparent mb-5">
                     <div className="card-img-wrapper">
-                        <img src={plan.imagen} className="card-img-top rounded" alt="..." />
+                        <img src={menu.imagen} className="card-img-top rounded" alt="..." />
                     </div>
                     <div className="card-body text-center">
                         <h5 className="card-title font-weight-bold font-size-lg">
-                            {plan.nombre}
+                            {menu.nombre}
                         </h5>
                         <p>
-                            {plan.precio}
+                            
                         </p>
                         <p>Usuarios : 1</p>
-                        <p>Facturas : 30/mes</p>
-                        <p>Lista de Menus : 2</p>
-                        <p>Reportes: 3</p>
-                        <p>inventarios</p>
                     </div>
                 </Card>
                 </Link>
@@ -42,8 +37,8 @@ const CardPlan = (props) => {
         )
     })
 
-    if(props.plans != null){
-        return planes
+    if(props.menus != null){
+        return menus
     }else{
         return <div></div>
     }
@@ -79,8 +74,8 @@ const MenuTenant = (props) => {
                                                 Tenemos los mejores planes para tu negocio!!
                                             </p>
                                             <div>
-                                                <Row>
-                                                    <CardPlan plans={props.plans.plans}/>
+                                               <Row>
+                                                    <CardMenu menus={props.menus.menus}/>
                                                 </Row>
                                             </div>
                                         </div>

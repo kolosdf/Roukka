@@ -1,5 +1,5 @@
 import React, { Component, lazy, Suspense } from 'react';
-import { Switch, Route, Redirect, useLocation, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { connect } from 'react-redux'
 
@@ -29,6 +29,7 @@ import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
 import HomeTenant from './containers/LandingPageEmpresa/HomeTenant'
 import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
 import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
+import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
 
 
 //Admin Roukka
@@ -107,6 +108,8 @@ class Routes extends Component {
       this.props.getEmpleados(URLactual)
       this.props.getClientes(URLactual)
       this.props.getIngredientes(URLactual)
+      this.props.getPlatillos(URLactual)
+      this.props.getMenus(URLactual)
 
         const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
         return axios.get(url)
@@ -179,7 +182,7 @@ class Routes extends Component {
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa']}>
               <PresentationLayout>
                 <HeaderTenant tenant={URLactual}/>
                 <Switch location={this.props.location} key={this.props.location.key}>          
@@ -194,7 +197,8 @@ class Routes extends Component {
                                                                                     empresa => empresa.schema_name == URLactual
                                                                                     )[0]}/>} 
                                                                 />  
-                    <Route path="/ContactusEmpresa" component={ContactTenant} />                        
+                    <Route path="/ContactusEmpresa" component={ContactTenant} />  
+                    <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus}/>} />                       
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -340,11 +344,13 @@ class Routes extends Component {
                                                                                     empleados={this.props.empleados} 
                                                                                     putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
                     <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu} 
-                                                                                          menus={this.props.menus} 
-                                                                                          putUpdateMenu={this.props.putUpdateMenu} />} />
+                                                                            menus={this.props.menus} 
+                                                                            platillos={this.props.platillos}
+                                                                            putUpdateMenu={this.props.putUpdateMenu} />} />
                     <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo} 
-                                                                                          platillos={this.props.platillos} 
-                                                                                          putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+                                                                                    platillos={this.props.platillos} 
+                                                                                    ingredientes={this.props.ingredientes}
+                                                                                    putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
                     <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente} 
                                                                                           ingredientes={this.props.ingredientes} 
                                                                                           putUpdateIngrediente={this.props.putUpdateIngrediente} />} />                   
@@ -408,8 +414,8 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual)),
-  putUpdatePlatillo: (platillo) => dispatch(putUpdateIngrediente(platillo, URLactual)),
-  putUpdateMenu: (menu) => dispatch(putUpdateIngrediente(menu, URLactual))
+  putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
+  putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual))
 
 
   
