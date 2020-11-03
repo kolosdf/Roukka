@@ -68,7 +68,7 @@ class HeaderTenant extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link ml-5" to="#">
+                                <NavLink className="nav-link ml-5" to="/MenuEmpresa">
                                     <span className="fa fa-list fa-lg"></span>  Nuestros Menús
                                 </NavLink>
                             </NavItem>

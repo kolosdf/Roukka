@@ -20,7 +20,7 @@ export default {
   Empleados,
   Clientes,
   Ingredientes,
-  UsuariosT
+  UsuariosT,
   Platillos,
   Menus,
 };
