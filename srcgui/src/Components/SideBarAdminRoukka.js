@@ -21,20 +21,30 @@ const sidebarMenuContent = [
   },
 
   {
-    label: 'Planes',
+    label: 'Gestion de Planes',
     icon: 'pe-7s-box2',
-    description:'Wide selection of cards with multiple styles, borders, actions and hover effects.',
-    to: '/PlanRoukka'
-    
+    content: [
+      {
+        label: 'Planes',
+        description:'Wide selection of cards with multiple styles, borders, actions and hover effects.',
+        to: '/PlanRoukka'
+      },
+      {
+        label: 'Funcionalidades',
+        description:
+          'A drop-down list is a graphical control element, similar to a list box, that allows the user to choose one value from a list.',
+        to: '/FuncionRoukka'
+      },
+    ]  
   },
   {
-    label: 'Empresas',
+    label: 'Gestión de Empresas',
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpresaRoukka'
   },
   {
-    label: 'Usuarios',
+    label: ' Gestión de Usuarios',
     icon: 'pe-7s-map-2',
     description: 'Implement in your applications Google or vector maps.',
     to: '/UserRoukka'

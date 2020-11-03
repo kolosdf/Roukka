@@ -18,12 +18,12 @@ export default function reducer (state = {
         case ActionTypes.ADD_USUARIO:
             var usuario = action.payload;   
             console.log(usuario)      
-            return {...state, empresas: state.usuarios.concat(usuario)};
+            return {...state, usuarios: state.usuarios.concat(usuario)};
         
         case ActionTypes.UPDATE_USUARIO:
             var usuario = action.payload;   
             return {...state, 
-                        usuarios: state.usuarios.splice(state.usuarios.indexOf(state.usuarios.filter(plane => plane.id === usuario.id)[0]), 1, usuario),
+                        usuarios: state.usuarios.splice(state.usuarios.indexOf(state.usuarios.filter(user => user.id === usuario.id)[0]), 1, usuario),
                     ...state};
         default:
             return state;

@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom'
 
 const CardPlan = (props) => {
 
+
     const planes = props.plans.map((plan) => {
         return(
             <Col xl="4" lg="6"  key={plan.id}>
@@ -50,8 +51,15 @@ const CardPlan = (props) => {
 }
 
 
-const Plan = (props) => {
+const MenuTenant = (props) => {
     
+    
+
+    /* useEffect(() => {
+        props.getPlans()
+    },[]); */
+
+      
 
     return (
         <Fragment>
@@ -87,4 +95,5 @@ const Plan = (props) => {
     );
 };
 
-export default Plan;
+
+export default MenuTenant;

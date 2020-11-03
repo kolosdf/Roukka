@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react'
 
 import {Modal, InputGroup,Label, Input, FormGroup,Card, Col, Button} from 'reactstrap'
-function ModalFormPlan (props) {
+
+function ModalFormUsuario (props) {
 
     //El estado del formulario, que corresponde a los datos de los inputs
     const [state, setState] = useState({
         id: '',
-        nombre: '',
-        precio: '',
-        imagen:'',
-        estado: false,
+        first_name: '',
+        last_name: '',
+        email:'',
+        password:''
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -23,10 +24,9 @@ function ModalFormPlan (props) {
         const actualizar = () => {
             setState({
                 id: props.datos.id,
-                nombre: props.datos.nombre,
-                precio: props.datos.precio,
-                imagen: props.datos.imagen,
-                estado: props.datos.estado,
+                first_name: props.datos.first_name,
+                last_name: props.datos.last_name,
+                email: props.datos.email
             })
         }
         actualizar();       
@@ -39,12 +39,12 @@ function ModalFormPlan (props) {
         if(props.nuevo){
             initForm();
             setDatosForm({
-                titulo:'Registrar nuevo plan',
+                titulo:'Registrar nuevo Usuario',
                 boton: 'Registrar'
             })  
         } else{
             setDatosForm({
-                titulo:'Modificar Plan',
+                titulo:'Modificar Usuario',
                 boton: 'Modificar'
             }) 
         }        
@@ -55,27 +55,22 @@ function ModalFormPlan (props) {
         setState({
             ...state,
             id: '',
-            nombre: '',
-            precio: '',
-            imagen: '',
-            estado: false,
+            first_name: '',
+            last_name: '',
+            email:'',
+            password:'',
         })
     }    
 
     //Con esta funcion controlo los inputs para que cada valor que ingrese, 
     //se almacene en el respectivo estado
     const handleChange = (e) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        
+        const { name, value } = e.target;
 
         setState({ 
             ...state,
             [name]: value 
         });
-
-        console.log(state)
         
     }
 
@@ -84,11 +79,18 @@ function ModalFormPlan (props) {
         e.preventDefault()
         console.log(datosForm.boton)
         if(datosForm.boton==='Registrar'){
-            props.postRegisterPlan({nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado})
+            props.postRegisterUsuario({first_name: state.first_name, 
+                                        last_name: state.last_name,
+                                        email:state.email,
+                                        password: state.password})
             initForm() 
         }
         else if(datosForm.boton==='Modificar'){   
-            props.putUpdatePlan(state)
+            props.putUpdateUsuario({id: state.id,                                   
+                                    first_name: state.first_name, 
+                                    last_name: state.last_name,
+                                    email:state.email,}
+                                    )
         }
     }
     
@@ -105,16 +107,16 @@ function ModalFormPlan (props) {
                     <div className="card-body px-lg-5 py-lg-5">
                         <form method="post" onSubmit={(event) => handleSubmit(event)} >
                             <FormGroup row>
-                                <Label for="nombre" sm={5}>
-                                    Nombre del Plan
+                                <Label for="first_name" sm={5}>
+                                    Nombre del Usuario
                                 </Label>
                                 <Col sm={7}>
                                     <Input
                                         type="text"
-                                        name="nombre"
-                                        value={state.nombre}
-                                        id="nombre"
-                                        placeholder="213"
+                                        name="first_name"
+                                        value={state.first_name}
+                                        id="firts_name"
+                                        placeholder="Juan Carlos"
                                         maxLength="20"
                                         onChange={handleChange}
                                         required
@@ -122,16 +124,16 @@ function ModalFormPlan (props) {
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label for="precio" sm={5}>
-                                    Precio del Plan
+                                <Label for="last_name" sm={5}>
+                                    Apellido del Cliente
                                 </Label>
                                 <Col sm={7}>
                                     <Input
                                         type="text"
-                                        name="precio"
-                                        value={state.precio}
-                                        id="precio"
-                                        placeholder="213"
+                                        name="last_name"
+                                        value={state.last_name}
+                                        id="last_name"
+                                        placeholder="Castro Ramirez"
                                         maxLength="20"
                                         onChange={handleChange}
                                         required
@@ -139,16 +141,33 @@ function ModalFormPlan (props) {
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label for="imagen" sm={5}>
-                                    Imagen del Plan
+                                <Label for="email" sm={5}>
+                                    Email
                                 </Label>
                                 <Col sm={7}>
                                     <Input
-                                        type="text"
-                                        name="imagen"
-                                        value={state.imagen}
-                                        id="imagen"
-                                        placeholder="213"
+                                        type="email"
+                                        name="email"
+                                        value={state.email}
+                                        id="email"
+                                        placeholder="juanpablo@gmail.com"
+                                        maxLength="300"
+                                        onChange={handleChange}
+                                        
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label for="password" sm={5}>
+                                    Contraseña
+                                </Label>
+                                <Col sm={7}>
+                                    <Input
+                                        type="password"
+                                        name="password"
+                                        value={state.password}
+                                        id="password"
+                                        placeholder=""
                                         maxLength="300"
                                         onChange={handleChange}
                                         
@@ -159,15 +178,12 @@ function ModalFormPlan (props) {
                             <div className="custom-control custom-control-alternative custom-checkbox">
                                 <input
                                     className="custom-control-input"
-                                    id="estado"
+                                    id="customCheckLogin"
                                     type="checkbox"
-                                    name="estado"
-                                    checked={state.estado}
-                                    onChange={handleChange}
                                 />
                                 <label
                                     className="custom-control-label"
-                                    htmlFor="estado">
+                                    htmlFor="customCheckLogin">
                                     <span>Estado</span>
                                 </label>
                             </div>
@@ -183,4 +199,4 @@ function ModalFormPlan (props) {
         </Modal>)
 }
 
-export default ModalFormPlan;
+export default ModalFormUsuario;
