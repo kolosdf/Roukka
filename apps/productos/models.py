@@ -25,6 +25,7 @@ class Menu(models.Model):
     platillos = models.ManyToManyField(Platillo)
     imagen = models.TextField()
     estado = models.BooleanField(default=True)
+    descripcion = models.TextField(null=True)
 
     def __str__(self):
         return self.nombre
