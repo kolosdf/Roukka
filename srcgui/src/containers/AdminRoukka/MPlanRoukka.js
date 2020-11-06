@@ -51,7 +51,7 @@ function FilaTable(props) {
             <td className="text-center">
                 <Badge color="warning" className="h-auto py-0 px-3">
                     Activo
-            </Badge>
+                </Badge>
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -73,9 +73,9 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.plan.id, props.plan.nombre, props.plan.precio, props.plan.imagen, props.plan.estado)}
+                                    onClick={props.modificar.bind(this,props.plan.id, props.plan.nombre, props.plan.precio, props.plan.imagen, props.plan.estado, props.plan.funciones)}
                                     active>
-                                    <span>Ver detalles </span>
+                                    <span>Modificar</span>
                                     <Badge color="first" className="ml-auto">
                                         New
                         </Badge>
@@ -106,13 +106,14 @@ function FilaTable(props) {
 
 function MPlanRoukka(props) {
 
-    const modificarPlan = (id, nombre, precio, imagen, estado) => {
+    const modificarPlan = (id, nombre, precio, imagen, estado, funciones) => {
         setState({
             id:id,
             nombre: nombre,
             precio: precio,
             imagen: imagen,
-            estado: estado
+            estado: estado,
+            funciones: funciones,
         },toggle5())
         setNuevo(false)        
     }
@@ -122,7 +123,8 @@ function MPlanRoukka(props) {
         nombre: '',
         precio: '',
         imagen: '',
-        estado: ''
+        estado: '',
+        funciones: ''
     })
 
     const [modal5, setModal5] = useState(false);
@@ -145,7 +147,7 @@ function MPlanRoukka(props) {
     return (
         <Fragment>
             
-            <ModalFormPlan postRegisterPlan={props.postRegisterPlan} putUpdatePlan={props.putUpdatePlan} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
+            <ModalFormPlan postRegisterPlan={props.postRegisterPlan} funciones={props.funciones} putUpdatePlan={props.putUpdatePlan} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Planes de funcionalidades"

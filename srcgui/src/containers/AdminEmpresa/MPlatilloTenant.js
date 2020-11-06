@@ -42,11 +42,16 @@ function FilaTable(props){
                             title="...">
                             {props.platillo.nombre}
                         </a>
-                        <span className="text-black-50 d-block">
-                            {props.platillo.unidades} Unidades disponibles
+                        <span className="text-black-50 d-block mt-2">
+                        <Badge color="success" >
+                            <h5>{props.platillo.unidades} Unidades disponibles </h5>
+                        </Badge>
                         </span>
-                        <span className="text-black-50 d-block">
-                            $ {props.platillo.precio}
+
+                        <span className="text-black-50 d-block mt-2">
+                        <Badge color="first" >
+                            <h5>$ {props.platillo.precio} </h5>
+                        </Badge>
                         </span>
                     </div>
                 </div>

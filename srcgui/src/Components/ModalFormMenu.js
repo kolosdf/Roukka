@@ -9,8 +9,8 @@ function ModalFormMenu (props) {
         id: '',
         nombre: '',
         imagen:'',
+        descripcion:'',
         platillos: [],
-        estado: ''
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -45,13 +45,13 @@ const onRemove = (selectedList, removedItem) =>{
                 id: props.datos.id,
                 nombre: props.datos.nombre,
                 imagen: props.datos.imagen,
+                descripcion:props.datos.descripcion,
                 platillos: props.platillos.platillos.filter(platillo => {
                     if(props.datos.platillos.indexOf(platillo.id) != -1){
                         return true
                     }else{
                         return false
                     }}),
-                estado: props.datos.estado
             })
         }
         actualizar();  
@@ -83,8 +83,8 @@ const onRemove = (selectedList, removedItem) =>{
             id: '',
             nombre: '',
             imagen: '',
+            descripcion:'',
             platillos: [],
-            estado:''
         })
     }    
 
@@ -118,11 +118,11 @@ const onRemove = (selectedList, removedItem) =>{
         e.preventDefault()
         console.log(datosForm.boton)
         if(datosForm.boton==='Registrar'){
-            props.postRegisterMenu({nombre: state.nombre, imagen: state.imagen, platillos: state.platillos.map(platillo => platillo.id  )})
+            props.postRegisterMenu({nombre: state.nombre, imagen: state.imagen, descripcion: state.descripcion, platillos: state.platillos.map(platillo => platillo.id  )})
             initForm() 
         }
         else if(datosForm.boton==='Modificar'){   
-            props.putUpdateMenu({id: state.id, nombre: state.nombre, imagen: state.imagen, platillos: state.platillos.map(platillo => platillo.id  )})
+            props.putUpdateMenu({id: state.id, nombre: state.nombre, imagen: state.imagen, descripcion: state.descripcion, platillos: state.platillos.map(platillo => platillo.id  )})
         }
     }
     
@@ -175,6 +175,19 @@ const onRemove = (selectedList, removedItem) =>{
                             </FormGroup>
 
                             <FormGroup row>
+                                <Label sm={5} htmlFor="descripcion">Descripción</Label>
+                                <Col>
+                                    <Input 
+                                        type="textarea" 
+                                        name="descripcion" 
+                                        value={state.descripcion}
+                                        onChange={handleChange}
+                                        id="descripcion"
+                                        />
+                                </Col>
+                            </FormGroup>
+
+                            <FormGroup row>
                                 <Label sm={5} htmlFor="platillos">Platillos</Label>
                                 <Col sm={7}>
                                 <Multiselect
@@ -188,22 +201,6 @@ const onRemove = (selectedList, removedItem) =>{
                                 </Col>
                                 
                             </FormGroup>
-                            
-                            <div className="custom-control custom-control-alternative custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                                    id="estado"
-                                    type="checkbox"
-                                    name="estado"
-                                    checked={state.estado}
-                                    onChange={handleChange}
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor="estado">
-                                    <span>Estado</span>
-                                </label>
-                            </div>
                             <div className="text-center">
                                 <Button type="submit" color="second" className="mt-4">
                                     {datosForm.boton}

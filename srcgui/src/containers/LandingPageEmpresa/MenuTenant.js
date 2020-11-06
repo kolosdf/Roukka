@@ -17,7 +17,7 @@ const CardMenu = (props) => {
     const menus = props.menus.map((menu) => {
         return(
             <Col xl="4" lg="6"  key={menu.id}>
-                <Link to={`/Comprar/${menu.id}`}>
+                <Link to={`/ListarMenu/${menu.id}`}>
                 <Card className="card-transparent mb-5">
                     <div className="card-img-wrapper">
                         <img src={menu.imagen} className="card-img-top rounded" alt="..." />
@@ -29,7 +29,7 @@ const CardMenu = (props) => {
                         <p>
                             
                         </p>
-                        <p>Usuarios : 1</p>
+                        <p>{menu.descripcion}</p>
                     </div>
                 </Card>
                 </Link>
@@ -48,7 +48,7 @@ const CardMenu = (props) => {
 
 const MenuTenant = (props) => {
     
-    
+    console.log(props.menus)
 
     /* useEffect(() => {
         props.getPlans()
@@ -68,10 +68,10 @@ const MenuTenant = (props) => {
                                     <div className="text-center">
                                         <div className="px-4 px-sm-0  mt-4">
                                             <h1 className="display-2 mb-5 font-weight-bold">
-                                                Nuestros Planes
+                                                Nuestros Menus
                                             </h1>
                                             <p className="font-size-xl  mb-3">
-                                                Tenemos los mejores planes para tu negocio!!
+                                                Tenemos los mejores menus para que deleites
                                             </p>
                                             <div>
                                                <Row>
