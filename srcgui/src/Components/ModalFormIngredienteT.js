@@ -104,9 +104,9 @@ function ModalFormIngredienteT (props) {
                                         type="text"
                                         name="nombre"
                                         value={state.nombre}
-                                        id="firts_name"
-                                        placeholder="Juan Carlos"
-                                        maxLength="20"
+                                        id="nombre"
+                                        placeholder="Zanahoria"
+                                        maxLength="30"
                                         onChange={handleChange}
                                         required
                                     />

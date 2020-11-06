@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-
+import { Multiselect } from 'multiselect-react-dropdown';
 import {Modal, InputGroup,Label, Input, FormGroup,Card, Col, Button} from 'reactstrap'
 function ModalFormPlan (props) {
 
@@ -9,7 +9,8 @@ function ModalFormPlan (props) {
         nombre: '',
         precio: '',
         imagen:'',
-        estado: false,
+        estado: '',
+        funciones: []
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -17,6 +18,24 @@ function ModalFormPlan (props) {
         titulo:'',
         boton:'',
     })
+
+    const onSelect = (selectedList, selectedItem) => {
+
+        setState({
+            ...state,
+            funciones: selectedList
+        })
+        console.log(state)
+        
+    }
+     
+    const onRemove = (selectedList, removedItem) =>{
+        setState({
+            ...state,
+            funciones: selectedList
+        })
+        
+    }
 
     //Con este hook establezco los datos si es un formulario para modificar
     useEffect(() => {
@@ -27,6 +46,12 @@ function ModalFormPlan (props) {
                 precio: props.datos.precio,
                 imagen: props.datos.imagen,
                 estado: props.datos.estado,
+                funciones: props.funciones.funcionalidades.filter(funcion => {
+                                                            if(props.datos.funciones.indexOf(funcion.id) != -1){
+                                                                return true
+                                                            }else{
+                                                                return false
+                                                            }}),
             })
         }
         actualizar();       
@@ -58,7 +83,9 @@ function ModalFormPlan (props) {
             nombre: '',
             precio: '',
             imagen: '',
-            estado: false,
+            estado: '',
+            funciones:[]
+
         })
     }    
 
@@ -75,7 +102,6 @@ function ModalFormPlan (props) {
             [name]: value 
         });
 
-        console.log(state)
         
     }
 
@@ -84,11 +110,11 @@ function ModalFormPlan (props) {
         e.preventDefault()
         console.log(datosForm.boton)
         if(datosForm.boton==='Registrar'){
-            props.postRegisterPlan({nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado})
+            props.postRegisterPlan({nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado, funciones: state.funciones.map(funcion => funcion.id  )})
             initForm() 
         }
         else if(datosForm.boton==='Modificar'){   
-            props.putUpdatePlan(state)
+            props.putUpdatePlan({id: state.id, nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado, funciones: state.funciones.map(funcion => funcion.id  )})
         }
     }
     
@@ -114,7 +140,7 @@ function ModalFormPlan (props) {
                                         name="nombre"
                                         value={state.nombre}
                                         id="nombre"
-                                        placeholder="213"
+                                        placeholder="Enterprise"
                                         maxLength="20"
                                         onChange={handleChange}
                                         required
@@ -131,7 +157,7 @@ function ModalFormPlan (props) {
                                         name="precio"
                                         value={state.precio}
                                         id="precio"
-                                        placeholder="213"
+                                        placeholder="40000"
                                         maxLength="20"
                                         onChange={handleChange}
                                         required
@@ -148,12 +174,28 @@ function ModalFormPlan (props) {
                                         name="imagen"
                                         value={state.imagen}
                                         id="imagen"
-                                        placeholder="213"
+                                        placeholder="http//:imagen.jpg"
                                         maxLength="300"
                                         onChange={handleChange}
                                         
                                     />
                                 </Col>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label sm={5} htmlFor="funciones">Funciones</Label>
+                                <Col sm={7}>
+                                <Multiselect
+                                    required
+                                    selectedValues={state.funciones}
+                                    options={props.funciones.funcionalidades} // Options to display in the dropdown
+                                     // Preselected value to persist in dropdown
+                                    onSelect={onSelect} // Function will trigger on select event
+                                    onRemove={onRemove} // Function will trigger on remove event
+                                    displayValue="nombre" // Property name to display in the dropdown options
+                                    />
+                                </Col>
+                                
                             </FormGroup>
                             
                             <div className="custom-control custom-control-alternative custom-checkbox">
@@ -162,6 +204,7 @@ function ModalFormPlan (props) {
                                     id="estado"
                                     type="checkbox"
                                     name="estado"
+                                    value={state.estado}
                                     checked={state.estado}
                                     onChange={handleChange}
                                 />

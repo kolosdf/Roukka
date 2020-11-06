@@ -31,7 +31,7 @@ const API_URL_P = '.localhost:8000/productos';
 
 
 export const getPlans = (tenant) => (dispacth) => { 
-    dispacth(plansLoading(true));
+    dispacth(plansLoading());
     const url = `${API_URL}/listarPlan/`;
     return axios.get(url)
         .then(plans => dispacth(addPlans(plans.data)))    
@@ -456,7 +456,7 @@ export const  postRegisterCliente =  (cliente, tenant) => (dispatch) => {
 export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/modificarCliente/${cliente.id}/`;
     return axios.put(url, cliente)
-        .then(res => console.log((res.data)))
+        .then(res => dispatch(updateCliente(res.data)))
         .catch(error => console.log(error));
 
 }

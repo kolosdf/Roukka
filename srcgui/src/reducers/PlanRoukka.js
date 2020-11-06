@@ -16,8 +16,7 @@ export default function reducer (state = {
             return {...state, isLoading: false, errMess: action.payload, plans: []};
 
         case ActionTypes.ADD_PLAN:
-            var plan = action.payload;   
-            console.log("Este es el plan ",plan)      
+            var plan = action.payload;       
             return {...state, plans: state.plans.concat(plan)};
         
         case ActionTypes.UPDATE_PLAN:

@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect,  useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
 import ModalFormMenu from '../../Components/ModalFormMenu';
@@ -24,12 +24,58 @@ import {
 } from 'reactstrap';
 
 
-function FilaTable(props){
+const ModificarEstado = (props) => {
+    let classColor = '';
+    let icon = ''
+    let texto = ''
+    if(props.estado) {
+        classColor = 'text-danger mx-3';
+        icon = 'times'
+        texto = 'Desactivar'
+
+    }else{
+        classColor = 'text-success mx-3';
+        icon = 'check'
+        texto = 'Activar'
+    }
+    
+    return (
+        <NavLink
+            href="#"
+            onClick={props.modificarEstado}
+            className={classColor}>
+            <div className="nav-link-icon">
+                <FontAwesomeIcon icon={['fas', icon]} />
+            </div>
+
+            <span>{texto}</span>
+        </NavLink>
+    )
+}
+
+const spanEstado = (estado) => {
+    let texto = ''
+    let color = ''
+    if(estado){
+        texto = 'Activo'
+        color = 'success'
+    }else{
+        texto = 'Inactivo'
+        color = 'danger'
+    }
+
+    return(<Badge color={color} className="h-auto py-0 px-3">
+                {texto}
+            </Badge>)
+}
+
+
+function FilaTable(props) {
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
-                <div className="avatar-icon-wrapper mr-2">
+                    <div className="avatar-icon-wrapper mr-2">
                         <div className="avatar-icon">
                             <img alt="..." className="" width="100" src={props.menu.imagen} />
                         </div>
@@ -43,16 +89,17 @@ function FilaTable(props){
                             {props.menu.nombre}
                         </a>
                         <span className="text-black-50 d-block">
-                            Decripción {props.menu.unidades} 
+                            Decripción:
+                        </span>
+                        <span className="text-black-50 d-block">
+                            {props.menu.descripcion}
                         </span>
 
                     </div>
                 </div>
             </td>
             <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
+                {spanEstado(props.menu.estado)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -74,25 +121,14 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.menu.id, props.menu.nombre, props.menu.imagen, props.menu.platillos)}
+                                    onClick={props.modificar.bind(this, props.menu.id, props.menu.nombre, props.menu.imagen, props.menu.estado, props.menu.descripcion, props.menu.platillos)}
                                     active>
                                     <span>Modificar </span>
-                                    <Badge color="first" className="ml-auto">
-                                        New
-                        </Badge>
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <NavLink
-                                    href="#"
-                                    onClick={e => e.preventDefault()}
-                                    className="text-danger mx-3">
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'times']} />
-                                    </div>
-                                    <span>Delete</span>
-                                </NavLink>
+                                <ModificarEstado id={props.menu.id} estado = {props.menu.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.menu.id, nombre: props.menu.nombre, imagen:props.menu.imagen, estado: !props.menu.estado, descripcion:props.menu.descripcion, platillos:props.menu.platillos})} />
                             </NavItem>
                         </Nav>
                     </DropdownMenu>
@@ -107,25 +143,27 @@ function FilaTable(props){
 
 function MMenuTenant(props) {
 
-    const modificarMenu = (id, nombre, imagen, platillos) => {
+    const modificarMenu = (id, nombre, imagen, estado, descripcion, platillos) => {
         setState({
-            id:id,
-            nombre:nombre,
-            imagen:imagen,
-            platillos:platillos
-        },toggle5())
-        setNuevo(false)        
+            id: id,
+            nombre: nombre,
+            imagen: imagen,
+            estado:estado,
+            descripcion: descripcion,
+            platillos: platillos
+        }, toggle5())
+        setNuevo(false)
     }
 
     const [state, setState] = useState({
-        id:'',
-        nombre:'',
-        imagen:'',
-        platillos:[]
+        id: '',
+        nombre: '',
+        imagen: '',
+        platillos: []
     })
 
     const [modal5, setModal5] = useState(false);
-    
+
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -136,25 +174,25 @@ function MMenuTenant(props) {
         setNuevo(true)
         toggle5()
     }
-    
-    
+
+
 
     const menus = props.menus.menus.map((menu) => {
         return (
-            <FilaTable modificar={modificarMenu} menu={menu} key={menu.id} />
+            <FilaTable modificarEstado={props.putUpdateMenu} modificar={modificarMenu} menu={menu} key={menu.id} />
         )
-    }) 
+    })
 
 
     return (
         <Fragment>
-            
-            
+
+
             <ModalFormMenu postRegisterMenu={props.postRegisterMenu} putUpdateMenu={props.putUpdateMenu} platillos={props.platillos} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Menus"
-                titleDescription="Menus" modal={modalNuevo}/>
+                titleDescription="Menus" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">

@@ -30,6 +30,7 @@ import HomeTenant from './containers/LandingPageEmpresa/HomeTenant'
 import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
 import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
+import ListarPlatillo  from './containers/LandingPageEmpresa/ListarPlatillo'
 
 
 //Admin Roukka
@@ -91,6 +92,7 @@ const URLactual = window.location.hostname.split('.').shift();
 class Routes extends Component {
   constructor(props){
     super(props);
+    
   }
 
   componentDidMount(){
@@ -170,8 +172,6 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
-
-
                     <Route path="/Home" component={Home} />
                     <Route path="/Plans" component={() => <Plan plans={this.props.plans} />} />
                     <Route path="/Contactus" component={Contact} />
@@ -182,7 +182,7 @@ class Routes extends Component {
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu']}>
               <PresentationLayout>
                 <HeaderTenant tenant={URLactual}/>
                 <Switch location={this.props.location} key={this.props.location.key}>          
@@ -198,7 +198,8 @@ class Routes extends Component {
                                                                                     )[0]}/>} 
                                                                 />  
                     <Route path="/ContactusEmpresa" component={ContactTenant} />  
-                    <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus}/>} />                       
+                    <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus}/>} />  
+                    <Route path="/ListarMenu/:idMenu" component={({match}) => <ListarPlatillo menus={this.props.menus} platillos={this.props.platillos} match={match}/>} />                      
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -295,6 +296,7 @@ class Routes extends Component {
                     <Route
                       path="/PlanRoukka"
                       component={() => <MPlanRoukka plans={this.props.plans}  
+                                                    funciones={this.props.funcionalidades}
                                                     postRegisterPlan={this.props.postRegisterPlan}
                                                     putUpdatePlan={this.props.putUpdatePlan}/>}
                     />
