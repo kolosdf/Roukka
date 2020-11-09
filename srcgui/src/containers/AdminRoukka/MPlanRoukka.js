@@ -22,6 +22,50 @@ import {
     DropdownMenu,
 } from 'reactstrap';
 
+const ModificarEstado = (props) => {
+    let classColor = '';
+    let icon = ''
+    let texto = ''
+    if(props.estado) {
+        classColor = 'text-danger mx-3';
+        icon = 'times'
+        texto = 'Desactivar'
+
+    }else{
+        classColor = 'text-success mx-3';
+        icon = 'check'
+        texto = 'Activar'
+    }
+    
+    return (
+        <NavLink
+            href="#"
+            onClick={props.modificarEstado}
+            className={classColor}>
+            <div className="nav-link-icon">
+                <FontAwesomeIcon icon={['fas', icon]} />
+            </div>
+
+            <span>{texto}</span>
+        </NavLink>
+    )
+}
+
+const spanEstado = (estado) => {
+    let texto = ''
+    let color = ''
+    if(estado){
+        texto = 'Activo'
+        color = 'success'
+    }else{
+        texto = 'Inactivo'
+        color = 'danger'
+    }
+
+    return(<Badge color={color} className="h-auto py-0 px-3">
+                {texto}
+            </Badge>)
+}
 
 function FilaTable(props) {
 
@@ -49,9 +93,7 @@ function FilaTable(props) {
                 </div>
             </td>
             <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-                </Badge>
+                {spanEstado(props.plan.estado)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -82,15 +124,16 @@ function FilaTable(props) {
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
+
+                            <NavItem>
+                                <ModificarEstado id={props.plan.id} estado = {props.plan.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.plan.id, nombre: props.plan.nombre, precio: props.plan.precio, imagen:props.plan.imagen, estado: !props.plan.estado, descripcion:props.plan.descripcion, funciones:props.plan.funciones})} />
+                            </NavItem>
+
                             <NavItem>
                                 <NavLink
                                     href="#"
-                                    onClick={e => e.preventDefault()}
-                                    className="text-danger mx-3">
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'times']} />
-                                    </div>
-                                    <span>Delete</span>
+                                    onClick={e => e.preventDefault()}>
+                                        <FontAwesomeIcon icon={['fas', 'angle-double-right']} />
                                 </NavLink>
                             </NavItem>
                         </Nav>
@@ -140,7 +183,7 @@ function MPlanRoukka(props) {
     
     const planes = props.plans.plans.map((plan) => {
         return (
-            <FilaTable modificar={modificarPlan} plan={plan} key={plan.id} />
+            <FilaTable modificarEstado={props.putUpdatePlan} modificar={modificarPlan} plan={plan} key={plan.id} />
         )
     })
 

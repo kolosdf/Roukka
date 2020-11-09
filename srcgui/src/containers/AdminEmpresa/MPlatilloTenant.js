@@ -24,6 +24,51 @@ import {
 } from 'reactstrap';
 
 
+const ModificarEstado = (props) => {
+    let classColor = '';
+    let icon = ''
+    let texto = ''
+    if(props.estado) {
+        classColor = 'text-danger mx-3';
+        icon = 'times'
+        texto = 'Desactivar'
+
+    }else{
+        classColor = 'text-success mx-3';
+        icon = 'check'
+        texto = 'Activar'
+    }
+    
+    return (
+        <NavLink
+            href="#"
+            onClick={props.modificarEstado}
+            className={classColor}>
+            <div className="nav-link-icon">
+                <FontAwesomeIcon icon={['fas', icon]} />
+            </div>
+
+            <span>{texto}</span>
+        </NavLink>
+    )
+}
+
+const spanEstado = (estado) => {
+    let texto = ''
+    let color = ''
+    if(estado){
+        texto = 'Activo'
+        color = 'success'
+    }else{
+        texto = 'Inactivo'
+        color = 'danger'
+    }
+
+    return(<Badge color={color} className="h-auto py-0 px-3">
+                {texto}
+            </Badge>)
+}
+
 function FilaTable(props){
     return (
         <tr>
@@ -57,9 +102,7 @@ function FilaTable(props){
                 </div>
             </td>
             <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
+                {spanEstado(props.platillo.estado)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -81,7 +124,7 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.ingredientes)}
+                                    onClick={props.modificar.bind(this,props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.estado,props.platillo.ingredientes)}
                                     active>
                                     <span>Modificar </span>
                                     <Badge color="first" className="ml-auto">
@@ -91,14 +134,13 @@ function FilaTable(props){
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
+                                <ModificarEstado id={props.platillo.id} estado = {props.platillo.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.platillo.id, nombre: props.platillo.nombre, precio: props.platillo.precio, unidades:props.platillo.unidades,imagen:props.platillo.imagen, estado: !props.platillo.estado,ingredientes:props.platillo.ingredientes})} />
+                            </NavItem>
+                            <NavItem>
                                 <NavLink
                                     href="#"
-                                    onClick={e => e.preventDefault()}
-                                    className="text-danger mx-3">
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'times']} />
-                                    </div>
-                                    <span>Delete</span>
+                                    onClick={e => e.preventDefault()}>
+                                    <FontAwesomeIcon icon={['fas', 'angle-double-right']} />
                                 </NavLink>
                             </NavItem>
                         </Nav>
@@ -114,13 +156,14 @@ function FilaTable(props){
 
 function MPlatilloTenant(props) {
 
-    const modificarPlatillo = (id, nombre, precio, unidades, imagen, ingredientes) => {
+    const modificarPlatillo = (id, nombre, precio, unidades, imagen, estado,ingredientes) => {
         setState({
             id:id,
             nombre:nombre,
             precio:precio,
             unidades:unidades,
             imagen:imagen,
+            estado:estado,
             ingredientes:ingredientes
         },toggle5())
         setNuevo(false)        
@@ -148,11 +191,10 @@ function MPlatilloTenant(props) {
         toggle5()
     }
     
-    
 
     const platillos = props.platillos.platillos.map((platillo) => {
         return (
-            <FilaTable modificar={modificarPlatillo} platillo={platillo} key={platillo.id} />
+            <FilaTable modificarEstado={props.putUpdatePlatillo} modificar={modificarPlatillo} platillo={platillo} key={platillo.id} />
         )
     }) 
 
