@@ -2,6 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django_tenants.models import TenantMixin, DomainMixin
 from django_tenants.postgresql_backend.base import is_valid_schema_name
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -54,4 +56,19 @@ class Dominio(DomainMixin):
     """
    
     
-    
+class Informacion(models.Model):
+    empresa = models.OneToOneField(Empresa, on_delete=models.CASCADE)
+    mision = models.TextField(null=True)
+    vision = models.TextField(null=True)
+    nosotros = models.TextField(null=True)
+    longitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)
+    latitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)
+
+@receiver(post_save, sender=Empresa)
+def crear_info(sender, instance, created, **kwargs):
+    if created:
+        i = Informacion.objects.create(empresa=instance)
+        i.save()
+
+
+

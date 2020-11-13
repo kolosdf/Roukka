@@ -70,6 +70,7 @@ TENANT_APPS = (
     'django.contrib.contenttypes',
     'apps.usuarios',
     'apps.productos',
+    'apps.ventas',
 
     'django.contrib.auth',
     'django.contrib.sessions',
