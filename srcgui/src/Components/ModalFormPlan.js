@@ -1,22 +1,23 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Multiselect } from 'multiselect-react-dropdown';
-import {Modal, InputGroup,Label, Input, FormGroup,Card, Col, Button} from 'reactstrap'
-function ModalFormPlan (props) {
+import { Modal, InputGroup, Label, Input, FormGroup, Card, Col, Button } from 'reactstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+function ModalFormPlan(props) {
 
     //El estado del formulario, que corresponde a los datos de los inputs
     const [state, setState] = useState({
         id: '',
         nombre: '',
         precio: '',
-        imagen:'',
-        estado: '',
+        imagen: '',
         funciones: []
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
     const [datosForm, setDatosForm] = useState({
-        titulo:'',
-        boton:'',
+        titulo: '',
+        boton: '',
+        icon: ''
     })
 
     const onSelect = (selectedList, selectedItem) => {
@@ -26,15 +27,15 @@ function ModalFormPlan (props) {
             funciones: selectedList
         })
         console.log(state)
-        
+
     }
-     
-    const onRemove = (selectedList, removedItem) =>{
+
+    const onRemove = (selectedList, removedItem) => {
         setState({
             ...state,
             funciones: selectedList
         })
-        
+
     }
 
     //Con este hook establezco los datos si es un formulario para modificar
@@ -45,34 +46,36 @@ function ModalFormPlan (props) {
                 nombre: props.datos.nombre,
                 precio: props.datos.precio,
                 imagen: props.datos.imagen,
-                estado: props.datos.estado,
                 funciones: props.funciones.funcionalidades.filter(funcion => {
-                                                            if(props.datos.funciones.indexOf(funcion.id) != -1){
-                                                                return true
-                                                            }else{
-                                                                return false
-                                                            }}),
+                    if (props.datos.funciones.indexOf(funcion.id) != -1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }),
             })
         }
-        actualizar();       
+        actualizar();
     }, [props.datos])
 
     //Con este hook dependiendo si el props.nuevo es verdadero
     //establezo el titulo de un formulario de registro
 
-    useEffect(() => {        
-        if(props.nuevo){
+    useEffect(() => {
+        if (props.nuevo) {
             initForm();
             setDatosForm({
-                titulo:'Registrar nuevo plan',
-                boton: 'Registrar'
-            })  
-        } else{
+                titulo: 'Registrar nuevo plan',
+                boton: 'Registrar',
+                icon: 'plus'
+            })
+        } else {
             setDatosForm({
-                titulo:'Modificar Plan',
-                boton: 'Modificar'
-            }) 
-        }        
+                titulo: 'Modificar Plan',
+                boton: 'Modificar',
+                icon: 'edit'
+            })
+        }
     }, [props.nuevo])
 
     //Con esta funcion limpio los inputs
@@ -83,11 +86,10 @@ function ModalFormPlan (props) {
             nombre: '',
             precio: '',
             imagen: '',
-            estado: '',
-            funciones:[]
+            funciones: []
 
         })
-    }    
+    }
 
     //Con esta funcion controlo los inputs para que cada valor que ingrese, 
     //se almacene en el respectivo estado
@@ -95,37 +97,42 @@ function ModalFormPlan (props) {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        
 
-        setState({ 
+
+        setState({
             ...state,
-            [name]: value 
+            [name]: value
         });
 
-        
+
     }
 
     //Con este metodo hago el submit
-    const handleSubmit = (e) =>{ 
+    const handleSubmit = (e) => {
         e.preventDefault()
         console.log(datosForm.boton)
-        if(datosForm.boton==='Registrar'){
-            props.postRegisterPlan({nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado, funciones: state.funciones.map(funcion => funcion.id  )})
-            initForm() 
+        if (datosForm.boton === 'Registrar') {
+            props.postRegisterPlan({ nombre: state.nombre, precio: state.precio, imagen: state.imagen, funciones: state.funciones.map(funcion => funcion.id) })
         }
-        else if(datosForm.boton==='Modificar'){   
-            props.putUpdatePlan({id: state.id, nombre: state.nombre, precio: state.precio, imagen: state.imagen, estado: state.estado, funciones: state.funciones.map(funcion => funcion.id  )})
+        else if (datosForm.boton === 'Modificar') {
+            props.putUpdatePlan({ id: state.id, nombre: state.nombre, precio: state.precio, imagen: state.imagen, funciones: state.funciones.map(funcion => funcion.id) })
         }
     }
-    
 
-    return(
-        <Modal zIndex={2000}  centered isOpen={props.modalState} toggle={props.modelToggle}>
+
+    return (
+        <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
             <div>
-                <Card className="bg-secondary shadow-none border-0">
-                    <div className="card-header d-block bg-white pt-5 pb-5 ">
+                <Card className="shadow-none border-0">
+                    <div className="card-header d-block bg-first text-white pt-5 pb-5 ">
+
+                        <FontAwesomeIcon
+                            icon={['fas', datosForm.icon]}
+                            className="opacity-8"
+                            size="2x"
+                        />
                         <div className="text-center">
-                            <h1>{datosForm.titulo}</h1>
+                            <FontAwesomeIcon icon={['fas', 'file-invoice-dollar']} size="3x" /> <h1>{datosForm.titulo}</h1>
                         </div>
                     </div>
                     <div className="card-body px-lg-5 py-lg-5">
@@ -177,7 +184,7 @@ function ModalFormPlan (props) {
                                         placeholder="http//:imagen.jpg"
                                         maxLength="300"
                                         onChange={handleChange}
-                                        
+
                                     />
                                 </Col>
                             </FormGroup>
@@ -185,39 +192,22 @@ function ModalFormPlan (props) {
                             <FormGroup row>
                                 <Label sm={5} htmlFor="funciones">Funciones</Label>
                                 <Col sm={7}>
-                                <Multiselect
-                                    required
-                                    selectedValues={state.funciones}
-                                    options={props.funciones.funcionalidades} // Options to display in the dropdown
-                                     // Preselected value to persist in dropdown
-                                    onSelect={onSelect} // Function will trigger on select event
-                                    onRemove={onRemove} // Function will trigger on remove event
-                                    displayValue="nombre" // Property name to display in the dropdown options
+                                    <Multiselect
+                                        required
+                                        selectedValues={state.funciones}
+                                        options={props.funciones.funcionalidades} // Options to display in the dropdown
+                                        // Preselected value to persist in dropdown
+                                        onSelect={onSelect} // Function will trigger on select event
+                                        onRemove={onRemove} // Function will trigger on remove event
+                                        displayValue="nombre" // Property name to display in the dropdown options
                                     />
                                 </Col>
-                                
+
                             </FormGroup>
-                            
-                            <div className="custom-control custom-control-alternative custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                                    id="estado"
-                                    type="checkbox"
-                                    name="estado"
-                                    value={state.estado}
-                                    checked={state.estado}
-                                    onChange={handleChange}
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor="estado">
-                                    <span>Estado</span>
-                                </label>
-                            </div>
                             <div className="text-center">
-                                <Button type="submit" color="second" className="mt-4">
+                                <Button type="submit" outline color="first" className="mt-4 btn-lg">
                                     {datosForm.boton}
-                    </Button>
+                                </Button>
                             </div>
                         </form>
                     </div>

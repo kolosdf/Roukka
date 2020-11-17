@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,  useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
 import ModalFormFuncionalidad from '../../Components/ModalFormFuncionalidad';
@@ -41,11 +41,6 @@ function FilaTable(props) {
                 </div>
             </td>
             <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
-            </td>
-            <td className="text-center">
                 <UncontrolledDropdown>
                     <DropdownToggle
                         color="primary"
@@ -65,12 +60,13 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.funcion.id, props.funcion.nombre)}
+                                    onClick={props.modificar.bind(this, props.funcion.id, props.funcion.nombre)}
                                     active>
-                                    <span>Ver detalles </span>
-                                    <Badge color="first" className="ml-auto">
-                                        New
-                        </Badge>
+                                    <div className="nav-link-icon">
+                                        <FontAwesomeIcon icon={['fas', 'edit']} />
+                                    </div>
+                                    <span>Modificar </span>
+
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
@@ -100,10 +96,10 @@ function MFuncionRoukka(props) {
 
     const modificarFuncion = (id, nombre) => {
         setState({
-            id:id,
+            id: id,
             nombre: nombre,
-        },toggle5())
-        setNuevo(false)        
+        }, toggle5())
+        setNuevo(false)
     }
 
     const [state, setState] = useState({
@@ -112,7 +108,7 @@ function MFuncionRoukka(props) {
     })
 
     const [modal5, setModal5] = useState(false);
-    
+
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -121,7 +117,7 @@ function MFuncionRoukka(props) {
         setNuevo(true)
         toggle5()
     }
-    
+
     const funcionalidades = props.funcionalidades.funcionalidades.map((funcion) => {
         return (
             <FilaTable modificar={modificarFuncion} funcion={funcion} key={funcion.id} />
@@ -130,12 +126,12 @@ function MFuncionRoukka(props) {
 
     return (
         <Fragment>
-            
+
             <ModalFormFuncionalidad postRegisterFuncionalidad={props.postRegisterFuncionalidad} putUpdateFuncionalidad={props.putUpdateFuncionalidad} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Planes de funcionalidades"
-                titleDescription="Conjunto de planes presentes en la aplicación" modal={modalNuevo}/>
+                titleDescription="Conjunto de planes presentes en la aplicación" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -164,7 +160,6 @@ function MFuncionRoukka(props) {
                             <thead className="thead-light">
                                 <tr>
                                     <th style={{ width: '40%' }}>Funcionalidad</th>
-                                    <th className="text-center">Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
