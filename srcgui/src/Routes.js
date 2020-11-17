@@ -9,10 +9,11 @@ import { connect } from 'react-redux'
 import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
-import {getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes,getMenus, getPlatillos,
-        postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente,postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo,
-        putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente,putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo
-        } from './config/ActionCreators'
+import {
+  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos,
+  postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo,
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, addCarrito, deleteIngrediente
+} from './config/ActionCreators'
 
 
 
@@ -30,7 +31,7 @@ import HomeTenant from './containers/LandingPageEmpresa/HomeTenant'
 import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
 import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
-import ListarPlatillo  from './containers/LandingPageEmpresa/ListarPlatillo'
+import ListarPlatillo from './containers/LandingPageEmpresa/ListarPlatillo'
 
 
 //Admin Roukka
@@ -52,6 +53,7 @@ import MClienteTenant from './containers/AdminEmpresa/MClienteTenant'
 import MMenuTenant from './containers/AdminEmpresa/MMenuTenant'
 import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
 import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
+import MFacturacion from './containers/AdminEmpresa/MFacturación'
 
 // Example Pages
 
@@ -75,7 +77,7 @@ const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
 const Cards3 = lazy(() => import('./example-pages/Cards3'));
 const ListGroups = lazy(() => import('./example-pages/ListGroups'));
 const LandingPage = lazy(() => import('./example-pages/LandingPage'));
-const Home = lazy(() => import ('./containers/LandingPageRoukka/HomeComponent')) ;
+const Home = lazy(() => import('./containers/LandingPageRoukka/HomeComponent'));
 const Modals = lazy(() => import('./example-pages/Modals'));
 const Notifications = lazy(() => import('./example-pages/Notifications'));
 const Carousels = lazy(() => import('./example-pages/Carousels'));
@@ -90,19 +92,19 @@ const API_URL = 'localhost:8000/';
 const URLactual = window.location.hostname.split('.').shift();
 
 class Routes extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
   }
 
-  componentDidMount(){
-    if(URLactual==='localhost'){
+  componentDidMount() {
+    if (URLactual === 'localhost') {
       this.props.getPlans()
       this.props.getEmpresas()
       this.props.getFuncionalidades()
       this.props.getUsuarios()
-      
-    }else{
+
+    } else {
       console.log('funcionaa')
       this.props.getClientes(URLactual)
       this.props.getEmpresas()
@@ -113,14 +115,14 @@ class Routes extends Component {
       this.props.getPlatillos(URLactual)
       this.props.getMenus(URLactual)
 
-        const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
-        return axios.get(url)
-        .then(empresas => {console.log(empresas.data)})    
+      const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
+      return axios.get(url)
+        .then(empresas => { console.log(empresas.data) })
         .catch(error => console.log(error));
     }
-    
+
   }
-  
+
 
   pageVariants = {
     initial: {
@@ -143,12 +145,12 @@ class Routes extends Component {
     duration: 0.4
   };
 
-  
 
 
-  render(){
+
+  render() {
     return (
-      
+
       <AnimatePresence>
         <Suspense
           fallback={
@@ -157,15 +159,15 @@ class Routes extends Component {
                 Please wait while we load the live preview examples
               </div>
             </div>
-          }>  
+          }>
           <Switch>
-          
+
             <Redirect exact from="/" to="/Home" />
-            
-            <Route path={['/Home', '/Plans', '/Contactus','/Aboutus','/Comprar']}>
+
+            <Route path={['/Home', '/Plans', '/Contactus', '/Aboutus', '/Comprar']}>
               <PresentationLayout>
                 <Header />
-                <Switch location={this.props.location} key={this.props.location.key}>    
+                <Switch location={this.props.location} key={this.props.location.key}>
                   <motion.div
                     initial="initial"
                     animate="in"
@@ -176,7 +178,7 @@ class Routes extends Component {
                     <Route path="/Plans" component={() => <Plan plans={this.props.plans} />} />
                     <Route path="/Contactus" component={Contact} />
                     <Route path="/Aboutus" component={About} />
-                    <Route path="/Comprar/:idPlan" component={({match}) => <ComprarPlan postRegisterEmpresa={this.props.postRegisterEmpresa} plans={this.props.plans} match={match}/>} />  
+                    <Route path="/Comprar/:idPlan" component={({ match }) => <ComprarPlan postRegisterEmpresa={this.props.postRegisterEmpresa} plans={this.props.plans} match={match} />} />
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -184,8 +186,8 @@ class Routes extends Component {
 
             <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu']}>
               <PresentationLayout>
-                <HeaderTenant tenant={URLactual}/>
-                <Switch location={this.props.location} key={this.props.location.key}>          
+                <HeaderTenant tenant={URLactual} />
+                <Switch location={this.props.location} key={this.props.location.key}>
                   <motion.div
                     initial="initial"
                     animate="in"
@@ -194,12 +196,12 @@ class Routes extends Component {
                     transition={this.pageTransition}>
 
                     <Route path="/LandingPage" component={() => <HomeTenant tenant={this.props.empresas.empresas.filter(
-                                                                                    empresa => empresa.schema_name == URLactual
-                                                                                    )[0]}/>} 
-                                                                />  
-                    <Route path="/ContactusEmpresa" component={ContactTenant} />  
-                    <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus}/>} />  
-                    <Route path="/ListarMenu/:idMenu" component={({match}) => <ListarPlatillo menus={this.props.menus} platillos={this.props.platillos} match={match}/>} />                      
+                      empresa => empresa.schema_name == URLactual
+                    )[0]} />}
+                    />
+                    <Route path="/ContactusEmpresa" component={ContactTenant} />
+                    <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
+                    <Route path="/ListarMenu/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} addCarrito={this.props.addCarrito} platillos={this.props.platillos} match={match} />} />
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -244,7 +246,7 @@ class Routes extends Component {
                       path="/DashboardDefault"
                       component={DashboardDefault}
                     />
-                  
+
                     <Route path="/Buttons" component={Buttons} />
                     <Route path="/Dropdowns" component={Dropdowns} />
                     <Route path="/NavigationMenus" component={NavigationMenus} />
@@ -277,13 +279,13 @@ class Routes extends Component {
             </Route>
 
             {
-            //Admin Roukka
+              //Admin Roukka
             }
-            <Route path={['/DashboardRoukka','/PlanRoukka', '/FuncionRoukka','/EmpresaRoukka', '/UserRoukka']}>
+            <Route path={['/DashboardRoukka', '/PlanRoukka', '/FuncionRoukka', '/EmpresaRoukka', '/UserRoukka']}>
               <LeftAdminRoukka >
 
-              <Switch location={this.props.location} key={this.props.location.key}>
-              <motion.div
+                <Switch location={this.props.location} key={this.props.location.key}>
+                  <motion.div
                     initial="initial"
                     animate="in"
                     exit="out"
@@ -292,113 +294,120 @@ class Routes extends Component {
                     <Route
                       path="/DashboardRoukka"
                       component={() => <MDashboardRoukka plans={this.props.plans} />}
-                    />     
+                    />
                     <Route
                       path="/PlanRoukka"
-                      component={() => <MPlanRoukka plans={this.props.plans}  
-                                                    funciones={this.props.funcionalidades}
-                                                    postRegisterPlan={this.props.postRegisterPlan}
-                                                    putUpdatePlan={this.props.putUpdatePlan}/>}
+                      component={() => <MPlanRoukka plans={this.props.plans}
+                        funciones={this.props.funcionalidades}
+                        postRegisterPlan={this.props.postRegisterPlan}
+                        putUpdatePlan={this.props.putUpdatePlan} />}
                     />
-                    <Route 
-                      path="/FuncionRoukka" 
-                      component={() => <MFuncionRoukka  funcionalidades={this.props.funcionalidades}  
-                                                        postRegisterFuncionalidad={this.props.postRegisterFuncionalidad}
-                                                        putUpdateFuncionalidad={this.props.putUpdateFuncionalidad}/>}
+                    <Route
+                      path="/FuncionRoukka"
+                      component={() => <MFuncionRoukka funcionalidades={this.props.funcionalidades}
+                        postRegisterFuncionalidad={this.props.postRegisterFuncionalidad}
+                        putUpdateFuncionalidad={this.props.putUpdateFuncionalidad} />}
                     />
                     <Route
                       path="/EmpresaRoukka"
                       component={() => <MEmpresaRoukka empresas={this.props.empresas} />}
                     />
-                    <Route 
-                      path="/UserRoukka" 
-                      component={() => <MUsuarioRoukka usuarios={this.props.usuarios}  
-                                                    postRegisterUsuario={this.props.postRegisterUsuario}
-                                                    putUpdateUsuario={this.props.putUpdateUsuario}/>}
+                    <Route
+                      path="/UserRoukka"
+                      component={() => <MUsuarioRoukka usuarios={this.props.usuarios}
+                        postRegisterUsuario={this.props.postRegisterUsuario}
+                        putUpdateUsuario={this.props.putUpdateUsuario} />}
                     />
-                </motion.div>
-              </Switch>
-              
-              </LeftAdminRoukka>    
-            </Route>
-
-            { 
-            //Admin tenant
-            }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant']}>
-              <PresentationLayout>
-              <LeftAdminTenant >
-                <Switch location={this.props.location} key={this.props.location.key}>          
-                  <motion.div
-                    initial="initial"
-                    animate="in"
-                    exit="out"
-                    variants={this.pageVariants}
-                    transition={this.pageTransition}>
-                    <Route path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente} 
-                                                                                  clientes={this.props.clientes} 
-                                                                                  putUpdateCliente={this.props.putUpdateCliente}/>} /> 
-                    <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual}/>} />
-                    <Route path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT} 
-                                                                                  usuariosT={this.props.usuariosT} 
-                                                                                  putUpdateUsuarioT={this.props.putUpdateUsuarioT}/>} />
-                    <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado} 
-                                                                                    empleados={this.props.empleados} 
-                                                                                    putUpdateEmpleado={this.props.putUpdateEmpleado}/>} />
-                    <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu} 
-                                                                            menus={this.props.menus} 
-                                                                            platillos={this.props.platillos}
-                                                                            putUpdateMenu={this.props.putUpdateMenu} />} />
-                    <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo} 
-                                                                                    platillos={this.props.platillos} 
-                                                                                    ingredientes={this.props.ingredientes}
-                                                                                    putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
-                    <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente} 
-                                                                                          ingredientes={this.props.ingredientes} 
-                                                                                          putUpdateIngrediente={this.props.putUpdateIngrediente} />} />                   
-                          
-                                      
                   </motion.div>
                 </Switch>
+
+              </LeftAdminRoukka>
+            </Route>
+
+            {
+              //Admin tenant
+            }
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant']}>
+              <PresentationLayout>
+                <LeftAdminTenant >
+                  <Switch location={this.props.location} key={this.props.location.key}>
+                    <motion.div
+                      initial="initial"
+                      animate="in"
+                      exit="out"
+                      variants={this.pageVariants}
+                      transition={this.pageTransition}>
+                      <Route path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
+                        clientes={this.props.clientes}
+                        putUpdateCliente={this.props.putUpdateCliente} />} />
+                      <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
+                      <Route path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
+                        usuariosT={this.props.usuariosT}
+                        putUpdateUsuarioT={this.props.putUpdateUsuarioT} />} />
+                      <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado}
+                        empleados={this.props.empleados}
+                        putUpdateEmpleado={this.props.putUpdateEmpleado} />} />
+                      <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
+                        menus={this.props.menus}
+                        platillos={this.props.platillos}
+                        putUpdateMenu={this.props.putUpdateMenu} />} />
+                      <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
+                        platillos={this.props.platillos}
+                        ingredientes={this.props.ingredientes}
+                        putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+                      <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
+                        ingredientes={this.props.ingredientes}
+                        putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
+                      <Route path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
+                        platillos={this.props.platillos}
+                        clientes={this.props.clientes}
+                        ingredientes={this.props.ingredientes}
+                        putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+
+
+
+                    </motion.div>
+                  </Switch>
                 </LeftAdminTenant >
-              </PresentationLayout>  
+              </PresentationLayout>
             </Route>
 
 
-          </Switch>  
+          </Switch>
         </Suspense>
       </AnimatePresence>
-    );}
+    );
+  }
 };
 
 
 const mapStateToProps = state => {
   return {
-      plans: state.Plans,
-      empresas: state.Empresas,
-      funcionalidades: state.Funcionalidades,
-      usuarios: state.Usuarios,
-      empleados: state.Empleados,
-      clientes: state.Clientes,
-      ingredientes : state.Ingredientes,
-      usuariosT: state.UsuariosT,
-      platillos: state.Platillos,
-      menus: state.Menus,
+    plans: state.Plans,
+    empresas: state.Empresas,
+    funcionalidades: state.Funcionalidades,
+    usuarios: state.Usuarios,
+    empleados: state.Empleados,
+    clientes: state.Clientes,
+    ingredientes: state.Ingredientes,
+    usuariosT: state.UsuariosT,
+    platillos: state.Platillos,
+    menus: state.Menus,
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
 
-  getPlans:() =>  {dispatch(getPlans())},
-  getEmpresas: () => {dispatch(getEmpresas())},
-  getFuncionalidades: () => {dispatch(getFuncionalidades())},
-  getUsuarios: () => {dispatch(getUsuarios())},
-  getUsuariosT: (tenant) => {dispatch(getUsuariosT(tenant))},
-  getEmpleados: (tenant) => {dispatch(getEmpleados(tenant))},
-  getClientes: (tenant) => {dispatch(getClientes(tenant))},
-  getIngredientes: (tenant) => {dispatch(getIngredientes(tenant))},
-  getPlatillos: (tenant) => {dispatch(getPlatillos(tenant))},
-  getMenus: (tenant) => {dispatch(getMenus(tenant))},
+  getPlans: () => { dispatch(getPlans()) },
+  getEmpresas: () => { dispatch(getEmpresas()) },
+  getFuncionalidades: () => { dispatch(getFuncionalidades()) },
+  getUsuarios: () => { dispatch(getUsuarios()) },
+  getUsuariosT: (tenant) => { dispatch(getUsuariosT(tenant)) },
+  getEmpleados: (tenant) => { dispatch(getEmpleados(tenant)) },
+  getClientes: (tenant) => { dispatch(getClientes(tenant)) },
+  getIngredientes: (tenant) => { dispatch(getIngredientes(tenant)) },
+  getPlatillos: (tenant) => { dispatch(getPlatillos(tenant)) },
+  getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
@@ -417,12 +426,16 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual)),
   putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
-  putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual))
+  putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
+  deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),
+
+  addCarrito: (carrito) => dispatch(addCarrito(carrito))
 
 
-  
 
-  
+
+
+
 
 });
 

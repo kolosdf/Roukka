@@ -65,6 +65,7 @@ const CardPlatillo = (props) => {
                             
                         </p>
                         <p>$ {platillo.precio}</p>
+                        <Button onClick={props.addCarrito.bind(this,platillo)} >Añadir al carro</Button>
                     </div>
                 </Card>
             </Col>
@@ -160,7 +161,7 @@ const ListarPlatillo = props => {
                                 </Col>
                                 <Col sm={7}>
                                 <Card className="mb-3">
-                                        <CardPlatillo platillos={props.platillos.platillos} menu={state.menu}/>
+                                        <CardPlatillo addCarrito={props.addCarrito} platillos={props.platillos.platillos} menu={state.menu}/>
                                     </Card>
                                 </Col>
                             </Row>

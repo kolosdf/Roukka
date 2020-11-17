@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect,  useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
 import ModalFormIngredienteT from '../../Components/ModalFormIngredienteT';
@@ -24,7 +24,7 @@ import {
 } from 'reactstrap';
 
 
-function FilaTable(props){
+function FilaTable(props) {
     return (
         <tr>
             <td>
@@ -39,11 +39,6 @@ function FilaTable(props){
                         </a>
                     </div>
                 </div>
-            </td>
-            <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -65,19 +60,20 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.ingrediente.id, props.ingrediente.nombre)}
+                                    onClick={props.modificar.bind(this, props.ingrediente.id, props.ingrediente.nombre)}
                                     active>
-                                    <span>Ver detalles </span>
-                                    <Badge color="first" className="ml-auto">
-                                        New
-                        </Badge>
+                                    <div className="nav-link-icon">
+                                        <FontAwesomeIcon icon={['fas', 'edit']} />
+                                    </div>
+                                    <span>Modificar </span>
+
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
                                 <NavLink
                                     href="#"
-                                    onClick={e => e.preventDefault()}
+                                    onClick={props.deleteIngrediente.bind(this, props.ingrediente.id)}
                                     className="text-danger mx-3">
                                     <div className="nav-link-icon">
                                         <FontAwesomeIcon icon={['fas', 'times']} />
@@ -102,10 +98,10 @@ function MIngredienteTenant(props) {
 
     const modificarIngrediente = (id, nombre) => {
         setState({
-            id:id,
-            nombre:nombre,
-        },toggle5())
-        setNuevo(false)        
+            id: id,
+            nombre: nombre,
+        }, toggle5())
+        setNuevo(false)
     }
 
     const [state, setState] = useState({
@@ -114,7 +110,7 @@ function MIngredienteTenant(props) {
     })
 
     const [modal5, setModal5] = useState(false);
-    
+
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -125,25 +121,25 @@ function MIngredienteTenant(props) {
         setNuevo(true)
         toggle5()
     }
-    
-    
+
+
 
     const ingredientes = props.ingredientes.ingredientes.map((ingrediente) => {
         return (
-            <FilaTable modificar={modificarIngrediente} ingrediente={ingrediente} key={ingrediente.id} />
+            <FilaTable deleteIngrediente={props.deleteIngrediente} modificar={modificarIngrediente} ingrediente={ingrediente} key={ingrediente.id} />
         )
-    }) 
+    })
 
 
     return (
         <Fragment>
-            
-            
+
+
             <ModalFormIngredienteT postRegisterIngrediente={props.postRegisterIngrediente} putUpdateIngrediente={props.putUpdateIngrediente} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Ingredientes"
-                titleDescription="Ingredientes" modal={modalNuevo}/>
+                titleDescription="Ingredientes" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -172,7 +168,6 @@ function MIngredienteTenant(props) {
                             <thead className="thead-light">
                                 <tr>
                                     <th style={{ width: '40%' }}>Ingredientes</th>
-                                    <th className="text-center">Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>

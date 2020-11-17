@@ -62,6 +62,12 @@ const sidebarMenuContent = [
     ]
   },
  
+  {
+    label: 'Facturacion',
+    icon: 'pe-7s-map-2',
+    description: 'Implement',
+    to: '/FacturacionTenant'
+  }
   
 
 ];
