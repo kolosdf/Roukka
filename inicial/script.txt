@@ -1,3 +1,0 @@
-INSERT INTO "empresa_plan" ("nombre", "precio") VALUES ('Entrada', 10000);
-INSERT INTO "empresa_empresa" ("schema_name", "nombre", "plan_id") VALUES ('public', 'public', 1);
-INSERT INTO "clientes_dominio" ("domain", "is_primary", "tenant_id") VALUES ('localhost', true, 1);
