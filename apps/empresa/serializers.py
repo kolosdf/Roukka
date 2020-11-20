@@ -20,3 +20,8 @@ class FuncionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Funciones
         fields = '__all__'
+
+class InformacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Informacion
+        fields = '__all__'

@@ -88,3 +88,9 @@ class crear_plan(generics.CreateAPIView):
 class modificar_plan(generics.RetrieveUpdateAPIView): 
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+
+
+#INFORMACION TENANT
+class modificar_informacion(generics.RetrieveUpdateAPIView):
+    queryset = Informacion.objects.all()
+    serializer_class = InformacionSerializer

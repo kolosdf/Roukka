@@ -28,17 +28,17 @@ const ModificarEstado = (props) => {
     let classColor = '';
     let icon = ''
     let texto = ''
-    if(props.estado) {
+    if (props.estado) {
         classColor = 'text-danger mx-3';
         icon = 'times'
         texto = 'Desactivar'
 
-    }else{
+    } else {
         classColor = 'text-success mx-3';
         icon = 'check'
         texto = 'Activar'
     }
-    
+
     return (
         <NavLink
             href="#"
@@ -56,17 +56,17 @@ const ModificarEstado = (props) => {
 const spanEstado = (estado) => {
     let texto = ''
     let color = ''
-    if(estado){
+    if (estado) {
         texto = 'Activo'
         color = 'success'
-    }else{
+    } else {
         texto = 'Inactivo'
         color = 'danger'
     }
 
-    return(<Badge color={color} className="h-auto py-0 px-3">
-                {texto}
-            </Badge>)
+    return (<Badge color={color} className="h-auto py-0 px-3">
+        {texto}
+    </Badge>)
 }
 
 
@@ -123,12 +123,15 @@ function FilaTable(props) {
                                     href="#"
                                     onClick={props.modificar.bind(this, props.menu.id, props.menu.nombre, props.menu.imagen, props.menu.estado, props.menu.descripcion, props.menu.platillos)}
                                     active>
+                                    <div className="nav-link-icon">
+                                        <FontAwesomeIcon icon={['fas', 'edit']} />
+                                    </div>
                                     <span>Modificar </span>
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <ModificarEstado id={props.menu.id} estado = {props.menu.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.menu.id, nombre: props.menu.nombre, imagen:props.menu.imagen, estado: !props.menu.estado, descripcion:props.menu.descripcion, platillos:props.menu.platillos})} />
+                                <ModificarEstado id={props.menu.id} estado={props.menu.estado} modificarEstado={props.modificarEstado.bind(this, { id: props.menu.id, nombre: props.menu.nombre, imagen: props.menu.imagen, estado: !props.menu.estado, descripcion: props.menu.descripcion, platillos: props.menu.platillos })} />
                             </NavItem>
                         </Nav>
                     </DropdownMenu>
@@ -148,7 +151,7 @@ function MMenuTenant(props) {
             id: id,
             nombre: nombre,
             imagen: imagen,
-            estado:estado,
+            estado: estado,
             descripcion: descripcion,
             platillos: platillos
         }, toggle5())

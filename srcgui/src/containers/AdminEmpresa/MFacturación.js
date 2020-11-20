@@ -1,8 +1,8 @@
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect,  useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
-import ModalFormEmpleadoT from '../../Components/ModalFormEmpleadoT';
+import ModalFormPlatillo from '../../Components/ModalFormPlatillo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -22,22 +22,24 @@ import {
     DropdownToggle,
     DropdownMenu,
 } from 'reactstrap';
+import ModalFormFacturaT from '../../Components/ModalFormFacturaT';
+
 
 const ModificarEstado = (props) => {
     let classColor = '';
     let icon = ''
     let texto = ''
-    if (props.estado) {
+    if(props.estado) {
         classColor = 'text-danger mx-3';
         icon = 'times'
         texto = 'Desactivar'
 
-    } else {
+    }else{
         classColor = 'text-success mx-3';
         icon = 'check'
         texto = 'Activar'
     }
-
+    
     return (
         <NavLink
             href="#"
@@ -55,44 +57,53 @@ const ModificarEstado = (props) => {
 const spanEstado = (estado) => {
     let texto = ''
     let color = ''
-    if (estado) {
+    if(estado){
         texto = 'Activo'
         color = 'success'
-    } else {
+    }else{
         texto = 'Inactivo'
         color = 'danger'
     }
 
-    return (<Badge color={color} className="h-auto py-0 px-3">
-        {texto}
-    </Badge>)
+    return(<Badge color={color} className="h-auto py-0 px-3">
+                {texto}
+            </Badge>)
 }
 
-
-function FilaTable(props) {
+function FilaTable(props){
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
+                <div className="avatar-icon-wrapper mr-2">
+                        <div className="avatar-icon">
+                            <img alt="..." className="" width="100" src={props.platillo.imagen} />
+                        </div>
+                    </div>
                     <div>
                         <a
                             href="#/"
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.empleado.first_name + ' ' + props.empleado.last_name}
+                            {props.platillo.nombre}
                         </a>
-                        <span className="text-black-50 d-block">
-                            {props.empleado.email}
+                        <span className="text-black-50 d-block mt-2">
+                        <Badge color="success" >
+                            <h5>{props.platillo.unidades} Unidades disponibles </h5>
+                        </Badge>
                         </span>
-                        <span className="text-black-50 d-block">
-                            {props.empleado.rol}
+
+                        <span className="text-black-50 d-block mt-2">
+                        <Badge color="first" >
+                            <h5>$ {props.platillo.precio} </h5>
+                        </Badge>
                         </span>
                     </div>
                 </div>
             </td>
             <td className="text-center">
-                {spanEstado(props.empleado.is_active)}
+                {spanEstado(props.platillo.estado)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -114,18 +125,24 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this, props.empleado.id, props.empleado.first_name, props.empleado.last_name, props.empleado.email, props.empleado.rol)}
+                                    onClick={props.modificar.bind(this,props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.estado,props.platillo.ingredientes)}
                                     active>
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'edit']} />
-                                    </div>
-                                    <span>modificar </span>
-
+                                    <span>Modificar </span>
+                                    <Badge color="first" className="ml-auto">
+                                        New
+                        </Badge>
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <ModificarEstado id={props.empleado.id} estado={props.empleado.is_active} modificarEstado={props.modificarEstado.bind(this, { id: props.empleado.id, first_name: props.empleado.first_name, last_name: props.empleado.last_name, email: props.empleado.email, rol: props.empleado.rol, is_active: !props.empleado.is_active })} />
+                                <ModificarEstado id={props.platillo.id} estado = {props.platillo.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.platillo.id, nombre: props.platillo.nombre, precio: props.platillo.precio, unidades:props.platillo.unidades,imagen:props.platillo.imagen, estado: !props.platillo.estado,ingredientes:props.platillo.ingredientes})} />
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    href="#"
+                                    onClick={e => e.preventDefault()}>
+                                    <FontAwesomeIcon icon={['fas', 'angle-double-right']} />
+                                </NavLink>
                             </NavItem>
                         </Nav>
                     </DropdownMenu>
@@ -138,31 +155,32 @@ function FilaTable(props) {
 
 
 
-function MEmpleadoTenant(props) {
+function FacturacionTenant(props) {
 
-    console.log(props.empleados)
-
-    const modificarEmpleado = (id, first_name, last_name, email, rol) => {
+    const modificarPlatillo = (id, nombre, precio, unidades, imagen, estado,ingredientes) => {
         setState({
-            id: id,
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            rol: rol,
-        }, toggle5())
-        setNuevo(false)
+            id:id,
+            nombre:nombre,
+            precio:precio,
+            unidades:unidades,
+            imagen:imagen,
+            estado:estado,
+            ingredientes:ingredientes
+        },toggle5())
+        setNuevo(false)        
     }
 
     const [state, setState] = useState({
-        id: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        rol: ''
+        id:'',
+        nombre:'',
+        precio:'',
+        unidades:'',
+        imagen:'',
+        ingredientes:[]
     })
 
     const [modal5, setModal5] = useState(false);
-
+    
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -173,25 +191,24 @@ function MEmpleadoTenant(props) {
         setNuevo(true)
         toggle5()
     }
+    
 
-
-
-    const empleados = props.empleados.empleados.map((empleado) => {
+    const platillos = props.platillos.platillos.map((platillo) => {
         return (
-            <FilaTable modificarEstado={props.putUpdateEmpleado} modificar={modificarEmpleado} empleado={empleado} key={empleado.id} />
+            <FilaTable modificarEstado={props.putUpdatePlatillo} modificar={modificarPlatillo} platillo={platillo} key={platillo.id} />
         )
-    })
+    }) 
 
 
     return (
         <Fragment>
-
-
-            <ModalFormEmpleadoT postRegisterEmpleado={props.postRegisterEmpleado} putUpdateEmpleado={props.putUpdateEmpleado} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
+            
+            <ModalFormFacturaT clientes={props.clientes} modalState={modal5} modelToggle={toggle5}/>
+            
 
             <PageTitle
-                titleHeading="Empleados"
-                titleDescription="Empleados" modal={modalNuevo} />
+                titleHeading="Facturación"
+                titleDescription="Facturación" modal={modalNuevo}/>
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -219,13 +236,13 @@ function MEmpleadoTenant(props) {
                         <Table hover striped className="text-nowrap mb-0 ">
                             <thead className="thead-light">
                                 <tr>
-                                    <th style={{ width: '40%' }}>Empleados</th>
+                                    <th style={{ width: '40%' }}>Platillos</th>
                                     <th className="text-center">Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {empleados}
+                                {platillos}
                             </tbody>
                         </Table>
                     </div>
@@ -298,4 +315,4 @@ function MEmpleadoTenant(props) {
 }
 
 
-export default MEmpleadoTenant
+export default FacturacionTenant

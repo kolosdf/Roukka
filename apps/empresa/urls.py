@@ -17,4 +17,6 @@ urlpatterns = [
     path('listarFuncion/',views.listar_funcion.as_view(), name='listar_funcion'),
     path('modificarFuncion/<int:pk>/',views.modificar_funcion.as_view(), name='modificar_funcion'),
 
+    path('modificarInformacion/<int:pk>/',views.modificar_informacion.as_view(), name='modificar_informacion'),
+
 ]

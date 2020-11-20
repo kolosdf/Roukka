@@ -1,23 +1,25 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
-import {Modal, InputGroup,Label, Input, FormGroup,Card, Col, Button} from 'reactstrap'
+import { Modal, InputGroup, Label, Input, FormGroup, Card, Col, Button } from 'reactstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function ModalFormEmpleadoT (props) {
+function ModalFormEmpleadoT(props) {
 
     //El estado del formulario, que corresponde a los datos de los inputs
     const [state, setState] = useState({
         id: '',
         first_name: '',
         last_name: '',
-        email:'',
-        password:'',
+        email: '',
+        password: '',
         rol: ''
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
     const [datosForm, setDatosForm] = useState({
-        titulo:'',
-        boton:'',
+        titulo: '',
+        boton: '',
+        icon: ''
     })
 
     //Con este hook establezco los datos si es un formulario para modificar
@@ -31,25 +33,27 @@ function ModalFormEmpleadoT (props) {
                 rol: props.datos.rol
             })
         }
-        actualizar();       
+        actualizar();
     }, [props.datos])
 
     //Con este hook dependiendo si el props.nuevo es verdadero
     //establezo el titulo de un formulario de registro
 
-    useEffect(() => {        
-        if(props.nuevo){
+    useEffect(() => {
+        if (props.nuevo) {
             initForm();
             setDatosForm({
-                titulo:'Registrar nuevo Empleado',
-                boton: 'Registrar'
-            })  
-        } else{
+                titulo: 'Registrar nuevo Empleado',
+                boton: 'Registrar',
+                icon: 'plus'
+            })
+        } else {
             setDatosForm({
-                titulo:'Modificar Empleado',
-                boton: 'Modificar'
-            }) 
-        }        
+                titulo: 'Modificar Empleado',
+                boton: 'Modificar',
+                icon: 'edit'
+            })
+        }
     }, [props.nuevo])
 
     //Con esta funcion limpio los inputs
@@ -59,56 +63,64 @@ function ModalFormEmpleadoT (props) {
             id: '',
             first_name: '',
             last_name: '',
-            email:'',
-            password:'',
-            rol:''
+            email: '',
+            password: '',
+            rol: ''
         })
-    }    
+    }
 
     //Con esta funcion controlo los inputs para que cada valor que ingrese, 
     //se almacene en el respectivo estado
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setState({ 
+        setState({
             ...state,
-            [name]: value 
+            [name]: value
         });
 
         console.log(state)
-        
+
     }
 
     //Con este metodo hago el submit
-    const handleSubmit = (e) =>{ 
+    const handleSubmit = (e) => {
         e.preventDefault()
         console.log(datosForm.boton)
-        if(datosForm.boton==='Registrar'){
-            props.postRegisterEmpleado({first_name: state.first_name, 
-                                        last_name: state.last_name,
-                                        email:state.email,
-                                        password: state.password,
-                                        rol: state.rol})
-            initForm() 
+        if (datosForm.boton === 'Registrar') {
+            props.postRegisterEmpleado({
+                first_name: state.first_name,
+                last_name: state.last_name,
+                email: state.email,
+                password: state.password,
+                rol: state.rol
+            })
         }
-        else if(datosForm.boton==='Modificar'){   
-            props.putUpdateEmpleado({id: state.id,                                   
-                                    first_name: state.first_name, 
-                                    last_name: state.last_name,
-                                    email:state.email,
-                                    rol: state.rol}
-                                    )
+        else if (datosForm.boton === 'Modificar') {
+            props.putUpdateEmpleado({
+                id: state.id,
+                first_name: state.first_name,
+                last_name: state.last_name,
+                email: state.email,
+                rol: state.rol
+            }
+            )
         }
     }
-    
 
-    return(
-        <Modal zIndex={2000}  centered isOpen={props.modalState} toggle={props.modelToggle}>
+
+    return (
+        <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
             <div>
-                <Card className="bg-secondary shadow-none border-0">
-                    <div className="card-header d-block bg-white pt-5 pb-5 ">
+                <Card className="shadow-none border-0">
+                    <div className="card-header d-block bg-first text-white pt-5 pb-5 ">
+                        <FontAwesomeIcon
+                            icon={['fas', datosForm.icon]}
+                            className="opacity-8"
+                            size="2x"
+                        />
                         <div className="text-center">
-                            <h1>{datosForm.titulo}</h1>
+                            <FontAwesomeIcon icon={['fas', 'user-circle']} size="3x" /> <h1>{datosForm.titulo}</h1>
                         </div>
                     </div>
                     <div className="card-body px-lg-5 py-lg-5">
@@ -160,7 +172,8 @@ function ModalFormEmpleadoT (props) {
                                         placeholder="juanpablo@gmail.com"
                                         maxLength="300"
                                         onChange={handleChange}
-                                        
+                                        required
+
                                     />
                                 </Col>
                             </FormGroup>
@@ -177,7 +190,8 @@ function ModalFormEmpleadoT (props) {
                                         placeholder=""
                                         maxLength="300"
                                         onChange={handleChange}
-                                        
+                                        required
+
                                     />
                                 </Col>
                             </FormGroup>
@@ -190,27 +204,15 @@ function ModalFormEmpleadoT (props) {
                                         <option></option>
                                         <option value="vendedor">Vendedor</option>
                                         <option value="administrador">Administrador</option>
-                                        
+
                                     </Input>
-                                    </Col>
+                                </Col>
                             </FormGroup>
-                
-                            <div className="custom-control custom-control-alternative custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                                    id="customCheckLogin"
-                                    type="checkbox"
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor="customCheckLogin">
-                                    <span>Estado</span>
-                                </label>
-                            </div>
+
                             <div className="text-center">
-                                <Button type="submit" color="second" className="mt-4">
+                                <Button type="submit" color="first" outline className="mt-4 btn-lg">
                                     {datosForm.boton}
-                    </Button>
+                                </Button>
                             </div>
                         </form>
                     </div>

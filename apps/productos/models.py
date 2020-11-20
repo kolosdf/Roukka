@@ -5,6 +5,7 @@ from django.db import models
 
 class Ingrediente(models.Model):
     nombre = models.TextField(max_length=50)
+    imagen = models.TextField(null=True)
 
     def __str__(self):
         return self.nombre

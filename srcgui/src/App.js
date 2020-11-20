@@ -4,10 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import configureStore from './config/configureStore';
 import { Provider } from 'react-redux';
 
+import { Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
 import Routes from './Routes';
 import ScrollToTop from './utils/ScrollToTop';
 import './App.css'
 import './assets/base.scss';
+
+import Alerts from './Components/Alerts'
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -258,15 +263,23 @@ library.add(
 
 const store = configureStore();
 
+const alertOptions = {
+  timeout: 3000,
+  position: 'bottom right'
+}
+
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter basename="/">
-          <ScrollToTop>
-            <Routes />
-          </ScrollToTop>
-        </BrowserRouter>
+        <AlertProvider template={AlertTemplate} {...alertOptions} >
+          <BrowserRouter basename="/">
+            <ScrollToTop>
+              <Alerts />
+              <Routes />
+            </ScrollToTop>
+          </BrowserRouter>
+        </AlertProvider>
       </Provider>
     );
   }

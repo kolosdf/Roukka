@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect,  useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
 import ModalFormUsuario from '../../Components/ModalFormUsuario';
@@ -24,7 +24,53 @@ import {
 } from 'reactstrap';
 
 
-function FilaTable(props){
+const ModificarEstado = (props) => {
+    let classColor = '';
+    let icon = ''
+    let texto = ''
+    if (props.estado) {
+        classColor = 'text-danger mx-3';
+        icon = 'times'
+        texto = 'Desactivar'
+
+    } else {
+        classColor = 'text-success mx-3';
+        icon = 'check'
+        texto = 'Activar'
+    }
+
+    return (
+        <NavLink
+            href="#"
+            onClick={props.modificarEstado}
+            className={classColor}>
+            <div className="nav-link-icon">
+                <FontAwesomeIcon icon={['fas', icon]} />
+            </div>
+
+            <span>{texto}</span>
+        </NavLink>
+    )
+}
+
+const spanEstado = (estado) => {
+    let texto = ''
+    let color = ''
+    if (estado) {
+        texto = 'Activo'
+        color = 'success'
+    } else {
+        texto = 'Inactivo'
+        color = 'danger'
+    }
+
+    return (<Badge color={color} className="h-auto py-0 px-3">
+        {texto}
+    </Badge>)
+}
+
+
+function FilaTable(props) {
     return (
         <tr>
             <td>
@@ -35,18 +81,16 @@ function FilaTable(props){
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.usuario.first_name+' '+props.usuario.last_name}
+                            {props.usuario.first_name + ' ' + props.usuario.last_name}
                         </a>
                         <span className="text-black-50 d-block">
-                                {props.usuario.email}
+                            {props.usuario.email}
                         </span>
                     </div>
                 </div>
             </td>
             <td className="text-center">
-                <Badge color="warning" className="h-auto py-0 px-3">
-                    Activo
-            </Badge>
+                {spanEstado(props.usuario.is_active)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -68,25 +112,18 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.usuario.id, props.usuario.first_name, props.usuario.last_name, props.usuario.email)}
+                                    onClick={props.modificar.bind(this, props.usuario.id, props.usuario.first_name, props.usuario.last_name, props.usuario.email)}
                                     active>
-                                    <span>Ver detalles </span>
-                                    <Badge color="first" className="ml-auto">
-                                        New
-                        </Badge>
+                                    <div className="nav-link-icon">
+                                        <FontAwesomeIcon icon={['fas', 'edit']} />
+                                    </div>
+                                    <span>Modificar </span>
+
                                 </NavLink>
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <NavLink
-                                    href="#"
-                                    onClick={e => e.preventDefault()}
-                                    className="text-danger mx-3">
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'times']} />
-                                    </div>
-                                    <span>Delete</span>
-                                </NavLink>
+                                <ModificarEstado id={props.usuario.id} estado={props.usuario.is_active} modificarEstado={props.modificarEstado.bind(this, { id: props.usuario.id, first_name: props.usuario.first_name, last_name: props.usuario.last_name, email: props.usuario.email, is_active: !props.usuario.is_active })} />
                             </NavItem>
                         </Nav>
                     </DropdownMenu>
@@ -105,23 +142,23 @@ function MUsuarioTenant(props) {
 
     const modificarUsuario = (id, first_name, last_name, email) => {
         setState({
-            id:id,
+            id: id,
             first_name: first_name,
             last_name: last_name,
             email: email,
-        },toggle5())
-        setNuevo(false)        
+        }, toggle5())
+        setNuevo(false)
     }
 
     const [state, setState] = useState({
         id: '',
         first_name: '',
         last_name: '',
-        email:''
+        email: ''
     })
 
     const [modal5, setModal5] = useState(false);
-    
+
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -132,25 +169,25 @@ function MUsuarioTenant(props) {
         setNuevo(true)
         toggle5()
     }
-    
-    
+
+
 
     const usuarios = props.usuariosT.usuariosT.map((usuario) => {
         return (
-            <FilaTable modificar={modificarUsuario} usuario={usuario} key={usuario.id} />
+            <FilaTable modificarEstado={props.putUpdateUsuarioT} modificar={modificarUsuario} usuario={usuario} key={usuario.id} />
         )
-    }) 
+    })
 
 
     return (
         <Fragment>
-            
-            
+
+
             <ModalFormUsuario postRegisterUsuario={props.postRegisterUsuarioT} putUpdateUsuario={props.putUpdateUsuarioT} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
                 titleHeading="Usuarios"
-                titleDescription="Usuarios" modal={modalNuevo}/>
+                titleDescription="Usuarios" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
