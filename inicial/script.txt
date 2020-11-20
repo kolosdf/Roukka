@@ -1,0 +1,4 @@
+INSERT INTO "empresa_funciones" ("nombre") VALUES ('Gestion de usuarios');
+INSERT INTO "empresa_plan" ("nombre", "precio", "imagen","estado") VALUES ('Entrada', 10000, 'adawdawd',true);
+INSERT INTO "empresa_empresa" ("schema_name", "nombre", "plan_id", "email", "numero_tarjeta", "fecha_vencimiento", "cvc", "titular", "estado") VALUES ('public', 'public', 1, 'roukka@gmail.com', 1, '1', 1, 'roukka', true);
+INSERT INTO "empresa_dominio" ("domain", "is_primary", "tenant_id") VALUES ('localhost', true, 1);
