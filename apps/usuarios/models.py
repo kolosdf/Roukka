@@ -20,7 +20,14 @@ class Usuario(AbstractUser):
     REQUIRED_FIELDS = []
 
 
-roles = (('vendedor', 'Vendedor'), ('administrador', 'Administrador'))
+    class Meta:
+        ordering = ['first_name', 'last_name']
+
+    def __str__(self):
+        return self.get_full_name()
+
+
+roles=(('vendedor','Vendedor'),('administrador','Administrador'))
 
 
 class Empleado(Usuario):
