@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 class Usuario(AbstractUser):
     """
     Usuario para roukka y gerente de cada restaurante:
@@ -18,6 +19,7 @@ class Usuario(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+
     class Meta:
         ordering = ['first_name', 'last_name']
 
@@ -27,15 +29,16 @@ class Usuario(AbstractUser):
 
 roles=(('vendedor','Vendedor'),('administrador','Administrador'))
 
+
 class Empleado(Usuario):
-    rol = models.CharField(('Rol'), choices = roles, max_length = 50)
+    rol = models.CharField(('Rol'), choices=roles, max_length=50)
 
 
 class Cliente(Usuario):
-    numero_tarjeta = models.BigIntegerField(verbose_name='Número de tarjeta', null=True)
+    numero_tarjeta = models.BigIntegerField(
+        verbose_name='Número de tarjeta', null=True)
     cvc = models.IntegerField(verbose_name='CVV', null=True)
-    fecha_vencimiento = models.CharField(max_length=10, verbose_name='Fecha de vencimiento', null=True)
-    titular = models.CharField(max_length=50, verbose_name='Titular', null=True)
-
-
-
+    fecha_vencimiento = models.CharField(
+        max_length=10, verbose_name='Fecha de vencimiento', null=True)
+    titular = models.CharField(
+        max_length=50, verbose_name='Titular', null=True)

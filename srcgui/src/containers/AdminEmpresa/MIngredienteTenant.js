@@ -29,6 +29,11 @@ function FilaTable(props) {
         <tr>
             <td>
                 <div className="d-flex align-items-center">
+                    <div className="avatar-icon-wrapper mr-2">
+                        <div className="avatar-icon">
+                            <img alt="..." className="" width="100" src={props.ingrediente.imagen} />
+                        </div>
+                    </div>
                     <div>
                         <a
                             href="#/"
@@ -60,7 +65,7 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this, props.ingrediente.id, props.ingrediente.nombre)}
+                                    onClick={props.modificar.bind(this, props.ingrediente.id, props.ingrediente.nombre, props.ingrediente.imagen)}
                                     active>
                                     <div className="nav-link-icon">
                                         <FontAwesomeIcon icon={['fas', 'edit']} />
@@ -96,10 +101,11 @@ function MIngredienteTenant(props) {
 
     console.log(props.ingredientes)
 
-    const modificarIngrediente = (id, nombre) => {
+    const modificarIngrediente = (id, nombre, imagen) => {
         setState({
             id: id,
             nombre: nombre,
+            imagen: imagen,
         }, toggle5())
         setNuevo(false)
     }
@@ -107,6 +113,7 @@ function MIngredienteTenant(props) {
     const [state, setState] = useState({
         id: '',
         nombre: '',
+        imagen: '',
     })
 
     const [modal5, setModal5] = useState(false);
