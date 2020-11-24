@@ -12,6 +12,7 @@ import Menus from './MenusTenant'
 import Carrito from './Carrito'
 import Errors from './Errors'
 import Messages from './Messages'
+import Auth from './Auth'
 
 
 export default {
@@ -28,5 +29,6 @@ export default {
   Platillos,
   Menus,
   Carrito,
-  Messages
+  Messages,
+  Auth
 };

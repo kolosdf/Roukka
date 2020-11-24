@@ -3,6 +3,8 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { connect } from 'react-redux'
 
+import PrivateRoute from './Components/PrivateRoute'
+
 
 // Layout Blueprints
 
@@ -23,6 +25,7 @@ import Header from './containers/LandingPageRoukka/HeaderLandingPage'
 import Contact from './containers/LandingPageRoukka/ContactComponent'
 import About from './containers/LandingPageRoukka/AboutComponent'
 import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
+import Login from './Components/LoginRoukka'
 
 
 //Landing Page Tenant
@@ -32,6 +35,7 @@ import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
 import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
 import ListarPlatillo from './containers/LandingPageEmpresa/ListarPlatillo'
+import LoginTenant from './Components/LoginTenant'
 
 
 //Admin Roukka
@@ -164,7 +168,7 @@ class Routes extends Component {
 
             <Redirect exact from="/" to="/Home" />
 
-            <Route path={['/Home', '/Plans', '/Contactus', '/Aboutus', '/Comprar']}>
+            <Route path={['/Home', '/Plans', '/Contactus', '/Aboutus', '/Comprar', '/Login']}>
               <PresentationLayout>
                 <Header />
                 <Switch location={this.props.location} key={this.props.location.key}>
@@ -179,12 +183,13 @@ class Routes extends Component {
                     <Route path="/Contactus" component={Contact} />
                     <Route path="/Aboutus" component={About} />
                     <Route path="/Comprar/:idPlan" component={({ match }) => <ComprarPlan postRegisterEmpresa={this.props.postRegisterEmpresa} plans={this.props.plans} match={match} />} />
+                    <Route path="/Login" component={Login} />
                   </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu', '/LoginEmpresa']}>
               <PresentationLayout>
                 <HeaderTenant tenant={URLactual} />
                 <Switch location={this.props.location} key={this.props.location.key}>
@@ -202,6 +207,7 @@ class Routes extends Component {
                     <Route path="/ContactusEmpresa" component={ContactTenant} />
                     <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
                     <Route path="/ListarMenu/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} addCarrito={this.props.addCarrito} platillos={this.props.platillos} match={match} />} />
+                    <Route path="/LoginEmpresa" component={LoginTenant} />
                   </motion.div>
                 </Switch>
               </PresentationLayout>
@@ -291,28 +297,28 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
-                    <Route
+                    <PrivateRoute
                       path="/DashboardRoukka"
                       component={() => <MDashboardRoukka plans={this.props.plans} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/PlanRoukka"
                       component={() => <MPlanRoukka plans={this.props.plans}
                         funciones={this.props.funcionalidades}
                         postRegisterPlan={this.props.postRegisterPlan}
                         putUpdatePlan={this.props.putUpdatePlan} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/FuncionRoukka"
                       component={() => <MFuncionRoukka funcionalidades={this.props.funcionalidades}
                         postRegisterFuncionalidad={this.props.postRegisterFuncionalidad}
                         putUpdateFuncionalidad={this.props.putUpdateFuncionalidad} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/EmpresaRoukka"
                       component={() => <MEmpresaRoukka empresas={this.props.empresas} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/UserRoukka"
                       component={() => <MUsuarioRoukka usuarios={this.props.usuarios}
                         postRegisterUsuario={this.props.postRegisterUsuario}
@@ -337,28 +343,28 @@ class Routes extends Component {
                       exit="out"
                       variants={this.pageVariants}
                       transition={this.pageTransition}>
-                      <Route path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
+                      <PrivateRoute path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
                         clientes={this.props.clientes}
                         putUpdateCliente={this.props.putUpdateCliente} />} />
-                      <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
-                      <Route path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
+                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
+                      <PrivateRoute path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
                         usuariosT={this.props.usuariosT}
                         putUpdateUsuarioT={this.props.putUpdateUsuarioT} />} />
-                      <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado}
+                      <PrivateRoute path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado}
                         empleados={this.props.empleados}
                         putUpdateEmpleado={this.props.putUpdateEmpleado} />} />
-                      <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
+                      <PrivateRoute path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
                         menus={this.props.menus}
                         platillos={this.props.platillos}
                         putUpdateMenu={this.props.putUpdateMenu} />} />
-                      <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
+                      <PrivateRoute path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
                         platillos={this.props.platillos}
                         ingredientes={this.props.ingredientes}
                         putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
-                      <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
+                      <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
-                      <Route path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
+                      <PrivateRoute path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
                         platillos={this.props.platillos}
                         clientes={this.props.clientes}
                         ingredientes={this.props.ingredientes}

@@ -38,6 +38,7 @@
     "react-logger": "^1.1.0",
     "react-metismenu": "1.4.0",
     "react-perfect-scrollbar": "1.5.8",
+    "react-recaptcha": "^2.3.10",
     "react-redux": "7.2.0",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
