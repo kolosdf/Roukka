@@ -214,6 +214,10 @@ class consultar_productos(generics.ListAPIView):
         serializer = self.serializer_class(productos, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class consultar_todas(generics.ListAPIView):
+    queryset = Factura.objects.all()
+    serializer_class = FacturaMostrarSerializer
+
 
 """
 FACTURAS EMPLEADO
@@ -303,6 +307,10 @@ class consultar_productos2(generics.ListAPIView):
         productos = Productos_Factura2.objects.filter(factura__id=id_factura)
         serializer = self.serializer_class(productos, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)  
+
+class consultar_todas2(generics.ListAPIView):
+    queryset = Factura2.objects.all()
+    serializer_class = Factura2Serializer2
 
 
 
