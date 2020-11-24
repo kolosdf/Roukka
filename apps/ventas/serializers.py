@@ -56,11 +56,21 @@ class ProductosFacturaSerializer(serializers.ModelSerializer):
         exclude = ['factura']
 
 #FACTURA 2, LA QUE HACE UN EMPLEADO
+class EmpleadoFacturaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empleado
+        fields = ['id','first_name','last_name','email']
 
 class Factura2Serializer(serializers.ModelSerializer):
     class Meta:
         model = Factura2
         fields = ['id', 'total']
+
+class Factura2Serializer2(serializers.ModelSerializer):
+    empleado = EmpleadoFacturaSerializer(read_only=True)
+    class Meta:
+        model = Factura2
+        fields = ['id', 'empleado', 'total']
 
 class ProductosFactura2Serializer(serializers.ModelSerializer):
     platillo = PlatilloSerializer(read_only=True)
@@ -68,7 +78,3 @@ class ProductosFactura2Serializer(serializers.ModelSerializer):
         model = Productos_Factura2
         exclude = ['factura']
 
-class EmpleadoFacturaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Empleado
-        fields = ['id','first_name','last_name','email']
