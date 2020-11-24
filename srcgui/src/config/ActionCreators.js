@@ -4,6 +4,7 @@ const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
 const API_URL_P = '.localhost:8000/productos';
+const API_URL_V = '.localhost:8000/ventas';
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -828,6 +829,45 @@ export const loginTenant = (username, password, tenant) => dispatch => {
             })
         })
 }
+
+
+export const addItem = (item) => ({
+    type: ActionTypes.ADD_ITEM,
+    payload: item
+
+});
+
+
+export const plusItem = (item) => ({
+    type: ActionTypes.PLUS_ITEM,
+    payload: item
+
+});
+
+export const lessItem = (item) => ({
+    type: ActionTypes.LESS_ITEM,
+    payload: item
+
+});
+
+
+export const modalFactura = () => ({
+    type: ActionTypes.MODAL_FACTURA,
+
+});
+
+
+export const doneFacturaTenant = (factura, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_V}/factura2/`;
+
+    axios.post(url, factura)
+        .then(res => {
+            console.log('Done')
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+        })
+}
+
 
 
 

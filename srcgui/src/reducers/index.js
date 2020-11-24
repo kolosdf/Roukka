@@ -13,6 +13,7 @@ import Carrito from './Carrito'
 import Errors from './Errors'
 import Messages from './Messages'
 import Auth from './Auth'
+import Factura from './Factura'
 
 
 export default {
@@ -30,5 +31,6 @@ export default {
   Menus,
   Carrito,
   Messages,
-  Auth
+  Auth,
+  Factura
 };

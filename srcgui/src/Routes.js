@@ -14,7 +14,7 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 import {
   getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos,
   postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo,
-  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, addCarrito, deleteIngrediente
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, modalFactura, doneFacturaTenant
 } from './config/ActionCreators'
 
 
@@ -368,7 +368,14 @@ class Routes extends Component {
                         platillos={this.props.platillos}
                         clientes={this.props.clientes}
                         ingredientes={this.props.ingredientes}
-                        putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+                        putUpdatePlatillo={this.props.putUpdatePlatillo}
+                        addItem={this.props.addItem}
+                        plusItem={this.props.plusItem}
+                        lessItem={this.props.lessItem}
+                        factura={this.props.factura}
+                        doneFacturaTenant={this.props.doneFacturaTenant}
+                        modalFactura={this.props.modalFactura}
+                        auth={this.props.auth} />} />
 
 
 
@@ -399,6 +406,8 @@ const mapStateToProps = state => {
     usuariosT: state.UsuariosT,
     platillos: state.Platillos,
     menus: state.Menus,
+    auth: state.Auth,
+    factura: state.Factura
   }
 }
 
@@ -435,7 +444,13 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),
 
-  addCarrito: (carrito) => dispatch(addCarrito(carrito))
+  doneFacturaTenant: (factura) => dispatch(doneFacturaTenant(factura, URLactual)),
+
+  addCarrito: (carrito) => dispatch(addCarrito(carrito)),
+  addItem: (item) => dispatch(addItem(item)),
+  plusItem: (item) => dispatch(plusItem(item)),
+  lessItem: (item) => dispatch(lessItem(item)),
+  modalFactura: () => dispatch(modalFactura())
 
 
 
