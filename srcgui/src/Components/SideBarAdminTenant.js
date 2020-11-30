@@ -22,26 +22,26 @@ const sidebarMenuContent = [
 
   {
     label: 'Gestión de Usuarios',
-    icon: 'pe-7s-box2',
+    icon: 'pe-7s-id',
     description:'Wide selection of cards with multiple styles, borders, actions and hover effects.',
     to: '/UsuarioTenant'
     
   },
   {
     label: 'Gestión de Empleados',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-portfolio',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpleadoTenant'
   },
   {
     label: ' Gestión de Clientes',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-user',
     description: 'Implement in your applications Google or vector maps.',
     to: '/ClienteTenant'
   },
   {
     label: 'Gestión de Menus',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-coffee',
     content: [
       {
         label: 'Menus',
@@ -64,9 +64,27 @@ const sidebarMenuContent = [
  
   {
     label: 'Facturacion',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-note',
     description: 'Implement',
     to: '/FacturacionTenant'
+  },
+
+    {
+    label: 'Configuracion',
+    icon: 'pe-7s-tools',
+        content: [
+      {
+        label: 'Temas',
+        description: 'palette.',
+        to: '/MenuTenant'
+      },
+      {
+        label: 'Informacion de la empresa',
+        description:
+          'A drop-down list is a graphical control element, similar to a list box, that allows the user to choose one value from a list.',
+          to: '/InformacionTenant'
+      }
+    ]
   }
   
 

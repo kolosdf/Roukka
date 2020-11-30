@@ -22,7 +22,7 @@ const sidebarMenuContent = [
 
   {
     label: 'Gestion de Planes',
-    icon: 'pe-7s-box2',
+    icon: 'pe-7s-network',
     content: [
       {
         label: 'Planes',
@@ -39,20 +39,20 @@ const sidebarMenuContent = [
   },
   {
     label: 'Gestión de Empresas',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-portfolio',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpresaRoukka'
   },
   {
     label: ' Gestión de Usuarios',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-users',
     description: 'Implement in your applications Google or vector maps.',
     to: '/UserRoukka'
   },
 
   {
     label: 'Maps',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-way',
     description: 'Implement in your applications Google or vector maps.',
     to: '/Plans'
   }
