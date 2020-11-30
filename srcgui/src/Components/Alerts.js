@@ -26,6 +26,9 @@ export class Alerts extends Component {
 
             //Platillos
             if (error.msg.ingredientes) alert.error(`Platillos: ${error.msg.ingredientes.join()} `);
+
+            //Login
+            if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());
         }
 
         if (message !== prevProps.message) {

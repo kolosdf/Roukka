@@ -33,8 +33,9 @@ def get_secret(setting, secrets=secrets):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'g0g-yi8^d_3f06!i#^on4r8eg#&@qf#!d2_umf9@-1@k()&x0g'
+# SECRET_KEY = 'g0g-yi8^d_3f06!i#^on4r8eg#&@qf#!d2_umf9@-1@k()&x0g'
 SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -46,13 +47,13 @@ ALLOWED_HOSTS = ['.localhost']
 # Application definition
 
 SHARED_APPS = (
-    'django_tenants',  
+    'django_tenants',
     'django.contrib.contenttypes',
     'apps.empresa',
     'apps.usuarios',
 
 
-    
+
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -63,10 +64,18 @@ SHARED_APPS = (
     'bootstrap4',
     'rest_framework',
     'corsheaders',
+    'knox'
+
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ('knox.auth.TokenAuthentication',),
+
+}
+
 TENANT_APPS = (
-    
+
     'django.contrib.contenttypes',
     'apps.usuarios',
     'apps.productos',
@@ -82,11 +91,13 @@ TENANT_APPS = (
     'bootstrap4',
     'rest_framework',
     'corsheaders',
+    'knox'
 )
 
-INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+INSTALLED_APPS = list(SHARED_APPS) + \
+    [app for app in TENANT_APPS if app not in SHARED_APPS]
 
-TENANT_MODEL = "empresa.Empresa" # Modelo que hereda de TenantMixin
+TENANT_MODEL = "empresa.Empresa"  # Modelo que hereda de TenantMixin
 TENANT_DOMAIN_MODEL = "empresa.Dominio"  # Modelo que hereda de DomainMixin
 
 
@@ -196,7 +207,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_collected')
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
-       'http://localhost:3000',
-       #is_well_formed_link = re:compile(r'^https?://.+/.+$') # https://example.com/hello expression regular
-       
+    'http://localhost:3000',
+    # is_well_formed_link = re:compile(r'^https?://.+/.+$') # https://example.com/hello expression regular
+
 )

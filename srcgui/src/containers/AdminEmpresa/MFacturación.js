@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect,  useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
 import ModalFormPlatillo from '../../Components/ModalFormPlatillo';
@@ -29,17 +29,17 @@ const ModificarEstado = (props) => {
     let classColor = '';
     let icon = ''
     let texto = ''
-    if(props.estado) {
+    if (props.estado) {
         classColor = 'text-danger mx-3';
         icon = 'times'
         texto = 'Desactivar'
 
-    }else{
+    } else {
         classColor = 'text-success mx-3';
         icon = 'check'
         texto = 'Activar'
     }
-    
+
     return (
         <NavLink
             href="#"
@@ -57,25 +57,25 @@ const ModificarEstado = (props) => {
 const spanEstado = (estado) => {
     let texto = ''
     let color = ''
-    if(estado){
+    if (estado) {
         texto = 'Activo'
         color = 'success'
-    }else{
+    } else {
         texto = 'Inactivo'
         color = 'danger'
     }
 
-    return(<Badge color={color} className="h-auto py-0 px-3">
-                {texto}
-            </Badge>)
+    return (<Badge color={color} className="h-auto py-0 px-3">
+        {texto}
+    </Badge>)
 }
 
-function FilaTable(props){
+function FilaTable(props) {
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
-                <div className="avatar-icon-wrapper mr-2">
+                    <div className="avatar-icon-wrapper mr-2">
                         <div className="avatar-icon">
                             <img alt="..." className="" width="100" src={props.platillo.imagen} />
                         </div>
@@ -89,15 +89,15 @@ function FilaTable(props){
                             {props.platillo.nombre}
                         </a>
                         <span className="text-black-50 d-block mt-2">
-                        <Badge color="success" >
-                            <h5>{props.platillo.unidades} Unidades disponibles </h5>
-                        </Badge>
+                            <Badge color="success" >
+                                <h5>{props.platillo.unidades} Unidades disponibles </h5>
+                            </Badge>
                         </span>
 
                         <span className="text-black-50 d-block mt-2">
-                        <Badge color="first" >
-                            <h5>$ {props.platillo.precio} </h5>
-                        </Badge>
+                            <Badge color="first" >
+                                <h5>$ {props.platillo.precio} </h5>
+                            </Badge>
                         </span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ function FilaTable(props){
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this,props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.estado,props.platillo.ingredientes)}
+                                    onClick={props.modificar.bind(this, props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.estado, props.platillo.ingredientes)}
                                     active>
                                     <span>Modificar </span>
                                     <Badge color="first" className="ml-auto">
@@ -135,7 +135,7 @@ function FilaTable(props){
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <ModificarEstado id={props.platillo.id} estado = {props.platillo.estado} modificarEstado={props.modificarEstado.bind(this, {id:props.platillo.id, nombre: props.platillo.nombre, precio: props.platillo.precio, unidades:props.platillo.unidades,imagen:props.platillo.imagen, estado: !props.platillo.estado,ingredientes:props.platillo.ingredientes})} />
+                                <ModificarEstado id={props.platillo.id} estado={props.platillo.estado} modificarEstado={props.modificarEstado.bind(this, { id: props.platillo.id, nombre: props.platillo.nombre, precio: props.platillo.precio, unidades: props.platillo.unidades, imagen: props.platillo.imagen, estado: !props.platillo.estado, ingredientes: props.platillo.ingredientes })} />
                             </NavItem>
                             <NavItem>
                                 <NavLink
@@ -157,30 +157,30 @@ function FilaTable(props){
 
 function FacturacionTenant(props) {
 
-    const modificarPlatillo = (id, nombre, precio, unidades, imagen, estado,ingredientes) => {
+    const modificarPlatillo = (id, nombre, precio, unidades, imagen, estado, ingredientes) => {
         setState({
-            id:id,
-            nombre:nombre,
-            precio:precio,
-            unidades:unidades,
-            imagen:imagen,
-            estado:estado,
-            ingredientes:ingredientes
-        },toggle5())
-        setNuevo(false)        
+            id: id,
+            nombre: nombre,
+            precio: precio,
+            unidades: unidades,
+            imagen: imagen,
+            estado: estado,
+            ingredientes: ingredientes
+        }, toggle5())
+        setNuevo(false)
     }
 
     const [state, setState] = useState({
-        id:'',
-        nombre:'',
-        precio:'',
-        unidades:'',
-        imagen:'',
-        ingredientes:[]
+        id: '',
+        nombre: '',
+        precio: '',
+        unidades: '',
+        imagen: '',
+        ingredientes: []
     })
 
     const [modal5, setModal5] = useState(false);
-    
+
     const [nuevo, setNuevo] = useState(false);
 
     const toggle5 = () => setModal5(!modal5);
@@ -189,26 +189,28 @@ function FacturacionTenant(props) {
 
     const modalNuevo = () => {
         setNuevo(true)
-        toggle5()
+        props.modalFactura()
     }
-    
+
 
     const platillos = props.platillos.platillos.map((platillo) => {
         return (
             <FilaTable modificarEstado={props.putUpdatePlatillo} modificar={modificarPlatillo} platillo={platillo} key={platillo.id} />
         )
-    }) 
+    })
 
 
     return (
         <Fragment>
-            
-            <ModalFormFacturaT clientes={props.clientes} modalState={modal5} modelToggle={toggle5}/>
-            
+
+            {console.log(modal5)}
+
+            <ModalFormFacturaT doneFacturaTenant={props.doneFacturaTenant} factura={props.factura} addItem={props.addItem} plusItem={props.plusItem} lessItem={props.lessItem} platillos={props.platillos.platillos} auth={props.auth.usuario} clientes={props.clientes} modalState={modal5} modelToggle={props.modalFactura} />
+
 
             <PageTitle
                 titleHeading="Facturación"
-                titleDescription="Facturación" modal={modalNuevo}/>
+                titleDescription="Facturación" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">

@@ -47,12 +47,12 @@ class MapView extends React.Component {
     }
 
       handleClick(e){
-    this.setState({currentPos:e.latlng})
-    console.log(this.state.currentPos.lat);
-
-    this.setState({latitud: e.lat})
-    console.log(e.latlng.lng)
-    this.setState({longitud: e.lng})
+        this.setState({currentPos:e.latlng})
+        console.log(this.state.currentPos.lat);
+        this.props.get
+        this.setState({latitud: e.lat})
+        console.log(e.latlng.lng)
+        this.setState({longitud: e.lng})
 
     reverse
       .getReverse(this.state.currentPos.lat, this.state.currentPos.lng)

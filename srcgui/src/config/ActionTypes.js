@@ -83,3 +83,25 @@ export const UPDATE_INFORMACION = 'UPDATE_INFORMACION'
 export const INFORMACION_LOADING = 'INFORMACION_LOADING'
 export const INFORMACION_FAILED = 'INFORMACION_FAILED'
 export const DELETE_INFORMACION = 'DELETE_INFORMACION'
+
+//Types de Login
+export const USER_LOADING = 'USER_LOADING'
+export const USER_LOADED = 'USER_LOADED'
+export const AUTH_ERROR = 'AUTH_ERROR'
+
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_FAIL = 'LOGIN_FAIL'
+
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+
+//FACTURA
+
+export const ADD_ITEM = 'ADD_ITEM'
+export const PLUS_ITEM = 'PLUS_ITEM'
+export const LESS_ITEM = 'LESS_ITEM'
+export const REMOVE_ITEM = 'REMOVE_ITEM'
+export const MODAL_FACTURA = 'MODAL_FACTURA'
+
+export const DONE_FACTURA = 'DONE_FACTURA'
+

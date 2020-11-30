@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -186,7 +187,7 @@ class Routes extends Component {
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu', '/LoginEmpresa']}>
               <PresentationLayout>
                 <HeaderTenant tenant={URLactual} />
                 <Switch location={this.props.location} key={this.props.location.key}>
@@ -204,7 +205,8 @@ class Routes extends Component {
                     <Route path="/ContactusEmpresa" component={ContactTenant} />
                     <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
                     <Route path="/ListarMenu/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} addCarrito={this.props.addCarrito} platillos={this.props.platillos} match={match} />} />
-                  </motion.div>
+                    <Route path="/LoginEmpresa" component={LoginTenant} />
+                   </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
@@ -398,6 +400,8 @@ const mapStateToProps = state => {
     platillos: state.Platillos,
     menus: state.Menus,
     datos: state.Datos,
+    auth: state.Auth,
+    factura: state.Factura
   }
 }
 
@@ -438,10 +442,10 @@ const mapDispatchToProps = (dispatch) => ({
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),
 
   addCarrito: (carrito) => dispatch(addCarrito(carrito))
-
-
-
-
+  addItem: (item) => dispatch(addItem(item)),
+  plusItem: (item) => dispatch(plusItem(item)),
+  lessItem: (item) => dispatch(lessItem(item)),
+  modalFactura: () => dispatch(modalFactura())
 
 
 

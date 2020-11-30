@@ -11,58 +11,88 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
 from .serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework import generics
 from rest_framework.parsers import FormParser
 
 """
 CRUD DE INGREDIENTES
 """
+
+
 class crear_ingrediente(generics.CreateAPIView):
-    queryset = Ingrediente.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = IngredienteSerializer
+
+    def get_queryset(self):
+        return self.request.usuario.ingrediente.all()
+
+    # No se que hace aun esta funcion
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.usuario)
+
 
 class modificar_ingrediente(generics.RetrieveUpdateAPIView):
     queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
 
+
 class listar_ingrediente(generics.ListAPIView):
     queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
 
+
 """
 CRUD DE PLATILLOS
 """
+
+
 class crear_platillo(generics.CreateAPIView):
     queryset = Platillo.objects.all()
     serializer_class = PlatilloSerializer
+
 
 class modificar_platillo(generics.RetrieveUpdateAPIView):
     queryset = Platillo.objects.all()
     serializer_class = PlatilloSerializer
 
+
 class listar_platillo(generics.ListAPIView):
     queryset = Platillo.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = PlatilloSerializer
+
 
 class detalle_platillo(generics.RetrieveAPIView):
     queryset = Platillo.objects.all()
     serializer_class = PlatilloSerializer
 
+
 """
 CRUD DE MENUS
 """
+
+
 class crear_menu(generics.CreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
 
 class modificar_menu(generics.RetrieveUpdateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
 
+
 class listar_menu(generics.ListAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
 
 class detalle_menu(generics.RetrieveAPIView):
     queryset = Menu.objects.all()
