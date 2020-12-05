@@ -16,13 +16,13 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = ('id', 'first_name', 'last_name',
-                  'email', 'password', 'is_active')
+                  'email', 'password', 'is_active', 'tipo')
 
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         usuario = Usuario.objects.create_user(username=validated_data['email'], first_name=validated_data['first_name'], last_name=validated_data['last_name'],
-                                              email=validated_data['email'], password=validated_data['password'],)
+                                              email=validated_data['email'], password=validated_data['password'], tipo=validated_data['tipo'], )
 
         return usuario
 
@@ -59,7 +59,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        empleado = Empleado.objects.create_user(username=validated_data['email'], first_name=validated_data['first_name'], last_name=validated_data['last_name'],
+        Empleado = Empleado.objects.create_user(username=validated_data['email'], first_name=validated_data['first_name'], last_name=validated_data['last_name'],
                                                 email=validated_data['email'], password=validated_data['password'], rol=validated_data['rol'])
 
         return Empleado

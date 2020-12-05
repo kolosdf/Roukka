@@ -15,10 +15,10 @@ class Usuario(AbstractUser):
         -last_name
     """
     email = models.EmailField(unique=True)
+    tipo = models.CharField(max_length=50, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
 
     class Meta:
         ordering = ['first_name', 'last_name']
@@ -27,7 +27,7 @@ class Usuario(AbstractUser):
         return self.get_full_name()
 
 
-roles=(('vendedor','Vendedor'),('administrador','Administrador'))
+roles = (('vendedor', 'Vendedor'), ('administrador', 'Administrador'))
 
 
 class Empleado(Usuario):

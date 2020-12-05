@@ -1,52 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Modal, ModalHeader, CardBody, CardTitle, CustomInput, CardHeader, Table, Badge, ModalFooter, ModalBody, Form, InputGroup, Label, Input, FormGroup, Card, Row, Col, Button } from 'reactstrap'
-import { Multiselect } from 'multiselect-react-dropdown';
-import CardPlatillo from './CardPlatillo';
+import React, { useState, useEffect, Fragment } from 'react'
+import { ModalHeader, CardHeader, CardFooter, CardBody, CardTitle, CustomInput, Table, Badge, ModalFooter, ModalBody, Form, InputGroup, Label, Input, FormGroup, Card, Row, Col, Button, NavLink } from 'reactstrap'
+//import CardPlatillo from './CardPlatillo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-function ModalFormFacturaT(props) {
-    //El estado del formulario, que corresponde a los datos de los inputs
-    const [state, setState] = useState({
-        id: '',
-        nombre: '',
-        precio: '',
-        imagen: '',
-        estado: '',
-        funciones: []
-    })
+import CardPlatillo from './CardPlatillo'
 
-    //Es otra estado con el que establezco si es un formulario de registrar o modificar
-    const [datosForm, setDatosForm] = useState({
-        titulo: '',
-        boton: '',
-    })
+import { connect } from 'react-redux'
 
-    const onSelect = (selectedList, selectedItem) => {
-
-        setState({
-            ...state,
-            funciones: selectedList
-        })
-        console.log(state)
-
-    }
-
-    const onRemove = (selectedList, removedItem) => {
-        setState({
-            ...state,
-            funciones: selectedList
-        })
-
-    }
-
-
-
-
-
+function FormFacturaT(props) {
     return (
-
-        <Modal zIndex={2000} centered size="lg" isOpen={props.factura.modal} toggle={props.modelToggle}>
-            <ModalHeader toggle={props.modelToggle}>Factura</ModalHeader>
-            <ModalBody>
+        <Card>
+            <CardHeader>Factura</CardHeader>
+            <CardBody>
                 <Form>
                     <Row>
                         <Col sm={5}>
@@ -54,6 +18,16 @@ function ModalFormFacturaT(props) {
                             <Card className="card-box mb-5">
                                 <CardBody>
                                     <CardTitle className="font-weight-bold font-size-lg mb-1">Funcionario</CardTitle>
+                                    <h4>{props.auth.first_name + " " + props.auth.last_name}</h4>
+                                </CardBody>
+                            </Card>
+
+                        </Col>
+                        <Col sm={5}>
+
+                            <Card className="card-box mb-5">
+                                <CardBody>
+                                    <CardTitle className="font-weight-bold font-size-lg mb-1">Menú</CardTitle>
 
                                     <h4>{props.auth.first_name + " " + props.auth.last_name}</h4>
 
@@ -65,35 +39,33 @@ function ModalFormFacturaT(props) {
 
                     <Row className="mb-3">
 
-                        {props.platillos.map(platillo => <CardPlatillo addItem={props.addItem} key={platillo.key} platillo={platillo} />)}
+                        {props.platillos.map(platillo => <CardPlatillo toggle={props.toggle} addItem={props.addItem} key={platillo.key} platillo={platillo} />)}
                     </Row>
 
                     <Row>
-                        <Col><TableT factura={props.factura} /></Col>
+                        <Col><TableT plusItem={props.plusItem} lessItem={props.lessItem} factura={props.factura} /></Col>
 
                     </Row>
-
-
-
                 </Form>
-
-
-            </ModalBody>
-            <ModalFooter>
-                <Button color="link" className="btn-link-dark" onClick={props.modelToggle}>Close</Button>{' '}
+            </CardBody>
+            <CardFooter>
+                <Button color="link" className="btn-link-dark" onClick={props.modalFactura}>Close</Button>{' '}
                 <Button color="primary" className="ml-auto" onClick={props.doneFacturaTenant.bind(this, {
                     "empleado": props.auth.id,
                     "productos": props.factura.facturaItems
                 })}>Save changes</Button>
-            </ModalFooter>
-        </Modal >
+            </CardFooter>
+        </Card>
+
+
     )
 }
 
-export default ModalFormFacturaT
+export default FormFacturaT
 
 
-const TableT = ({ factura }) => {
+
+const TableT = ({ factura, plusItem, lessItem }) => {
     return (<Card className="card-box mb-5">
         <CardHeader>
             <div className="card-header--title">
@@ -114,7 +86,7 @@ const TableT = ({ factura }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {factura.items.map(item => <FilaTable item={item} key={item.id} />)}
+                    {factura.items.map(item => <FilaTable plusItem={plusItem} lessItem={lessItem} item={item} key={item.id} />)}
                 </tbody>
             </Table>
             <div className="divider mb-3" />
@@ -131,7 +103,7 @@ const TableT = ({ factura }) => {
 }
 
 
-function FilaTable({ item }) {
+function FilaTable({ item, plusItem, lessItem }) {
 
     return (
         <tr>
@@ -157,7 +129,17 @@ function FilaTable({ item }) {
                 </div>
             </td>
             <td className="text-center">
-                <Button color="first">+</Button> <Button color="danger">-</Button>
+                <NavLink
+                    href="#"
+                    onClick={plusItem.bind(this, item)}
+                    active>
+                    <div className="nav-link-icon">
+                        <FontAwesomeIcon icon={['fas', 'edit']} />
+                    </div>
+                    <span>Modificar </span>
+                </NavLink>
+                <Button onClick={plusItem.bind(this, item)} color="first">+</Button>
+                <Button onClick={lessItem.bind(this, item)} color="danger">-</Button>
             </td>
         </tr>
     )

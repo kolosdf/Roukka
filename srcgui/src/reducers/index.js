@@ -32,5 +32,5 @@ export default {
   Carrito,
   Messages,
   Auth,
-  Factura
+  Factura,
 };
