@@ -39,6 +39,7 @@ import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
 import ListarPlatillo from './containers/LandingPageEmpresa/ListarPlatillo'
 import LoginTenant from './Components/LoginTenant'
+import MiCarrito from './containers/LandingPageEmpresa/MiCarrito'
 
 
 //Admin Roukka
@@ -194,7 +195,7 @@ class Routes extends Component {
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarPlatillo', '/LoginEmpresa']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarPlatillo', '/LoginEmpresa', '/MiCarrito']}>
               <PresentationLayout>
                 <button className="btn btn-flotante btn-success" onClick={this.props.modalToggle}>
                   <FontAwesomeIcon size="1x" icon={['fas', 'shopping-cart']} /></button>
@@ -215,6 +216,7 @@ class Routes extends Component {
                     <Route path="/ContactusEmpresa" component={ContactTenant} />
                     <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
                     <Route path="/ListarPlatillo/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} carrito={this.props.carrito} addCarrito={this.props.addCarrito} deleteCarrito={this.props.deleteCarrito} modalToggle={this.props.modalToggle} platillos={this.props.platillos} match={match} />} />
+                    <Route path="/MiCarrito" component={() => <MiCarrito carrito={this.props.carrito} auth={this.props.auth} deleteCarrito={this.props.deleteCarrito} />} />
                     <Route path="/LoginEmpresa" component={LoginTenant} />
                   </motion.div>
                 </Switch>
