@@ -36,7 +36,7 @@ class ProductosAgregarSerializer(serializers.ModelSerializer):
 class FacturaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Factura
-        fields = ['id', 'cliente', 'direccion']
+        fields = ['id', 'cliente']
 
 class FacturaMostrarSerializer(serializers.ModelSerializer):
     cliente = ClienteListaSerializer(read_only=True)

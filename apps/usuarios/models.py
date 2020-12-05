@@ -15,6 +15,7 @@ class Usuario(AbstractUser):
         -last_name
     """
     email = models.EmailField(unique=True)
+    tipo = models.CharField(max_length=50, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -27,7 +28,7 @@ class Usuario(AbstractUser):
         return self.get_full_name()
 
 
-roles=(('vendedor','Vendedor'),('administrador','Administrador'))
+roles=(('Vendedor','Vendedor'),('Administrador','Administrador'))
 
 
 class Empleado(Usuario):
@@ -35,10 +36,10 @@ class Empleado(Usuario):
 
 
 class Cliente(Usuario):
-    numero_tarjeta = models.BigIntegerField(
-        verbose_name='Número de tarjeta', null=True)
+    numero_tarjeta = models.BigIntegerField(verbose_name='Número de tarjeta', null=True)
     cvc = models.IntegerField(verbose_name='CVV', null=True)
-    fecha_vencimiento = models.CharField(
-        max_length=10, verbose_name='Fecha de vencimiento', null=True)
-    titular = models.CharField(
-        max_length=50, verbose_name='Titular', null=True)
+    fecha_vencimiento = models.CharField(max_length=10, verbose_name='Fecha de vencimiento', null=True)
+    titular = models.CharField(max_length=50, verbose_name='Titular', null=True)
+    direccion = models.CharField(null=True, max_length=50)
+    longitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)
+    latitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)

@@ -62,7 +62,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
         empleado = Empleado.objects.create_user(username=validated_data['email'], first_name=validated_data['first_name'], last_name=validated_data['last_name'],
                                                 email=validated_data['email'], password=validated_data['password'], rol=validated_data['rol'])
 
-        return Empleado
+        return empleado
 
 
 class EmpleadoModificarSerializer(serializers.ModelSerializer):
@@ -95,15 +95,24 @@ class ClienteModificarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
         fields = ['id', 'first_name', 'last_name', 'email', 'numero_tarjeta',
-                  'cvc', 'fecha_vencimiento', 'titular', 'is_active']
+                  'cvc', 'fecha_vencimiento', 'titular', 'is_active', 'direccion']
 
 
 class ClienteListaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['id', 'first_name', 'last_name', 'email']
+        fields = ['id', 'first_name', 'last_name', 'email', 'direccion']
 
+class UbicacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = ['direccion', 'longitud', 'latitud']
 
+class TarjetaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = ['id', 'numero_tarjeta', 'cvc', 'fecha_vencimiento', 'titular', 'direccion']
+        
 # Login Serializer
 
 class LoginSerializer(serializers.Serializer):

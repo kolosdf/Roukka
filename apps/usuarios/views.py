@@ -15,6 +15,7 @@ from rest_framework import viewsets
 from rest_framework import generics, permissions
 from rest_framework.parsers import FormParser
 from knox.models import AuthToken
+import json
 
 """
 CRUD DE EMPLEADOS
@@ -31,6 +32,7 @@ class crear_empleado(generics.CreateAPIView):
         if empleado.is_valid():
             e = empleado.save()
             e.username = empleado.data['email']
+            e.tipo = e.rol
             e.save()
             return Response({"empleado": empleado.data, "token": AuthToken.objects.create(e)[1]}, status=status.HTTP_201_CREATED)
         else:
@@ -80,6 +82,7 @@ class crear_cliente(generics.CreateAPIView):
         if cliente.is_valid():
             e = cliente.save()
             e.username = cliente.data['email']
+            e.tipo = 'Cliente'
             e.save()
             return Response({"cliente": cliente.data, "token": AuthToken.objects.create(e)[1]}, status=status.HTTP_201_CREATED)
         else:
@@ -108,6 +111,27 @@ class listar_cliente(generics.ListAPIView):
     queryset = Cliente.objects.all()
     serializer_class = ClienteListaSerializer
 
+class ubicacion_cliente(generics.RetrieveUpdateAPIView):
+    queryset = Cliente.objects.all()
+    serializer_class = UbicacionSerializer
+
+class tarjeta_cliente(generics.RetrieveUpdateAPIView):
+    queryset = Cliente.objects.all()
+    serializer_class = TarjetaSerializer
+
+class exportar_cliente(generics.ListAPIView):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteListaSerializer
+
+    def get(self, request, *args, **kwargs):
+        clientes = Cliente.objects.all()
+        serializer = self.serializer_class(clientes, many=True)
+
+        with open('clientes.json', 'w') as file:
+            json.dump(serializer.data, file, indent=4)
+        
+        return Response({'msj': "Archivo exportado"})
+
 
 """
 CRUD DE GERENTE Y ADMIN DE ROUKKA
@@ -125,6 +149,7 @@ class crear_usuario(generics.CreateAPIView):
             e = usuario.save()
             e.username = usuario.data['email']
             e.is_superuser = True
+            e.tipo = 'Administrador'
             e.save()
             return Response({"usuario": usuario.data, "token": AuthToken.objects.create(e)[1]}, status=status.HTTP_201_CREATED)
         else:

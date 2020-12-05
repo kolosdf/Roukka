@@ -80,6 +80,7 @@ TENANT_APPS = (
     'apps.usuarios',
     'apps.productos',
     'apps.ventas',
+    'apps.reportes',
 
     'django.contrib.auth',
     'django.contrib.sessions',

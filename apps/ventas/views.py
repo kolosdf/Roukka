@@ -165,6 +165,7 @@ class factura(generics.CreateAPIView):
             if bandera:
                 with transaction.atomic():
                     e = factura.save()
+                    e.direccion = e.cliente.direccion
                     carrito = e.cliente.carrito
                     e.total = carrito.total
                     e.save()
@@ -172,6 +173,7 @@ class factura(generics.CreateAPIView):
             
                     for platillo in platillos:
                         Productos_Factura.objects.create(factura=e,platillo=platillo.platillo,cantidad=platillo.cantidad)
+                        Ventas_Productos.objects.create(platillo=platillo.platillo,cantidad=platillo.cantidad)
                         platillo.platillo.unidades = platillo.platillo.unidades - platillo.cantidad
                         platillo.platillo.save()
                     
@@ -250,6 +252,7 @@ class factura2(generics.CreateAPIView):
                 for producto in productos:
                     platillo = Platillo.objects.get(id=producto['platillo'])
                     Productos_Factura2(platillo=platillo, cantidad=producto['cantidad'], factura=factura).save()
+                    Ventas_Productos.objects.create(platillo=platillo,cantidad=producto['cantidad'])
                     total = total + (platillo.precio * producto['cantidad'])
                     platillo.unidades = platillo.unidades - producto['cantidad']
                     platillo.save()
