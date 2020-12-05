@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
     Row,
     Col,
@@ -22,11 +23,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const ModalCarrito = (props) => {
     return (
         <Modal size="lg" zIndex={2000} centered isOpen={props.modal} toggle={props.toggle}>
-            <ModalHeader>Factura</ModalHeader>
+            <ModalHeader className="bg-first text-white d-block pt-2 pb-2">
+                <div className="m-auto text-center">
+                    <span> <FontAwesomeIcon icon={['fas', 'utensils']} size="2x" /> <h2>Mis Platillos</h2></span>
+                </div>
+            </ModalHeader>
             <ModalBody>
                 <Form>
                     <Row>
-                        <Col sm={5}>
+                        <Col sm={8}>
                             {!props.carrito.mensaje ? <div></div>
                                 : <Card className="card-box mb-5"><CardBody className="d-flex">
                                     <FontAwesomeIcon icon={['fas', 'clipboard-check']}
@@ -45,8 +50,11 @@ const ModalCarrito = (props) => {
                 </Form>
             </ModalBody>
             <ModalFooter>
-                <Button color="link" className="btn-link-dark" onClick={props.toggle}>Close</Button>{' '}
-                <Button color="primary" className="ml-auto">Save changes</Button>
+                <Button color="danger" onClick={props.toggle}>
+                    <FontAwesomeIcon icon={['fas', 'times']}
+                    /> Cerrar</Button>{' '}
+                <Link className="btn btn-warning ml-auto" to="/MiCarrito" onClick={props.toggle}> <FontAwesomeIcon icon={['fas', 'shopping-cart']}
+                /> Ir al Carrito</Link>
             </ModalFooter>
         </Modal>)
 
@@ -98,61 +106,42 @@ function FilaTable({ item, deleteCarrito, plusItem, lessItem }) {
 
 
 const TableT = ({ carrito, deleteCarrito, plusItem, lessItem }) => {
-    return (<Card className="card-box mb-5">
-        <CardHeader>
-            <div className="card-header--title">
-                <h4 className="font-size-lg mb-0 py-2 font-weight-bold">
-                    Factura
-            </h4>
+    return (
+        <Card className="card-box mb-5">
+            <div className="card-body px-0 pt-2 pb-3">
+                <div className="table-responsive-md">
+                    <Table borderless hover className="table-alternate text-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>Platillo</th>
+                                <th className="text-center">Precio</th>
+                                <th className="text-center">Cantidad</th>
+                                <th className="text-right">Totals</th>
+                                <th className="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {carrito.carrito.map(item => <FilaTable item={item} deleteCarrito={deleteCarrito} key={item.id} />)
+                            }
+                        </tbody>
+                    </Table>
+                    <div className="divider mb-3" />
+
+                    <Row>
+                        <Col>
+                            <div className="text-left ml-3">
+                                <h3>Total: </h3>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className="text-right mr-3">
+                                <span className="btn-wrapper--label"><h3>$ {carrito.totalT}</h3></span>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
             </div>
-        </CardHeader>
-        <div className="card-body px-0 pt-2 pb-3">
-            <div className="table-responsive-md">
-                <Table borderless hover className="table-alternate text-nowrap mb-0">
-                    <thead>
-                        <tr>
-                            <th>Platillo</th>
-                            <th className="text-center">Precio</th>
-                            <th className="text-center">Cantidad</th>
-                            <th className="text-right">Totals</th>
-                            <th className="text-right">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {carrito.carrito.map(item => <FilaTable item={item} deleteCarrito={deleteCarrito} key={item.id} />)
-                        }
-                    </tbody>
-                </Table>
-                <div className="divider mb-3" />
-
-                <Row>
-                    <Col>
-                        <div className="text-left ml-3">
-                            <h3>Total: </h3>
-                        </div>
-                    </Col>
-
-                    <Col>
-
-                        <div className="text-right mr-3">
-
-                            <span className="btn-wrapper--label"><h3>$ {carrito.totalT}</h3></span>
-                            <span className="btn-wrapper--icon">
-                                <FontAwesomeIcon icon={['fas', 'chevron-right']} />
-                            </span>
-
-
-                        </div>
-                    </Col>
-                </Row>
-
-
-
-
-
-            </div>
-        </div>
-    </Card>)
+        </Card>)
 }
 
 export default ModalCarrito;
