@@ -38,7 +38,7 @@ const HeaderUserBox = ({ logout, user }) => {
                     </div>
                     <div className="d-none d-xl-block pl-2">
                         <div className="font-weight-bold">{user ? user.first_name + " " + user.last_name : ""}</div>
-                        <span className="text-black-50">Administrador</span>
+                        <span className="text-black-50">{user ? user.tipo : ""}</span>
                     </div>
                     <span className="pl-1 pl-xl-3">
                         <FontAwesomeIcon

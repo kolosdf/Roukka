@@ -65,8 +65,20 @@ const sidebarMenuContent = [
   {
     label: 'Facturacion',
     icon: 'pe-7s-map-2',
-    description: 'Implement',
-    to: '/FacturacionTenant'
+    content: [
+      {
+        label: 'Facturas',
+        description: 'Implement in your applications Google or vector maps.',
+        to: '/FacturacionTenant'
+      },
+      {
+        label: 'Crear Factura',
+        description: 'Implement in your applications Google or vector maps.',
+        to: '/CrearFacturaTenant'
+      },
+
+
+    ]
   }
 
 

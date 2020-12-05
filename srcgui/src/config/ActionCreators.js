@@ -4,6 +4,7 @@ const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
 const API_URL_P = '.localhost:8000/productos';
+const API_URL_V = '.localhost:8000/ventas';
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -530,8 +531,8 @@ export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
 export const getPlatillos = (tenant) => (dispatch, getState) => {
     dispatch(platillosLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarPlatillo/`;
-    return axios.get(url, tokenConfig(getState))
-        .then(platillos => dispatch(addPlatillosT(platillos.data)))
+    return axios.get(url)
+        .then(res => dispatch(addPlatillosT(res.data)))
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
@@ -650,12 +651,28 @@ export const putUpdateMenu = (menu, tenant) => (dispatch) => {
 }
 
 
+//CARRITO
 
-export const addCarrito = (carrito) => ({
-    type: ActionTypes.ADD_CARRITO,
-    payload: carrito
+export const agregarItem = (item) => (
+    {
+        type: ActionTypes.ADD_CARRITO,
+        payload: item
+    }
+)
 
-});
+export const addCarrito = (carrito) => (dispatch) => {
+    dispatch(modalToggle())
+    dispatch(agregarItem(carrito))
+
+};
+
+
+export const deleteCarrito = (id) => ({
+    type: ActionTypes.DELETE_CARRITO,
+    payload: id
+})
+
+
 
 
 // ERRORS
@@ -828,6 +845,60 @@ export const loginTenant = (username, password, tenant) => dispatch => {
             })
         })
 }
+
+
+export const addItem = (item) => ({
+    type: ActionTypes.ADD_ITEM,
+    payload: item
+
+});
+
+
+export const plusItem = (item) => ({
+    type: ActionTypes.PLUS_ITEM,
+    payload: item
+
+});
+
+export const lessItem = (item) => ({
+    type: ActionTypes.LESS_ITEM,
+    payload: item
+
+});
+
+
+export const modalToggle = () => ({
+    type: ActionTypes.MODAL_TOGGLE,
+
+});
+
+
+export const doneFacturaTenant = (factura, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_V}/factura2/`;
+
+    axios.post(url, factura)
+        .then(res => {
+            console.log('Done')
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+        })
+}
+
+
+export const getFactura2 = (tenant) => (dispatch) => {
+    dispatch(menusLoadingT(true));
+    const url = `http://${tenant}${API_URL_V}/consultarFactura2/`;
+    return axios.get(url)
+        .then(factura => dispatch(addFacturasT(factura.data)))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
+export const addFacturasT = (facturas) => ({
+    type: ActionTypes.ADD_FACTURAS,
+    payload: facturas
+})
+
+
 
 
 

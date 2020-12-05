@@ -86,3 +86,21 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+
+//FACTURA
+
+export const ADD_ITEM = 'ADD_ITEM'
+export const PLUS_ITEM = 'PLUS_ITEM'
+export const LESS_ITEM = 'LESS_ITEM'
+export const REMOVE_ITEM = 'REMOVE_ITEM'
+
+
+export const MODAL_TOGGLE = 'MODAL_TOGGLE'
+
+export const ADD_FACTURAS = 'ADD_FACTURAS'
+
+export const DONE_FACTURA = 'DONE_FACTURA'
+
+export const DELETE_CARRITO = 'DELETE_CARRITO'
+
+

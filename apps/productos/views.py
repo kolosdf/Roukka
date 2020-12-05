@@ -62,9 +62,6 @@ class modificar_platillo(generics.RetrieveUpdateAPIView):
 
 class listar_platillo(generics.ListAPIView):
     queryset = Platillo.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
 
     serializer_class = PlatilloSerializer
 

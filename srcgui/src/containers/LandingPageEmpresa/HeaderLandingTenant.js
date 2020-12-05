@@ -77,15 +77,17 @@ class HeaderTenant extends Component {
                                         <span className="fa fa-address-card fa-lg"></span> Contactanos
                                 </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink className="nav-link ml-5" to="#">
-                                        <span className="fa fa-address-card fa-lg"></span> Ir
-                                </NavLink>
-                                </NavItem>
+
                             </Nav>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
-                                    <NavLink className="nav-link ml-5" to="/LoginEmpresa">
+                                    <NavLink className="nav-link ml-2" to="/MiCarrito">
+                                        <span className=""><FontAwesomeIcon size="1x" icon={['fas', 'shopping-cart']} /> Mi carrito
+                                        </span>
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink className="nav-link ml-2" to="/LoginEmpresa">
                                         <FontAwesomeIcon
                                             icon={['fas', 'sign-in-alt']}
                                             className="opacity-8"
