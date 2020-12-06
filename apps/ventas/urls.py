@@ -10,12 +10,10 @@ urlpatterns = [
 
     path('factura2/',views.factura2.as_view(), name='factura2'),
     path('consultarHistorial2/<int:pk>/',views.consultar_factura2.as_view(), name='consultar_factura2'),
-    path('consultarProducto2/<int:pk>/',views.consultar_productos2.as_view(), name='consultar_productos2'),
     path('consultarFactura2/',views.consultar_todas2.as_view(), name='consultar_todas2'),
 
     path('factura/',views.factura.as_view(), name='factura'),
     path('consultarHistorial/<int:pk>/',views.consultar_factura.as_view(), name='consultar_factura'),
-    path('consultarProducto/<int:pk>/',views.consultar_productos.as_view(), name='consultar_productos'),
     path('consultarFactura/',views.consultar_todas.as_view(), name='consultar_todas'),
 
 ]

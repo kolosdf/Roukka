@@ -196,29 +196,47 @@ class factura(generics.CreateAPIView):
         else:
             return Response(factura.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class consultar_factura(generics.ListAPIView):
     queryset = Factura.objects.all()
-    serializer_class = FacturaHisorial
+    serializer_class = FacturaMostrarSerializer 
 
     def get(self, request, *args, **kwargs):
         id_cliente = kwargs['pk']
         facturas = Factura.objects.filter(cliente__id=id_cliente)
-        serializer = self.serializer_class(facturas, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class consultar_productos(generics.ListAPIView):
-    queryset = Productos_Factura.objects.all()
-    serializer_class = ProductosFacturaSerializer
-
-    def get(self, request, *args, **kwargs):
-        id_factura = kwargs['pk']
-        productos = Productos_Factura.objects.filter(factura__id=id_factura)
-        serializer = self.serializer_class(productos, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        f = []
+        for i in facturas:
+            p = Productos_Factura.objects.filter(factura=i)
+            s1 = FacturaMostrarSerializer(i)
+            s2 = ProductosFacturaSerializer(p, many=True)
+            f.append(
+                {
+                    'factura': s1.data,
+                    'productos': s2.data
+                }
+            )
+        
+        return Response({'datos': f}, status=status.HTTP_201_CREATED)
 
 class consultar_todas(generics.ListAPIView):
     queryset = Factura.objects.all()
     serializer_class = FacturaMostrarSerializer
+
+    def get(self, request, *args, **kwargs):
+        facturas = Factura.objects.all()
+        f = []
+        for i in facturas:
+            p = Productos_Factura.objects.filter(factura=i)
+            s1 = FacturaMostrarSerializer(i)
+            s2 = ProductosFacturaSerializer(p, many=True)
+            f.append(
+                {
+                    'factura': s1.data,
+                    'productos': s2.data
+                }
+            )
+        
+        return Response({'datos': f}, status=status.HTTP_201_CREATED)
 
 
 """
@@ -298,22 +316,40 @@ class consultar_factura2(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         id_empleado = kwargs['pk']
         facturas = Factura2.objects.filter(empleado__id=id_empleado)
-        serializer = self.serializer_class(facturas, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class consultar_productos2(generics.ListAPIView):
-    queryset = Productos_Factura2.objects.all()
-    serializer_class = ProductosFactura2Serializer
-
-    def get(self, request, *args, **kwargs):
-        id_factura = kwargs['pk']
-        productos = Productos_Factura2.objects.filter(factura__id=id_factura)
-        serializer = self.serializer_class(productos, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)  
+        f = []
+        for i in facturas:
+            p = Productos_Factura2.objects.filter(factura=i)
+            s1 = Factura2Serializer(i)
+            s2 = ProductosFactura2Serializer(p, many=True)
+            f.append(
+                {
+                    'factura': s1.data,
+                    'productos': s2.data
+                }
+            )
+        
+        return Response({'datos': f}, status=status.HTTP_201_CREATED)
 
 class consultar_todas2(generics.ListAPIView):
     queryset = Factura2.objects.all()
     serializer_class = Factura2Serializer2
+
+    def get(self, request, *args, **kwargs):
+        
+        facturas = Factura2.objects.all()
+        f = []
+        for i in facturas:
+            p = Productos_Factura2.objects.filter(factura=i)
+            s1 = Factura2Serializer2(i)
+            s2 = ProductosFactura2Serializer(p, many=True)
+            f.append(
+                {
+                    'factura': s1.data,
+                    'productos': s2.data
+                }
+            )
+        
+        return Response({'datos': f}, status=status.HTTP_201_CREATED)
 
 
 

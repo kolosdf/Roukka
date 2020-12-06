@@ -42,12 +42,7 @@ class FacturaMostrarSerializer(serializers.ModelSerializer):
     cliente = ClienteListaSerializer(read_only=True)
     class Meta:
         model = Factura
-        fields = ['id', 'cliente', 'direccion', 'total']
-
-class FacturaHisorial(serializers.ModelSerializer):
-    class Meta:
-        model = Factura
-        fields = ['id', 'direccion', 'total']
+        fields = ['id', 'cliente', 'direccion', 'fecha', 'total']
 
 class ProductosFacturaSerializer(serializers.ModelSerializer):
     platillo = PlatilloSerializer(read_only=True)
@@ -70,7 +65,7 @@ class Factura2Serializer2(serializers.ModelSerializer):
     empleado = EmpleadoFacturaSerializer(read_only=True)
     class Meta:
         model = Factura2
-        fields = ['id', 'empleado', 'total']
+        fields = ['id', 'empleado', 'fecha', 'total']
 
 class ProductosFactura2Serializer(serializers.ModelSerializer):
     platillo = PlatilloSerializer(read_only=True)
