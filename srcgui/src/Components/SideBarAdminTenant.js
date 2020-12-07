@@ -67,6 +67,13 @@ const sidebarMenuContent = [
     icon: 'pe-7s-map-2',
     description: 'Implement',
     to: '/FacturacionTenant'
+  },
+
+   {
+    label: 'Configuracion',
+    icon: 'pe-7s-map-2',
+    description: 'Implement',
+    to: '/InformacionTenant'
   }
   
 

@@ -10,9 +10,9 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
 import {
-  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos,
-  postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo,
-  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, addCarrito, deleteIngrediente
+  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
+  postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion,addCarrito, deleteIngrediente
 } from './config/ActionCreators'
 
 
@@ -54,6 +54,8 @@ import MMenuTenant from './containers/AdminEmpresa/MMenuTenant'
 import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
 import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
+import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
+import TemaTenant from './containers/AdminEmpresa/TemaTenant'
 
 // Example Pages
 
@@ -114,6 +116,7 @@ class Routes extends Component {
       this.props.getIngredientes(URLactual)
       this.props.getPlatillos(URLactual)
       this.props.getMenus(URLactual)
+      this.props.getInformacion(URLactual)
 
       const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
       return axios.get(url)
@@ -327,7 +330,7 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/InformacionTenant', '/Tema','/FacturacionTenant']}>
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -358,7 +361,13 @@ class Routes extends Component {
                       <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
-                      <Route path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
+                      <Route path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+                        datos={this.props.datos}
+                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
+                      <Route path="/Tema" component={() => <TemaTenant 
+                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
+
+                        <Route path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
                         platillos={this.props.platillos}
                         clientes={this.props.clientes}
                         ingredientes={this.props.ingredientes}
@@ -406,6 +415,7 @@ const mapDispatchToProps = (dispatch) => ({
   getEmpleados: (tenant) => { dispatch(getEmpleados(tenant)) },
   getClientes: (tenant) => { dispatch(getClientes(tenant)) },
   getIngredientes: (tenant) => { dispatch(getIngredientes(tenant)) },
+  getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getPlatillos: (tenant) => { dispatch(getPlatillos(tenant)) },
   getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
@@ -416,6 +426,7 @@ const mapDispatchToProps = (dispatch) => ({
   postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
   postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
   postRegisterIngrediente: (ingrediente) => dispatch(postRegisterIngrediente(ingrediente, URLactual)),
+  postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)),
   postRegisterPlatillo: (platillo) => dispatch(postRegisterPlatillo(platillo, URLactual)),
   postRegisterMenu: (menu) => dispatch(postRegisterMenu(menu, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
@@ -425,6 +436,7 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual)),
+  putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
   putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),

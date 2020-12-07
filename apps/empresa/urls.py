@@ -19,4 +19,5 @@ urlpatterns = [
 
     path('modificarInformacion/<int:pk>/',views.modificar_informacion.as_view(), name='modificar_informacion'),
 
+
 ]

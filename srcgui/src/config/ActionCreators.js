@@ -4,6 +4,7 @@ const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
 const API_URL_P = '.localhost:8000/productos';
+const API_URL_V = '.localhost:8000/ventas';
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -39,21 +40,6 @@ export const getPlans = (tenant) => (dispacth) => {
 
 }
 
-export const postRegisterPlan = (plan) => (dispatch) => {
-    const url = `${API_URL}/crearPlan/`;
-    return axios.post(url, plan)
-        .then(res => {
-            dispatch(createMessage({ addPlan: 'Plan Añadido' }))
-            dispatch(addPlan(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
-}
 
 export const putUpdatePlan = (plan) => (dispatch) => {
     const url = `${API_URL}/modificarPlan/${plan.id}/`;
@@ -63,13 +49,7 @@ export const putUpdatePlan = (plan) => (dispatch) => {
             dispatch(updatePlan(res.data))
         }
         )
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
 
@@ -113,7 +93,20 @@ export const getEmpresas = () => (dispacth) => {
 
 }
 
+export const UpdateTema = (empresas) => ({
+    type:ActionTypes.UPDATE_TEMA,
+    payload: empresas
+})
 
+export const postRegisterTema = (tema, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/registrarTema/`;
+    return axios.post(url, tema)
+        .then(res => {
+            dispatch(createMessage({ addInfo: 'informacion registrada' }))
+            dispatch(addInformacionT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
 
 export const addEmpresas = (empresas) => ({
     type: ActionTypes.ADD_EMPRESAS,
@@ -144,13 +137,7 @@ export const postRegisterEmpresa = (empresa) => (dispatch) => {
     const url = `${API_URL}/crear/`;
     return axios.post(url, empresa)
         .then(res => dispatch(addEmpresa(res.data)))
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 // FUNCIONALIDADES
@@ -198,7 +185,7 @@ export const postRegisterFuncionalidad = (funcionalidad) => (dispatch) => {
             dispatch(createMessage({ addFunc: 'Funcionalidad Añadida' }))
             dispatch(addFuncionalidad(res.data))
         })
-        .catch(error => console.log(error));
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 export const putUpdateFuncionalidad = (funcionalidad) => (dispatch) => {
@@ -208,7 +195,7 @@ export const putUpdateFuncionalidad = (funcionalidad) => (dispatch) => {
             dispatch(createMessage({ editFunc: 'Funcionalidad Modificada' }))
             dispatch(updateFuncionalidad(res.data))
         })
-        .catch(error => console.log(error));
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
 
@@ -258,15 +245,10 @@ export const postRegisterUsuario = (usuario) => (dispatch) => {
     return axios.post(url, usuario)
         .then(res => {
             dispatch(createMessage({ addUser: 'Usuario Añadido' }))
-            dispatch(addUsuario(res.data))
+            dispatch(addUsuario(res.data.usuario))
         })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 export const putUpdateUsuario = (usuario) => (dispatch) => {
@@ -276,13 +258,7 @@ export const putUpdateUsuario = (usuario) => (dispatch) => {
             dispatch(createMessage({ editUser: 'Usuario Modificado' }))
             dispatch(updateUsuario(res.data))
         })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
 
@@ -333,13 +309,7 @@ export const postRegisterUsuarioT = (usuario, tenant) => (dispatch) => {
             dispatch(createMessage({ addUser: 'Usuario Añadido' }))
             dispatch(addUsuarioT(res.data))
         })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 export const putUpdateUsuarioT = (usuario, tenant) => (dispatch) => {
@@ -349,25 +319,81 @@ export const putUpdateUsuarioT = (usuario, tenant) => (dispatch) => {
             dispatch(createMessage({ editUser: 'Usuario Modificado' }))
             dispatch(updateUsuarioT(res.data))
         })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
+}
+
+
+
+// INFORMACION
+
+export const getInformacion = (tenant) => (dispacth) => {
+    dispacth(datosLoadingT(true));
+    const url = `http://${tenant}${API_URL_P}/verInformacion/`;
+    return axios.get(url)
+        .then(informacion => dispacth(addInformacionT(informacion.data)))
+        .catch(error => console.log(error));
+}
+
+
+export const addDatosT = (datos) => ({
+    type: ActionTypes.ADD_DATOS,
+    payload: datos
+})
+
+
+export const datosLoadingT = () => ({
+    type: ActionTypes.INFORMACION_LOADING,
+
+})
+
+export const datosFailedT = (errmess) => ({
+    type: ActionTypes.INFORMACION_FAILED,
+    payload: errmess
+})
+
+
+export const addInformacionT = (informacion) => ({
+    type: ActionTypes.ADD_INFORMACION,
+    payload: informacion
+
+});
+
+export const updateInformacionT = (informacion) => ({
+    type: ActionTypes.UPDATE_INFORMACION,
+    payload: informacion
+})
+
+
+export const postRegisterInformacion = (informacion) => (dispatch) => {
+    const url = `/registrarInformacion/`;
+    return axios.post(url, informacion)
+        .then(res => {
+            dispatch(createMessage({ addFunc: 'Informacion Añadida' }))
+            dispatch(addInformacionT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
+export const putUpdateInformacion = (informacion, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL}/modificarInformacion/${informacion.id}/`;
+    return axios.put(url, informacion)
+        .then(res => {
+            dispatch(createMessage({ editIngre: 'Informacion Modificada' }))
+            dispatch(updateInformacionT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 
 // INGREDIENTES
 
-export const getIngredientes = (tenant) => (dispacth) => {
+export const getIngredientes = (tenant) => (dispacth) => { 
     dispacth(ingredientesLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarIngrediente/`;
     return axios.get(url)
-        .then(ingredientes => dispacth(addIngredientesT(ingredientes.data)))
-        .catch(error => console.log(error));
+        .then(ingredientes => dispacth(addIngredientesT(ingredientes.data)))    
+        .catch(error => console.log(error));    
 }
 
 
@@ -391,7 +417,7 @@ export const ingredientesFailedT = (errmess) => ({
 export const addIngredienteT = (ingrediente) => ({
     type: ActionTypes.ADD_INGREDIENTE,
     payload: ingrediente
-
+    
 });
 
 export const updateIngredienteT = (ingrediente) => ({
@@ -401,36 +427,18 @@ export const updateIngredienteT = (ingrediente) => ({
 
 
 
-export const postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
+export const  postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearIngrediente/`;
     return axios.post(url, ingrediente)
-        .then(res => {
-            dispatch(createMessage({ addIngre: 'Ingrediente Añadido' }))
-            dispatch(addIngredienteT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(addIngredienteT(res.data)))
+        .catch(error => console.log(error));
 }
 
 export const putUpdateIngrediente = (ingrediente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarIngrediente/${ingrediente.id}/`;
     return axios.put(url, ingrediente)
-        .then(res => {
-            dispatch(createMessage({ editIngre: 'Ingrediente Modificado' }))
-            dispatch(updateIngredienteT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(updateIngredienteT(res.data)))
+        .catch(error => console.log(error));
 
 }
 
@@ -447,19 +455,15 @@ export const deleteIngrediente = (id, tenant) => (dispatch) => {
 }
 
 
-
-
-
-
 //EMPLEADOS
 
-export const getEmpleados = (tenant) => (dispacth) => {
+export const getEmpleados = (tenant) => (dispacth) => { 
     dispacth(empleadosLoading(true));
     const url = `http://${tenant}${API_URL_UT}/listarEmpleado/`;
     return axios.get(url)
-        .then(empleados => dispacth(addEmpleados(empleados.data)))
+        .then(empleados => dispacth(addEmpleados(empleados.data)))    
         .catch(error => console.log(error));
-
+    
 }
 
 export const addEmpleados = (empleados) => ({
@@ -482,7 +486,7 @@ export const empleafosFailed = (errmess) => ({
 export const addEmpleado = (empleado) => ({
     type: ActionTypes.ADD_EMPLEADO,
     payload: empleado
-
+    
 });
 
 export const updateEmpleado = (empleado) => ({
@@ -492,48 +496,30 @@ export const updateEmpleado = (empleado) => ({
 
 
 
-export const postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
+export const  postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearEmpleado/`;
     return axios.post(url, empleado)
-        .then(res => {
-            dispatch(createMessage({ addEmp: 'Empleado Añadido' }))
-            dispatch(addEmpleado(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(addEmpleado(res.data)))
+        .catch(error => console.log(error));
 }
 
 export const putUpdateEmpleado = (empleado, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/modificarEmpleado/${empleado.id}/`;
     return axios.put(url, empleado)
-        .then(res => {
-            dispatch(createMessage({ editEmp: 'Empleado Modificado' }))
-            dispatch(updateEmpleado(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(updateEmpleado(res.data)))
+        .catch(error => console.log(error));
 
 }
 
 // CLIENTES
 
-export const getClientes = (tenant) => (dispacth) => {
+export const getClientes = (tenant) => (dispacth) => { 
     dispacth(clientesLoading(true));
     const url = `http://${tenant}${API_URL_UT}/listarCliente/`;
     return axios.get(url)
-        .then(clientes => dispacth(addClientes(clientes.data)))
+        .then(clientes => dispacth(addClientes(clientes.data)))    
         .catch(error => console.log(error));
-
+    
 }
 
 export const addClientes = (clientes) => ({
@@ -556,7 +542,7 @@ export const clientesFailed = (errmess) => ({
 export const addCliente = (cliente) => ({
     type: ActionTypes.ADD_CLIENTE,
     payload: cliente
-
+    
 });
 
 export const updateCliente = (cliente) => ({
@@ -565,48 +551,29 @@ export const updateCliente = (cliente) => ({
 })
 
 
-export const postRegisterCliente = (cliente, tenant) => (dispatch) => {
+export const  postRegisterCliente =  (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearCliente/`;
     return axios.post(url, cliente)
-        .then(res => {
-            dispatch(createMessage({ addClie: 'Cliente Añadido' }))
-            dispatch(addCliente(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(addCliente(res.data)))
+        .catch(error => console.log(error));
 }
 
 export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/modificarCliente/${cliente.id}/`;
     return axios.put(url, cliente)
-        .then(res => {
-            dispatch(createMessage({ editClie: 'Cliente Modificado' }))
-            dispatch(updateCliente(res.data))
-        })
-
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(updateCliente(res.data)))
+        .catch(error => console.log(error));
 
 }
 
 // PLATILLOS
 
-export const getPlatillos = (tenant) => (dispacth) => {
+export const getPlatillos = (tenant) => (dispacth) => { 
     dispacth(platillosLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarPlatillo/`;
     return axios.get(url)
-        .then(platillos => dispacth(addPlatillosT(platillos.data)))
-        .catch(error => console.log(error));
+        .then(platillos => dispacth(addPlatillosT(platillos.data)))    
+        .catch(error => console.log(error));    
 }
 
 
@@ -630,7 +597,7 @@ export const platillosFailedT = (errmess) => ({
 export const addPlatilloT = (platillo) => ({
     type: ActionTypes.ADD_PLATILLO,
     payload: platillo
-
+    
 });
 
 export const updatePlatilloT = (platillo) => ({
@@ -640,47 +607,29 @@ export const updatePlatilloT = (platillo) => ({
 
 
 
-export const postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
+export const  postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearPlatillo/`;
     return axios.post(url, platillo)
-        .then(res => {
-            dispatch(createMessage({ addPlati: 'Platillo Añadido' }))
-            dispatch(addPlatilloT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(addPlatilloT(res.data)))
+        .catch(error => console.log(error));
 }
 
 export const putUpdatePlatillo = (platillo, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarPlatillo/${platillo.id}/`;
     return axios.put(url, platillo)
-        .then(res => {
-            dispatch(createMessage({ editPlati: 'Platillo Modificado' }))
-            dispatch(updatePlatilloT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(updatePlatilloT(res.data)))
+        .catch(error => console.log(error));
 
 }
 
 // MENUS
 
-export const getMenus = (tenant) => (dispacth) => {
+export const getMenus = (tenant) => (dispacth) => { 
     dispacth(menusLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarMenu/`;
     return axios.get(url)
-        .then(menus => dispacth(addMenusT(menus.data)))
-        .catch(error => console.log(error));
+        .then(menus => dispacth(addMenusT(menus.data)))    
+        .catch(error => console.log(error));    
 }
 
 
@@ -704,7 +653,7 @@ export const menusFailedT = (errmess) => ({
 export const addMenuT = (menu) => ({
     type: ActionTypes.ADD_MENU,
     payload: menu
-
+    
 });
 
 export const updateMenuT = (menu) => ({
@@ -714,36 +663,18 @@ export const updateMenuT = (menu) => ({
 
 
 
-export const postRegisterMenu = (menu, tenant) => (dispatch) => {
+export const  postRegisterMenu = (menu, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearMenu/`;
     return axios.post(url, menu)
-        .then(res => {
-            dispatch(createMessage({ addMenu: 'Menú Añadido' }))
-            dispatch(addMenuT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(addMenuT(res.data)))
+        .catch(error => console.log(error));
 }
 
 export const putUpdateMenu = (menu, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarMenu/${menu.id}/`;
     return axios.put(url, menu)
-        .then(res => {
-            dispatch(createMessage({ editMenu: 'Menú Modificado' }))
-            dispatch(updateMenuT(res.data))
-        })
-        .catch(err => {
-            const error = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch(getError(error))
-        });
+        .then(res => dispatch(updateMenuT(res.data)))
+        .catch(error => console.log(error));
 
 }
 
@@ -758,10 +689,12 @@ export const addCarrito = (carrito) => ({
 
 // ERRORS
 
-export const getError = (error) => ({
-    type: ActionTypes.GET_ERRORS,
-    payload: error
-})
+export const returnErrors = (msg, status) => {
+    return {
+        type: ActionTypes.GET_ERRORS,
+        payload: { msg, status }
+    }
+}
 
 
 //MESSAGES
@@ -772,5 +705,47 @@ export const createMessage = msg => {
         payload: msg
     }
 }
+
+
+export const addItem = (item) => ({
+    type: ActionTypes.ADD_ITEM,
+    payload: item
+
+});
+
+
+export const plusItem = (item) => ({
+    type: ActionTypes.PLUS_ITEM,
+    payload: item
+
+});
+
+export const lessItem = (item) => ({
+    type: ActionTypes.LESS_ITEM,
+    payload: item
+
+});
+
+
+export const modalFactura = () => ({
+    type: ActionTypes.MODAL_FACTURA,
+
+});
+
+
+export const doneFacturaTenant = (factura, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_V}/factura2/`;
+
+    axios.post(url, factura)
+        .then(res => {
+            console.log('Done')
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+        })
+}
+
+
+
+
 
 
