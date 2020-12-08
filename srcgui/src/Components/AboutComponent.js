@@ -1,18 +1,17 @@
-
 import React, { Fragment } from 'react';
 
 import { Row, Col, Card } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import avatar4 from '../../assets/images/avatars/avatar4.jpg';
-import avatar5 from '../../assets/images/avatars/avatar5.jpg';
-import avatar6 from '../../assets/images/avatars/avatar6.jpg';
-import avatar7 from '../../assets/images/avatars/avatar7.jpg';
+import avatar1 from '../assets/images/avatars/avatar1.jpg';
+import avatar2 from '../assets/images/avatars/avatar2.jpg';
+import avatar3 from '../assets/images/avatars/avatar3.jpg';
+import avatar4 from '../assets/images/avatars/avatar4.jpg';
+import avatar5 from '../assets/images/avatars/avatar5.jpg';
+import avatar6 from '../assets/images/avatars/avatar6.jpg';
+import avatar7 from '../assets/images/avatars/avatar7.jpg';
 
-import Cards5Examples29 from '../../example-components/Cards5/Cards5Examples29'
+import Cards5Examples29 from '../example-components/Cards5/Cards5Examples29'
 
 const About = (props) => {
 
@@ -63,9 +62,9 @@ const About = (props) => {
                                                                 Back-end Dev
                                                             </div>
                                                         </div>
-
-
-
+                                                        
+                                                        
+                                                        
                                                         <div className="position-relative px-5 py-3">
                                                             <div className="divider-v divider-v-lg" />
                                                             <div className="avatar-icon-wrapper rounded-circle d-80 mx-auto">
@@ -139,6 +138,5 @@ const About = (props) => {
         </Fragment>
     );
 };
-
 
 export default About;

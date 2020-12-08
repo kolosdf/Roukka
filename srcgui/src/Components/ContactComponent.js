@@ -1,4 +1,3 @@
-
 import React, { Fragment } from 'react';
 
 import { Row,Col,
@@ -109,6 +108,5 @@ const Contact = () => {
         </Fragment>
     );
 };
-
 
 export default Contact;

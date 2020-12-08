@@ -14,7 +14,7 @@ import clsx from 'clsx';
 const sidebarMenuContent = [
   {
     label: 'Dashboards',
-    icon: 'pe-7s-safe',
+    icon: 'pe-7s-home',
     description:
         'This is a dashboard page example built using this template.',
     to: '/DashboardRoukka'
@@ -22,7 +22,8 @@ const sidebarMenuContent = [
 
   {
     label: 'Gestion de Planes',
-    icon: 'pe-7s-box2',
+
+    icon: 'pe-7s-note2',
     content: [
       {
         label: 'Planes',
@@ -39,20 +40,21 @@ const sidebarMenuContent = [
   },
   {
     label: 'Gestión de Empresas',
-    icon: 'pe-7s-map-2',
+
+    icon: 'pe-7s-culture',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpresaRoukka'
   },
   {
     label: ' Gestión de Usuarios',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-users',
     description: 'Implement in your applications Google or vector maps.',
     to: '/UserRoukka'
   },
 
   {
     label: 'Maps',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-way',
     description: 'Implement in your applications Google or vector maps.',
     to: '/Plans'
   }

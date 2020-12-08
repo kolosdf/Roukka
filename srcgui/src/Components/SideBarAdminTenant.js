@@ -14,7 +14,7 @@ import clsx from 'clsx';
 const sidebarMenuContent = [
   {
     label: 'Dashboards',
-    icon: 'pe-7s-safe',
+    icon: 'pe-7s-home',
     description:
       'This is a dashboard page example built using this template.',
     to: '/DashboardTenant'
@@ -22,26 +22,28 @@ const sidebarMenuContent = [
 
   {
     label: 'Gestión de Usuarios',
-    icon: 'pe-7s-box2',
-    description: 'Wide selection of cards with multiple styles, borders, actions and hover effects.',
+    icon: 'pe-7s-id',
+    description:'Wide selection of cards with multiple styles, borders, actions and hover effects.',
     to: '/UsuarioTenant'
 
   },
   {
     label: 'Gestión de Empleados',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-users',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpleadoTenant'
   },
   {
     label: ' Gestión de Clientes',
-    icon: 'pe-7s-map-2',
+
+    icon: 'pe-7s-user',
     description: 'Implement in your applications Google or vector maps.',
     to: '/ClienteTenant'
   },
   {
     label: 'Gestión de Menus',
-    icon: 'pe-7s-menu',
+    icon: 'pe-7s-coffee',
+
     content: [
       {
         label: 'Menus',
@@ -64,7 +66,7 @@ const sidebarMenuContent = [
 
   {
     label: 'Facturacion',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-cash',
     content: [
       {
         label: 'Facturas',
@@ -79,7 +81,13 @@ const sidebarMenuContent = [
 
 
     ]
-  }
+  },
+  {
+    label: 'Configuracion',
+    icon: 'pe-7s-config',
+    description: 'Implement',
+    to: '/InformacionTenant'
+}
 
 
 ];
