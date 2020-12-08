@@ -1,3 +1,4 @@
+
 import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Link, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -15,9 +16,9 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
 import {
-  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos,
-  postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo,
-  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito,
+  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
+  postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito,
 } from './config/ActionCreators'
 
 
@@ -63,6 +64,7 @@ import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
 import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
 import FormFacturaT from './Components/FormFacturaTenant'
+import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
 // Example Pages
 
 import Buttons from './example-pages/Buttons';
@@ -124,6 +126,7 @@ class Routes extends Component {
       this.props.getPlatillos(URLactual)
       this.props.getMenus(URLactual)
       this.props.getFactura2(URLactual)
+      this.props.getInformacion(URLactual)
 
       const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
       return axios.get(url)
@@ -343,7 +346,7 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant', '/InformacionTenant']}>
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -374,6 +377,9 @@ class Routes extends Component {
                       <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
+                       <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+                        datos={this.props.datos}
+                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
                       <PrivateRoute path="/FacturacionTenant" component={() => <MFacturacion
                         platillos={this.props.platillos}
                         addItem={this.props.addItem}
@@ -427,6 +433,7 @@ const mapStateToProps = state => {
     usuariosT: state.UsuariosT,
     platillos: state.Platillos,
     menus: state.Menus,
+    datos: state.datos,
     auth: state.Auth,
     factura: state.Factura,
     carrito: state.Carrito
@@ -444,6 +451,7 @@ const mapDispatchToProps = (dispatch) => ({
   getClientes: (tenant) => { dispatch(getClientes(tenant)) },
   getIngredientes: (tenant) => { dispatch(getIngredientes(tenant)) },
   getPlatillos: (tenant) => { dispatch(getPlatillos(tenant)) },
+  getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   getFactura2: (tenant) => { dispatch(getFactura2(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
@@ -454,6 +462,7 @@ const mapDispatchToProps = (dispatch) => ({
   postRegisterEmpleado: (empleado) => dispatch(postRegisterEmpleado(empleado, URLactual)),
   postRegisterCliente: (cliente) => dispatch(postRegisterCliente(cliente, URLactual)),
   postRegisterIngrediente: (ingrediente) => dispatch(postRegisterIngrediente(ingrediente, URLactual)),
+  postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)),
   postRegisterPlatillo: (platillo) => dispatch(postRegisterPlatillo(platillo, URLactual)),
   postRegisterMenu: (menu) => dispatch(postRegisterMenu(menu, URLactual)),
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
@@ -463,6 +472,7 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateEmpleado: (empleado) => dispatch(putUpdateEmpleado(empleado, URLactual)),
   putUpdateCliente: (cliente) => dispatch(putUpdateCliente(cliente, URLactual)),
   putUpdateIngrediente: (ingrediente) => dispatch(putUpdateIngrediente(ingrediente, URLactual)),
+  putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
   putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),

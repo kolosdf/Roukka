@@ -7,6 +7,10 @@ import { Provider } from 'react-redux';
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 
+import {ThemeProvider} from "styled-components";
+//import { GlobalStyles } from "./components/globalStyle";
+//import { lightTheme, darkTheme } from "./components/Themes"
+
 import Routes from './Routes';
 import ScrollToTop from './utils/ScrollToTop';
 import './App.css'
@@ -270,6 +274,7 @@ const alertOptions = {
   position: 'bottom right'
 }
 
+
 class App extends Component {
 
   componentDidMount() {
@@ -297,5 +302,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;

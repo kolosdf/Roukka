@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 
 import { setSidebarToggleMobile } from '../reducers/ThemeOptions';
 
-import { logout } from '../config/ActionCreators'
+
+//import { logout } from '../config/ActionCreators'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -26,7 +27,9 @@ import avatar5 from '../assets/images/avatars/avatar5.jpg';
 
 const URLactual = window.location.hostname.split('.').shift();
 
-const HeaderUserBox = ({ logout, user }) => {
+
+const HeaderUserBox = ({ user }) => {
+
     return (
         <Fragment>
             <UncontrolledDropdown className="user-box position-relative ml-2">
@@ -52,9 +55,9 @@ const HeaderUserBox = ({ logout, user }) => {
                         <ListGroupItem className="rounded-top">
                             <Nav pills className="nav-neutral-primary flex-column">
                                 <NavItem>
-                                    <NavLink href="#" onClick={logout.bind(this, URLactual)}>
-                                        Salir
-                                    </NavLink>
+
+                                    
+
                                 </NavItem>
                             </Nav>
                         </ListGroupItem>
@@ -69,7 +72,9 @@ class Header extends Component {
 
     static propTypes = {
         auth: PropTypes.object.isRequired,
-        logout: PropTypes.func.isRequired,
+
+        //logout: PropTypes.func.isRequired,
+
         sidebarToggleMobile: PropTypes.bool.isRequired
     }
 
@@ -99,7 +104,7 @@ class Header extends Component {
 
                     </div>
                     <div className="app-header--pane">
-                        <HeaderUserBox user={this.props.auth.usuario} logout={this.props.logout} />
+                       
                     </div>
                 </div>
             </Fragment>
@@ -114,7 +119,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setSidebarToggleMobile: enable => dispatch(setSidebarToggleMobile(enable)),
-    logout: (tenant) => dispatch(logout(tenant))
+
+    //logout: (tenant) => dispatch(logout(tenant))
+
 
 });
 

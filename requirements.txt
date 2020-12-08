@@ -10,10 +10,15 @@ django-cors-headers==3.5.0
 django-rest-knox==4.1.0
 django-tenants==3.2.1
 djangorestframework==3.11.1
+et-xmlfile==1.0.1
 importlib-metadata==1.7.0
 isort==5.4.2
+jdcal==1.4.1
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
+numpy==1.19.3
+openpyxl==3.0.5
+pandas==1.1.4
 Pillow==8.0.0
 psycopg2==2.8.5
 pycparser==2.20
@@ -26,4 +31,5 @@ sqlparse==0.3.1
 toml==0.10.1
 typed-ast==1.4.1
 wrapt==1.12.1
+xlrd==1.2.0
 zipp==3.1.0
