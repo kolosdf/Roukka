@@ -1,7 +1,8 @@
 import React from 'react';
+import './App.css'
 import ReactDOM from 'react-dom';
 import App from './App';
-import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles';
+
 import * as serviceWorker from './serviceWorker';
 
 const theme = createMuiTheme({

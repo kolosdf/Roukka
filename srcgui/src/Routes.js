@@ -1,8 +1,13 @@
 
 import React, { Component, lazy, Suspense } from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Link, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { connect } from 'react-redux'
+import PrivateRoute from './Components/PrivateRoute'
+
+import ModalCarrito from './Components/ModalCarrito'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 // Layout Blueprints
@@ -13,7 +18,7 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 import {
   getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
   postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
-  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion,addCarrito, deleteIngrediente
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito,
 } from './config/ActionCreators'
 
 
@@ -24,6 +29,7 @@ import Header from './containers/LandingPageRoukka/HeaderLandingPage'
 import Contact from './containers/LandingPageRoukka/ContactComponent'
 import About from './containers/LandingPageRoukka/AboutComponent'
 import ComprarPlan from './containers/LandingPageRoukka/ComprarPlan'
+import Login from './Components/LoginRoukka'
 
 
 //Landing Page Tenant
@@ -33,6 +39,8 @@ import HeaderTenant from './containers/LandingPageEmpresa/HeaderLandingTenant'
 import ContactTenant from './containers/LandingPageEmpresa/ContactTenant'
 import MenuTenant from './containers/LandingPageEmpresa/MenuTenant'
 import ListarPlatillo from './containers/LandingPageEmpresa/ListarPlatillo'
+import LoginTenant from './Components/LoginTenant'
+import MiCarrito from './containers/LandingPageEmpresa/MiCarrito'
 
 
 //Admin Roukka
@@ -54,11 +62,9 @@ import MClienteTenant from './containers/AdminEmpresa/MClienteTenant'
 import MMenuTenant from './containers/AdminEmpresa/MMenuTenant'
 import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
 import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
-
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
+import FormFacturaT from './Components/FormFacturaTenant'
 import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
-
-
 // Example Pages
 
 import Buttons from './example-pages/Buttons';
@@ -75,6 +81,7 @@ import RegularTables4 from './example-pages/RegularTables4';
 import FormsLayout from './example-pages/FormsLayout';
 import FormsControls from './example-pages/FormsControls';
 import axios from 'axios'
+import CrearFacturaTenant from './Components/FormFacturaTenant';
 //import Home from './Components/HomeComponent'
 
 const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
@@ -118,6 +125,7 @@ class Routes extends Component {
       this.props.getIngredientes(URLactual)
       this.props.getPlatillos(URLactual)
       this.props.getMenus(URLactual)
+      this.props.getFactura2(URLactual)
       this.props.getInformacion(URLactual)
 
       const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
@@ -169,7 +177,7 @@ class Routes extends Component {
 
             <Redirect exact from="/" to="/Home" />
 
-            <Route path={['/Home', '/Plans', '/Contactus', '/Aboutus', '/Comprar']}>
+            <Route path={['/Home', '/Plans', '/Contactus', '/Aboutus', '/Comprar', '/Login']}>
               <PresentationLayout>
                 <Header />
                 <Switch location={this.props.location} key={this.props.location.key}>
@@ -184,13 +192,17 @@ class Routes extends Component {
                     <Route path="/Contactus" component={Contact} />
                     <Route path="/Aboutus" component={About} />
                     <Route path="/Comprar/:idPlan" component={({ match }) => <ComprarPlan postRegisterEmpresa={this.props.postRegisterEmpresa} plans={this.props.plans} match={match} />} />
+                    <Route path="/Login" component={Login} />
                   </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu', '/LoginEmpresa']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarPlatillo', '/LoginEmpresa', '/MiCarrito']}>
               <PresentationLayout>
+                <button className="btn btn-flotante btn-success" onClick={this.props.modalToggle}>
+                  <FontAwesomeIcon size="1x" icon={['fas', 'shopping-cart']} /></button>
+                <ModalCarrito carrito={this.props.carrito} deleteCarrito={this.props.deleteCarrito} modal={this.props.carrito.modal} toggle={this.props.modalToggle} />
                 <HeaderTenant tenant={URLactual} />
                 <Switch location={this.props.location} key={this.props.location.key}>
                   <motion.div
@@ -206,9 +218,10 @@ class Routes extends Component {
                     />
                     <Route path="/ContactusEmpresa" component={ContactTenant} />
                     <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
-                    <Route path="/ListarMenu/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} addCarrito={this.props.addCarrito} platillos={this.props.platillos} match={match} />} />
+                    <Route path="/ListarPlatillo/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} carrito={this.props.carrito} addCarrito={this.props.addCarrito} deleteCarrito={this.props.deleteCarrito} modalToggle={this.props.modalToggle} platillos={this.props.platillos} match={match} />} />
+                    <Route path="/MiCarrito" component={() => <MiCarrito carrito={this.props.carrito} auth={this.props.auth} deleteCarrito={this.props.deleteCarrito} />} />
                     <Route path="/LoginEmpresa" component={LoginTenant} />
-                   </motion.div>
+                  </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
@@ -297,28 +310,28 @@ class Routes extends Component {
                     exit="out"
                     variants={this.pageVariants}
                     transition={this.pageTransition}>
-                    <Route
+                    <PrivateRoute
                       path="/DashboardRoukka"
                       component={() => <MDashboardRoukka plans={this.props.plans} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/PlanRoukka"
                       component={() => <MPlanRoukka plans={this.props.plans}
                         funciones={this.props.funcionalidades}
                         postRegisterPlan={this.props.postRegisterPlan}
                         putUpdatePlan={this.props.putUpdatePlan} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/FuncionRoukka"
                       component={() => <MFuncionRoukka funcionalidades={this.props.funcionalidades}
                         postRegisterFuncionalidad={this.props.postRegisterFuncionalidad}
                         putUpdateFuncionalidad={this.props.putUpdateFuncionalidad} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/EmpresaRoukka"
                       component={() => <MEmpresaRoukka empresas={this.props.empresas} />}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/UserRoukka"
                       component={() => <MUsuarioRoukka usuarios={this.props.usuarios}
                         postRegisterUsuario={this.props.postRegisterUsuario}
@@ -333,8 +346,7 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/InformacionTenant']}>
-
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant', '/InformacionTenant']}>
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -344,41 +356,54 @@ class Routes extends Component {
                       exit="out"
                       variants={this.pageVariants}
                       transition={this.pageTransition}>
-                      <Route path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
+                      <PrivateRoute path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
                         clientes={this.props.clientes}
                         putUpdateCliente={this.props.putUpdateCliente} />} />
-                      <Route path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
-                      <Route path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
+                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
+                      <PrivateRoute path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
                         usuariosT={this.props.usuariosT}
                         putUpdateUsuarioT={this.props.putUpdateUsuarioT} />} />
-                      <Route path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado}
+                      <PrivateRoute path="/EmpleadoTenant" component={() => <MEmpleadoTenant postRegisterEmpleado={this.props.postRegisterEmpleado}
                         empleados={this.props.empleados}
                         putUpdateEmpleado={this.props.putUpdateEmpleado} />} />
-                      <Route path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
+                      <PrivateRoute path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
                         menus={this.props.menus}
                         platillos={this.props.platillos}
                         putUpdateMenu={this.props.putUpdateMenu} />} />
-                      <Route path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
+                      <PrivateRoute path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
                         platillos={this.props.platillos}
                         ingredientes={this.props.ingredientes}
                         putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
-                      <Route path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
+                      <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
-                      <Route path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+                       <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
                         datos={this.props.datos}
                         putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
-                      <Route path="/Tema" component={() => <TemaTenant 
-                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
-
-                        <Route path="/FacturacionTenant" component={() => <MFacturacion postRegisterPlatillo={this.props.postRegisterPlatillo}
+                      <PrivateRoute path="/FacturacionTenant" component={() => <MFacturacion
                         platillos={this.props.platillos}
-                        clientes={this.props.clientes}
-                        ingredientes={this.props.ingredientes}
-                        putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
-                      <Route path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
-                        datos={this.props.datos}
-                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
+                        addItem={this.props.addItem}
+                        plusItem={this.props.plusItem}
+                        lessItem={this.props.lessItem}
+                        //factura={this.props.factura}
+                        doneFacturaTenant={this.props.doneFacturaTenant}
+                        modalFactura={this.props.modalFactura}
+                      //auth={this.props.auth} 
+                      />}
+                      />
+
+                      <PrivateRoute path="/CrearFacturaTenant" component={() => <FormFacturaT
+                        platillos={this.props.platillos.platillos}
+                        addItem={this.props.addItem}
+                        plusItem={this.props.plusItem}
+                        lessItem={this.props.lessItem}
+                        factura={this.props.factura}
+                        //factura={this.props.factura}
+                        doneFacturaTenant={this.props.doneFacturaTenant}
+                        auth={this.props.auth.usuario}
+                      />}
+                      />
+
 
 
                     </motion.div>
@@ -408,9 +433,10 @@ const mapStateToProps = state => {
     usuariosT: state.UsuariosT,
     platillos: state.Platillos,
     menus: state.Menus,
-    datos: state.Datos,
+    datos: state.datos,
     auth: state.Auth,
-    factura: state.Factura
+    factura: state.Factura,
+    carrito: state.Carrito
   }
 }
 
@@ -424,10 +450,10 @@ const mapDispatchToProps = (dispatch) => ({
   getEmpleados: (tenant) => { dispatch(getEmpleados(tenant)) },
   getClientes: (tenant) => { dispatch(getClientes(tenant)) },
   getIngredientes: (tenant) => { dispatch(getIngredientes(tenant)) },
-  getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getPlatillos: (tenant) => { dispatch(getPlatillos(tenant)) },
-  getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
+  getMenus: (tenant) => { dispatch(getMenus(tenant)) },
+  getFactura2: (tenant) => { dispatch(getFactura2(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
@@ -439,7 +465,6 @@ const mapDispatchToProps = (dispatch) => ({
   postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)),
   postRegisterPlatillo: (platillo) => dispatch(postRegisterPlatillo(platillo, URLactual)),
   postRegisterMenu: (menu) => dispatch(postRegisterMenu(menu, URLactual)),
-  postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)), 
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
   putUpdateFuncionalidad: (funcionalidad) => dispatch(putUpdateFuncionalidad(funcionalidad)),
   putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario, URLactual)),
@@ -450,16 +475,16 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
   putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
-  putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),
 
-  addCarrito: (carrito) => dispatch(addCarrito(carrito))
+  doneFacturaTenant: (factura) => dispatch(doneFacturaTenant(factura, URLactual)),
+
+  addCarrito: (carrito) => dispatch(addCarrito(carrito)),
+  deleteCarrito: (id) => dispatch(deleteCarrito(id)),
   addItem: (item) => dispatch(addItem(item)),
   plusItem: (item) => dispatch(plusItem(item)),
   lessItem: (item) => dispatch(lessItem(item)),
-  modalFactura: () => dispatch(modalFactura())
-
-
+  modalToggle: () => dispatch(modalToggle()),
 
 });
 

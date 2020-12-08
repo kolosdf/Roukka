@@ -14,7 +14,7 @@ import Errors from './Errors'
 import Messages from './Messages'
 import Auth from './Auth'
 import Factura from './Factura'
-
+import Informacion from './InformacionTenant'
 
 export default {
   ThemeOptions,
@@ -32,5 +32,7 @@ export default {
   Carrito,
   Messages,
   Auth,
-  Factura
+  Factura,
+  Informacion,
+
 };

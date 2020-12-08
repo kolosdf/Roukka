@@ -17,4 +17,9 @@ urlpatterns = [
     path('modificarMenu/<int:pk>/',views.modificar_menu.as_view(), name='modificar_menu'),
     path('listarMenu/',views.listar_menu.as_view(), name='listar_menu'),   
     path('detalleMenu/<int:pk>/',views.detalle_menu.as_view(), name='detalle_menu'),
+
+    #Excel
+    path('exportarMenu/',views.exportar_menu.as_view(), name='exportar_menu'),   
+    path('importarMenu/',views.importar_menu.as_view(), name='importar_menu'),
+
 ]
