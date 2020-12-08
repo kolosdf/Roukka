@@ -70,5 +70,11 @@ def crear_info(sender, instance, created, **kwargs):
         i = Informacion.objects.create(empresa=instance)
         i.save()
 
-
+#peticion,queja, reclamo, denuncia, solicitud
+tipo=(('peticion','Petición'),('queja','Queja'),('reclamo','Reclamo'),('denuncia','Denuncia'),('solicitud','Solicitud'))
+class pqrsd(models.Model):
+    nombre = models.CharField(max_length=100)
+    correo = models.EmailField()
+    comentario = models.TextField()
+    tipo = models.CharField(('Tipo'), choices = tipo, max_length = 50)
 

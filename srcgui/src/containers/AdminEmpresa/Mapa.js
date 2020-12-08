@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
-import ModalFormIngredienteT from '../../Components/ModalFormIngredienteT';
+import ModalFormUsuario from '../../Components/ModalFormUsuario';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -24,26 +24,73 @@ import {
 } from 'reactstrap';
 
 
+const ModificarEstado = (props) => {
+    let classColor = '';
+    let icon = ''
+    let texto = ''
+    if (props.estado) {
+        classColor = 'text-danger mx-3';
+        icon = 'times'
+        texto = 'Desactivar'
+
+    } else {
+        classColor = 'text-success mx-3';
+        icon = 'check'
+        texto = 'Activar'
+    }
+
+    return (
+        <NavLink
+            href="#"
+            onClick={props.modificarEstado}
+            className={classColor}>
+            <div className="nav-link-icon">
+                <FontAwesomeIcon icon={['fas', icon]} />
+            </div>
+
+            <span>{texto}</span>
+        </NavLink>
+    )
+}
+
+const spanEstado = (estado) => {
+    let texto = ''
+    let color = ''
+    if (estado) {
+        texto = 'Activo'
+        color = 'success'
+    } else {
+        texto = 'Inactivo'
+        color = 'danger'
+    }
+
+    return (<Badge color={color} className="h-auto py-0 px-3">
+        {texto}
+    </Badge>)
+}
+
+
 function FilaTable(props) {
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
-                    <div className="avatar-icon-wrapper mr-2">
-                        <div className="avatar-icon">
-                            <img alt="..." className="" width="100" src={props.ingrediente.imagen} />
-                        </div>
-                    </div>
                     <div>
                         <a
                             href="#/"
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.ingrediente.nombre}
+                            {props.usuario.first_name + ' ' + props.usuario.last_name}
                         </a>
+                        <span className="text-black-50 d-block">
+                            {props.usuario.email}
+                        </span>
                     </div>
                 </div>
+            </td>
+            <td className="text-center">
+                {spanEstado(props.usuario.is_active)}
             </td>
             <td className="text-center">
                 <UncontrolledDropdown>
@@ -65,7 +112,7 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this, props.ingrediente.id, props.ingrediente.nombre, props.ingrediente.imagen)}
+                                    onClick={props.modificar.bind(this, props.usuario.id, props.usuario.first_name, props.usuario.last_name, props.usuario.email)}
                                     active>
                                     <div className="nav-link-icon">
                                         <FontAwesomeIcon icon={['fas', 'edit']} />
@@ -76,15 +123,7 @@ function FilaTable(props) {
                             </NavItem>
                             <li className="dropdown-divider" />
                             <NavItem>
-                                <NavLink
-                                    href="#"
-                                    onClick={props.deleteIngrediente.bind(this, props.ingrediente.id)}
-                                    className="text-danger mx-3">
-                                    <div className="nav-link-icon">
-                                        <FontAwesomeIcon icon={['fas', 'times']} />
-                                    </div>
-                                    <span>Delete</span>
-                                </NavLink>
+                                <ModificarEstado id={props.usuario.id} estado={props.usuario.is_active} modificarEstado={props.modificarEstado.bind(this, { id: props.usuario.id, first_name: props.usuario.first_name, last_name: props.usuario.last_name, email: props.usuario.email, is_active: !props.usuario.is_active })} />
                             </NavItem>
                         </Nav>
                     </DropdownMenu>
@@ -97,23 +136,25 @@ function FilaTable(props) {
 
 
 
-function MIngredienteTenant(props) {
+function MUsuarioTenant(props) {
 
-    console.log(props.ingredientes)
+    console.log(props.usuarios)
 
-    const modificarIngrediente = (id, nombre, imagen) => {
+    const modificarUsuario = (id, first_name, last_name, email) => {
         setState({
             id: id,
-            nombre: nombre,
-            imagen: imagen,
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
         }, toggle5())
         setNuevo(false)
     }
 
     const [state, setState] = useState({
         id: '',
-        nombre: '',
-        imagen: '',
+        first_name: '',
+        last_name: '',
+        email: ''
     })
 
     const [modal5, setModal5] = useState(false);
@@ -131,9 +172,9 @@ function MIngredienteTenant(props) {
 
 
 
-    const ingredientes = props.ingredientes.ingredientes.map((ingrediente) => {
+    const usuarios = props.usuariosT.usuariosT.map((usuario) => {
         return (
-            <FilaTable deleteIngrediente={props.deleteIngrediente} modificar={modificarIngrediente} ingrediente={ingrediente} key={ingrediente.id} />
+            <FilaTable modificarEstado={props.putUpdateUsuarioT} modificar={modificarUsuario} usuario={usuario} key={usuario.id} />
         )
     })
 
@@ -142,11 +183,11 @@ function MIngredienteTenant(props) {
         <Fragment>
 
 
-            <ModalFormIngredienteT postRegisterIngrediente={props.postRegisterIngrediente} putUpdateIngrediente={props.putUpdateIngrediente} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
+            <ModalFormUsuario postRegisterUsuario={props.postRegisterUsuarioT} putUpdateUsuario={props.putUpdateUsuarioT} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
-                titleHeading="Ingredientes"
-                titleDescription="Ingredientes" modal={modalNuevo} />
+                titleHeading="Usuarios"
+                titleDescription="Usuarios" modal={modalNuevo} />
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
@@ -174,12 +215,13 @@ function MIngredienteTenant(props) {
                         <Table hover striped className="text-nowrap mb-0 ">
                             <thead className="thead-light">
                                 <tr>
-                                    <th style={{ width: '40%' }}>Ingredientes</th>
+                                    <th style={{ width: '40%' }}>Usuarios</th>
+                                    <th className="text-center">Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {ingredientes}
+                                {usuarios}
                             </tbody>
                         </Table>
                     </div>
@@ -252,4 +294,4 @@ function MIngredienteTenant(props) {
 }
 
 
-export default MIngredienteTenant
+export default MUsuarioTenant

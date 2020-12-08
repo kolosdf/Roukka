@@ -9,6 +9,7 @@ function ModalFormIngredienteT(props) {
     const [state, setState] = useState({
         id: '',
         nombre: '',
+        imagen: '',
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -24,6 +25,7 @@ function ModalFormIngredienteT(props) {
             setState({
                 id: props.datos.id,
                 nombre: props.datos.nombre,
+                imagen: props.datos.imagen,
             })
         }
         actualizar();
@@ -55,6 +57,7 @@ function ModalFormIngredienteT(props) {
             ...state,
             id: '',
             nombre: '',
+            imagen: '',
         })
     }
 
@@ -77,13 +80,13 @@ function ModalFormIngredienteT(props) {
         e.preventDefault()
         console.log(datosForm.boton)
         if (datosForm.boton === 'Registrar') {
-            props.postRegisterIngrediente({ nombre: state.nombre, })
-            initForm()
+            props.postRegisterIngrediente({ nombre: state.nombre, imagen: state.imagen })
         }
         else if (datosForm.boton === 'Modificar') {
             props.putUpdateIngrediente({
                 id: state.id,
                 nombre: state.nombre,
+                imagen: state.imagen,
             }
             )
         }
@@ -118,6 +121,24 @@ function ModalFormIngredienteT(props) {
                                         id="nombre"
                                         placeholder="Zanahoria"
                                         maxLength="30"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Col>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="imagen" sm={5}>
+                                    Imagen del Ingrediente
+                                </Label>
+                                <Col sm={7}>
+                                    <Input
+                                        type="text"
+                                        name="imagen"
+                                        value={state.imagen}
+                                        id="imagen"
+                                        placeholder="www.image.jpg"
+                                        maxLength="300"
                                         onChange={handleChange}
                                         required
                                     />

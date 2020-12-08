@@ -3,35 +3,37 @@ import * as ActionTypes from '../config/ActionTypes'
 export default function reducer(state = {
     isLoading: true,
     errMess: null,
-    ingredientes: []
+
+    datos: []
 }, action) {
     switch (action.type) {
-        case ActionTypes.ADD_INGREDIENTES:
-            return { ...state, isLoading: false, errMess: null, ingredientes: action.payload };
+        case ActionTypes.ADD_DATOS:
+            return { ...state, isLoading: false, errMess: null, datos: action.payload };
 
-        case ActionTypes.INGREDIENTE_LOADING:
-            return { ...state, isLoading: true, errMess: null, ingredientes: [] };
+        case ActionTypes.INFORMACION_LOADING:
+            return { ...state, isLoading: true, errMess: null, datos: [] };
 
-        case ActionTypes.INGREDIENTE_FAILED:
-            return { ...state, isLoading: false, errMess: action.payload, ingredientes: [] };
+        case ActionTypes.INFORMACION_FAILED:
+            return { ...state, isLoading: false, errMess: action.payload, datos: [] };
 
-        case ActionTypes.ADD_INGREDIENTE:
-            var ingrediente = action.payload;
-            console.log(ingrediente)
-            return { ...state, ingredientes: state.ingredientes.concat(ingrediente) };
-        case ActionTypes.DELETE_INGREDIENTE:
+        case ActionTypes.ADD_INFORMACION:
+            var informacion = action.payload;
+            console.log(informacion)
+            return { ...state, datos: state.datos.concat(informacion) };
+        case ActionTypes.DELETE_INFORMACION:
             return {
                 ...state,
-                ingredientes: state.ingredientes.filter(ingre => ingre.id !== action.payload)
+                datos: state.datos.filter(dato => dato.id !== action.payload)
             }
-        case ActionTypes.UPDATE_INGREDIENTE:
-            var ingrediente = action.payload;
+        case ActionTypes.UPDATE_INFORMACION:
+            var informacion = action.payload;
             return {
                 ...state,
-                ingredientes: state.ingredientes.splice(state.ingredientes.indexOf(state.ingredientes.filter(ingredienten => ingredienten.id === ingrediente.id)[0]), 1, ingrediente),
+                datos: state.datos.splice(state.datos.indexOf(state.datos.filter(daton => daton.id === informacion.id)[0]), 1, informacion),
                 ...state
             };
         default:
             return state;
     }
+
 }

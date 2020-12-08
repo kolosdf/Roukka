@@ -368,6 +368,7 @@ export const addInformacionT = (informacion) => ({
 
 });
 
+
 export const updateInformacionT = (informacion) => ({
     type: ActionTypes.UPDATE_INFORMACION,
     payload: informacion
@@ -397,12 +398,17 @@ export const putUpdateInformacion = (informacion, tenant) => (dispatch) => {
 
 // INGREDIENTES
 
-export const getIngredientes = (tenant) => (dispacth) => { 
-    dispacth(ingredientesLoadingT(true));
+
+export const getIngredientes = (tenant) => (dispatch, getState) => {
+
+    dispatch(ingredientesLoadingT(true));
+    console.log(tokenConfig(getState))
     const url = `http://${tenant}${API_URL_P}/listarIngrediente/`;
-    return axios.get(url)
-        .then(ingredientes => dispacth(addIngredientesT(ingredientes.data)))    
-        .catch(error => console.log(error));    
+
+    return axios.get(url, tokenConfig(getState))
+        .then(ingredientes => dispatch(addIngredientesT(ingredientes.data)))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 
@@ -439,15 +445,25 @@ export const updateIngredienteT = (ingrediente) => ({
 export const  postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearIngrediente/`;
     return axios.post(url, ingrediente)
-        .then(res => dispatch(addIngredienteT(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ addIngre: 'Ingrediente Añadido' }))
+            dispatch(addIngredienteT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 export const putUpdateIngrediente = (ingrediente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarIngrediente/${ingrediente.id}/`;
     return axios.put(url, ingrediente)
-        .then(res => dispatch(updateIngredienteT(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ editIngre: 'Ingrediente Modificado' }))
+            dispatch(updateIngredienteT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 
 }
 
@@ -508,15 +524,24 @@ export const updateEmpleado = (empleado) => ({
 export const  postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearEmpleado/`;
     return axios.post(url, empleado)
-        .then(res => dispatch(addEmpleado(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ addEmp: 'Empleado Añadido' }))
+            dispatch(addEmpleado(res.data.empleado))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 export const putUpdateEmpleado = (empleado, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/modificarEmpleado/${empleado.id}/`;
     return axios.put(url, empleado)
-        .then(res => dispatch(updateEmpleado(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ editEmp: 'Empleado Modificado' }))
+            dispatch(updateEmpleado(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
 
@@ -563,26 +588,37 @@ export const updateCliente = (cliente) => ({
 export const  postRegisterCliente =  (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearCliente/`;
     return axios.post(url, cliente)
-        .then(res => dispatch(addCliente(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ addClie: 'Cliente Añadido' }))
+            dispatch(addCliente(res.data.cliente))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 export const putUpdateCliente = (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/modificarCliente/${cliente.id}/`;
     return axios.put(url, cliente)
-        .then(res => dispatch(updateCliente(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ editClie: 'Cliente Modificado' }))
+            dispatch(updateCliente(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 
 }
 
 // PLATILLOS
 
-export const getPlatillos = (tenant) => (dispacth) => { 
-    dispacth(platillosLoadingT(true));
+export const getPlatillos = (tenant) => (dispatch, getState) => {
+    dispatch(platillosLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarPlatillo/`;
-    return axios.get(url)
-        .then(platillos => dispacth(addPlatillosT(platillos.data)))    
-        .catch(error => console.log(error));    
+    return axios.get(url, tokenConfig(getState))
+        .then(platillos => dispatch(addPlatillosT(platillos.data)))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 
@@ -619,26 +655,36 @@ export const updatePlatilloT = (platillo) => ({
 export const  postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearPlatillo/`;
     return axios.post(url, platillo)
-        .then(res => dispatch(addPlatilloT(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ addPlati: 'Platillo Añadido' }))
+            dispatch(addPlatilloT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 export const putUpdatePlatillo = (platillo, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarPlatillo/${platillo.id}/`;
     return axios.put(url, platillo)
-        .then(res => dispatch(updatePlatilloT(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ editPlati: 'Platillo Modificado' }))
+            dispatch(updatePlatilloT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
 
 // MENUS
 
-export const getMenus = (tenant) => (dispacth) => { 
-    dispacth(menusLoadingT(true));
+export const getMenus = (tenant) => (dispatch) => {
+    dispatch(menusLoadingT(true));
     const url = `http://${tenant}${API_URL_P}/listarMenu/`;
     return axios.get(url)
-        .then(menus => dispacth(addMenusT(menus.data)))    
-        .catch(error => console.log(error));    
+        .then(menus => dispatch(addMenusT(menus.data)))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+
 }
 
 
@@ -675,17 +721,116 @@ export const updateMenuT = (menu) => ({
 export const  postRegisterMenu = (menu, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearMenu/`;
     return axios.post(url, menu)
-        .then(res => dispatch(addMenuT(res.data)))
-        .catch(error => console.log(error));
+
+        .then(res => {
+            dispatch(createMessage({ addMenu: 'Menú Añadido' }))
+            dispatch(addMenuT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 export const putUpdateMenu = (menu, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/modificarMenu/${menu.id}/`;
     return axios.put(url, menu)
-        .then(res => dispatch(updateMenuT(res.data)))
-        .catch(error => console.log(error));
+        .then(res => {
+            dispatch(createMessage({ editMenu: 'Menú Modificado' }))
+            dispatch(updateMenuT(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 
 }
+
+
+
+
+// INFORMACION
+
+export const getInformacion = (tenant) => (dispacth) => {
+    dispacth(datosLoadingT(true));
+    const url = `http://${tenant}${API_URL_P}/verInformacion/`;
+    return axios.get(url)
+        .then(informacion => dispacth(addInformacionT(informacion.data)))
+        .catch(error => console.log(error));
+}
+
+
+export const addDatosT = (datos) => ({
+    type: ActionTypes.ADD_DATOS,
+    payload: datos
+})
+
+
+export const datosLoadingT = () => ({
+    type: ActionTypes.INFORMACION_LOADING,
+
+})
+
+export const datosFailedT = (errmess) => ({
+    type: ActionTypes.INFORMACION_FAILED,
+    payload: errmess
+})
+
+
+export const addInformacionT = (informacion) => ({
+    type: ActionTypes.ADD_INFORMACION,
+    payload: informacion
+
+});
+
+export const updateInformacionT = (informacion) => ({
+    type: ActionTypes.UPDATE_INFORMACION,
+    payload: informacion
+})
+
+
+
+export const postRegisterInformacion = (informacion, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/registrarInformacion/`;
+    return axios.post(url, informacion)
+        .then(res => {
+            dispatch(createMessage({ addIngre: 'informacion registrada' }))
+            dispatch(addInformacionT(res.data))
+        })
+        .catch(err => {
+            const error = {
+                msg: err.response.data,
+                status: err.response.status
+            }
+            dispatch(getError(error))
+        });
+}
+
+export const putUpdateInformacion = (informacion, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/modificarInformacion/${informacion.id}/`;
+    return axios.put(url, informacion)
+        .then(res => {
+            dispatch(createMessage({ editIngre: 'Informacion Modificada' }))
+            dispatch(updateIngredienteT(res.data))
+        })
+        .catch(err => {
+            const error = {
+                msg: err.response.data,
+                status: err.response.status
+            }
+            dispatch(getError(error))
+        });
+
+
+}
+
+export const deleteInformacion = (id, tenant) => (dispatch) => {
+    const url = `http://${tenant}${API_URL_P}/registrarInformacion/${id}/`;
+    axios.delete(url)
+        .then(res => {
+            dispatch(createMessage({ deleteIngre: 'Informacion Borrada' }))
+            dispatch({
+                type: ActionTypes.DELETE_INGREDIENTE,
+                payload: id
+            })
+        }).catch(err => console.log(err))
+}
+
+
 
 
 
@@ -713,6 +858,156 @@ export const createMessage = msg => {
         type: ActionTypes.CREATE_MESSAGE,
         payload: msg
     }
+}
+
+
+//CHECK TOKEN & LOAD USER
+
+export const loadUser = () => (dispatch, getState) => {
+    // User Loading
+    dispatch({ type: ActionTypes.USER_LOADING });
+
+    const url = `${API_URL_U}/user/`;
+
+    console.log(tokenConfig(getState))
+
+    axios.get(url, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: ActionTypes.USER_LOADED,
+                payload: res.data
+            })
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type: ActionTypes.AUTH_ERROR
+            })
+        })
+}
+
+
+//LOGIN USER
+
+export const login = (username, password) => dispatch => {
+
+    //Headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    // Request Body
+
+    const body = JSON.stringify({ username, password })
+    const url = `${API_URL_U}/login/`;
+
+    axios.post(url, body, config)
+        .then(res => {
+            dispatch({
+                type: ActionTypes.LOGIN_SUCCESS,
+                payload: res.data
+            })
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type: ActionTypes.LOGIN_FAIL
+            })
+        })
+}
+
+
+//LOGOUT USER
+
+export const logout = (tenant) => (dispatch, getState) => {
+
+    const url = `http://${tenant}${API_URL_UT}/logout/`;
+    axios.post(url, null, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: ActionTypes.LOGOUT_SUCCESS,
+            })
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+        })
+}
+
+
+export const tokenConfig = getState => {
+    // GET token from state
+
+    const token = getState().Auth.token;
+
+    //Headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    // If token, add to header config
+
+    if (token) {
+        config.headers['Authorization'] = `Token ${token}`;
+    }
+
+    return config
+}
+
+
+//CHECK TOKEN & LOAD USER
+
+export const loadUserTenant = (tenant) => (dispatch, getState) => {
+    // User Loading
+    dispatch({ type: ActionTypes.USER_LOADING });
+
+    const url = `http://${tenant}${API_URL_UT}/user/`;
+
+    console.log(tokenConfig(getState))
+
+    axios.get(url, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: ActionTypes.USER_LOADED,
+                payload: res.data
+            })
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type: ActionTypes.AUTH_ERROR
+            })
+        })
+}
+
+
+//LOGIN USER
+
+export const loginTenant = (username, password, tenant) => dispatch => {
+
+    //Headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    // Request Body
+
+    const body = JSON.stringify({ username, password })
+    const url = `http://${tenant}${API_URL_UT}/login/`;
+
+    axios.post(url, body, config)
+        .then(res => {
+            dispatch({
+                type: ActionTypes.LOGIN_SUCCESS,
+                payload: res.data
+            })
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type: ActionTypes.LOGIN_FAIL
+            })
+        })
 }
 
 
@@ -752,9 +1047,5 @@ export const doneFacturaTenant = (factura, tenant) => (dispatch) => {
             dispatch(returnErrors(err.response.data, err.response.status))
         })
 }
-
-
-
-
 
 

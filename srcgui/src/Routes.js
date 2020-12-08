@@ -1,3 +1,4 @@
+
 import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -53,9 +54,10 @@ import MClienteTenant from './containers/AdminEmpresa/MClienteTenant'
 import MMenuTenant from './containers/AdminEmpresa/MMenuTenant'
 import MPlatilloTenant from './containers/AdminEmpresa/MPlatilloTenant'
 import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
+
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
 import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
-import TemaTenant from './containers/AdminEmpresa/TemaTenant'
+
 
 // Example Pages
 
@@ -187,7 +189,7 @@ class Routes extends Component {
               </PresentationLayout>
             </Route>
 
-            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu']}>
+            <Route path={['/LandingPage', '/ContactusEmpresa', '/MenuEmpresa', '/ListarMenu', '/LoginEmpresa']}>
               <PresentationLayout>
                 <HeaderTenant tenant={URLactual} />
                 <Switch location={this.props.location} key={this.props.location.key}>
@@ -205,7 +207,8 @@ class Routes extends Component {
                     <Route path="/ContactusEmpresa" component={ContactTenant} />
                     <Route path="/MenuEmpresa" component={() => <MenuTenant menus={this.props.menus} />} />
                     <Route path="/ListarMenu/:idMenu" component={({ match }) => <ListarPlatillo menus={this.props.menus} addCarrito={this.props.addCarrito} platillos={this.props.platillos} match={match} />} />
-                  </motion.div>
+                    <Route path="/LoginEmpresa" component={LoginTenant} />
+                   </motion.div>
                 </Switch>
               </PresentationLayout>
             </Route>
@@ -330,7 +333,8 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/InformacionTenant', '/Tema','/FacturacionTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/InformacionTenant']}>
+
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -372,7 +376,9 @@ class Routes extends Component {
                         clientes={this.props.clientes}
                         ingredientes={this.props.ingredientes}
                         putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
-
+                      <Route path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+                        datos={this.props.datos}
+                        putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
 
 
                     </motion.div>
@@ -402,6 +408,9 @@ const mapStateToProps = state => {
     usuariosT: state.UsuariosT,
     platillos: state.Platillos,
     menus: state.Menus,
+    datos: state.Datos,
+    auth: state.Auth,
+    factura: state.Factura
   }
 }
 
@@ -418,6 +427,7 @@ const mapDispatchToProps = (dispatch) => ({
   getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getPlatillos: (tenant) => { dispatch(getPlatillos(tenant)) },
   getMenus: (tenant) => { dispatch(getMenus(tenant)) },
+  getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),
@@ -429,6 +439,7 @@ const mapDispatchToProps = (dispatch) => ({
   postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)),
   postRegisterPlatillo: (platillo) => dispatch(postRegisterPlatillo(platillo, URLactual)),
   postRegisterMenu: (menu) => dispatch(postRegisterMenu(menu, URLactual)),
+  postRegisterInformacion: (informacion) => dispatch(postRegisterInformacion(informacion, URLactual)), 
   putUpdatePlan: (empresa) => dispatch(putUpdatePlan(empresa)),
   putUpdateFuncionalidad: (funcionalidad) => dispatch(putUpdateFuncionalidad(funcionalidad)),
   putUpdateUsuarioT: (usuario) => dispatch(putUpdateUsuarioT(usuario, URLactual)),
@@ -439,13 +450,14 @@ const mapDispatchToProps = (dispatch) => ({
   putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   putUpdatePlatillo: (platillo) => dispatch(putUpdatePlatillo(platillo, URLactual)),
   putUpdateMenu: (menu) => dispatch(putUpdateMenu(menu, URLactual)),
+  putUpdateInformacion: (informacion) => dispatch(putUpdateInformacion(informacion, URLactual)),
   deleteIngrediente: (ingrediente) => dispatch(deleteIngrediente(ingrediente, URLactual)),
 
   addCarrito: (carrito) => dispatch(addCarrito(carrito))
-
-
-
-
+  addItem: (item) => dispatch(addItem(item)),
+  plusItem: (item) => dispatch(plusItem(item)),
+  lessItem: (item) => dispatch(lessItem(item)),
+  modalFactura: () => dispatch(modalFactura())
 
 
 

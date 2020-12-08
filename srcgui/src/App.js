@@ -1,11 +1,15 @@
 
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './config/configureStore';
 import { Provider } from 'react-redux';
 
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
+
+import {ThemeProvider} from "styled-components";
+//import { GlobalStyles } from "./components/globalStyle";
+//import { lightTheme, darkTheme } from "./components/Themes"
 
 import Routes from './Routes';
 import ScrollToTop from './utils/ScrollToTop';
@@ -13,6 +17,8 @@ import './App.css'
 import './assets/base.scss';
 
 import Alerts from './Components/Alerts'
+
+import { loadUser, loadUserTenant } from './config/ActionCreators'
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -262,27 +268,40 @@ library.add(
 );
 
 const store = configureStore();
-
+const URLactual = window.location.hostname.split('.').shift();
 const alertOptions = {
   timeout: 3000,
   position: 'bottom right'
 }
 
+
 class App extends Component {
+
+  componentDidMount() {
+    if (URLactual === 'localhost') {
+      store.dispatch(loadUser());
+    } else {
+      store.dispatch(loadUserTenant(URLactual))
+    }
+
+
+  }
+
   render() {
     return (
       <Provider store={store}>
         <AlertProvider template={AlertTemplate} {...alertOptions} >
-          <BrowserRouter basename="/">
+          <Router basename="/">
             <ScrollToTop>
               <Alerts />
               <Routes />
             </ScrollToTop>
-          </BrowserRouter>
+          </Router>
         </AlertProvider>
       </Provider>
     );
   }
 }
+
 
 export default App;

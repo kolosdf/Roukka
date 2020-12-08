@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { Sidebar, Header, Footer } from '../../layout-components';
+import { Sidebar, Footer } from '../../layout-components';
 
-import SidebarTenant from '../../Components/SideBarAdminTenant' 
+import Header from '../../Components/Header'
+
+import SidebarTenant from '../../Components/SideBarAdminTenant'
 
 const LeftAdminTenant = props => {
   const { children } = props;

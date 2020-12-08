@@ -85,6 +85,7 @@ export const ADD_CARRITO = 'ADD_CARRITO'
 export const GET_ERRORS = 'GET_ERRORS'
 export const CREATE_MESSAGE = 'CREATE_MESSAGE'
 
+
 //Types de Login
 //export const USER_LOADING = 'USER_LOADING'
 //export const USER_LOADED = 'USER_LOADED'
@@ -95,6 +96,7 @@ export const CREATE_MESSAGE = 'CREATE_MESSAGE'
 //export const LOGIN_FAIL = 'LOGIN_FAIL'
 
 //export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+
 
 //FACTURA
 

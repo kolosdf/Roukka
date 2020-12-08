@@ -22,6 +22,7 @@ const sidebarMenuContent = [
 
   {
     label: 'Gestion de Planes',
+
     icon: 'pe-7s-note2',
     content: [
       {
@@ -39,6 +40,7 @@ const sidebarMenuContent = [
   },
   {
     label: 'Gestión de Empresas',
+
     icon: 'pe-7s-culture',
     description: 'Implement in your applications Google or vector maps.',
     to: '/EmpresaRoukka'
@@ -52,7 +54,7 @@ const sidebarMenuContent = [
 
   {
     label: 'Maps',
-    icon: 'pe-7s-map-2',
+    icon: 'pe-7s-way',
     description: 'Implement in your applications Google or vector maps.',
     to: '/Plans'
   }

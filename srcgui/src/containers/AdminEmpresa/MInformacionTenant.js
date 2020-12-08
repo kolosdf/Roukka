@@ -60,7 +60,9 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-                                    onClick={props.modificar.bind(this, props.informacion.id, props.informacion.mision, props.informacion.vision, props.informacion.longitud, props.informacion.latitud, props.informacion.nosotros)}
+
+                                    onClick={props.modificar.bind(this, props.informacion.id, props.informacion.mision, props.informacion.vision, props.informacion.nosotros, props.informacion.longitud, props.informacion.latitud)}
+
                                     active>
                                     <div className="nav-link-icon">
                                         <FontAwesomeIcon icon={['fas', 'edit']} />
@@ -73,7 +75,8 @@ function FilaTable(props) {
                             <NavItem>
                                 <NavLink
                                     href="#"
-                                    onClick={props.deleteInformacion.bind(this, props.insformacion.id)}
+                                    onClick={props.deleteInformacion.bind(this, props.informacion.id)}
+
                                     className="text-danger mx-3">
                                     <div className="nav-link-icon">
                                         <FontAwesomeIcon icon={['fas', 'times']} />
@@ -96,25 +99,31 @@ function MInformacionTenant(props) {
 
     console.log(props.informacion)
 
-    const modificarInformacion = (id, mision, vision, longitud, latitud, nosotros) => {
+
+    const modificarInformacion = (id, mision, vision, nosotros, longitud, latitud) => {
+
         setState({
             id: id,
             mision: mision,
             vision: vision,
+
+            nosotros: nosotros,
             longitud: longitud,
             latitud: latitud,
-            nosotros: nosotros,
+
         }, toggle5())
         setNuevo(false)
     }
 
     const [state, setState] = useState({
-        id: '',
-        mision: '',
+
+        id:'',
+        mision:'',
         vision: '',
+        nosotros: '',
         longitud: '',
         latitud: '',
-        nosotros: '',
+
     })
 
     const [modal5, setModal5] = useState(false);
@@ -130,7 +139,6 @@ function MInformacionTenant(props) {
         toggle5()
     }
 
-
     return (
         <Fragment>
 
@@ -138,6 +146,7 @@ function MInformacionTenant(props) {
             <ModalFormInformacionT postRegisterInformacion={props.postRegisterInformacion} putUpdateInformacion={props.putUpdateInformacion} nuevo={nuevo} datos={state} modalState={modal5} modelToggle={toggle5} />
 
             <PageTitle
+
                 titleHeading="informacion"
                 titleDescription="Ingredientes" modal={modalNuevo} />
             <Card className="card-box mb-5">
@@ -160,6 +169,7 @@ function MInformacionTenant(props) {
 
   </div>
 </div>
+
                 </CardBody>
             </Card>
         </Fragment>)

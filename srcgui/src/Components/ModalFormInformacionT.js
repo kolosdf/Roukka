@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect, Component } from 'react'
 
 import { Modal, InputGroup, Label, Input, FormGroup, Card, Col, Button } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {Mapa} from './MainMap'
+
 
 function ModalFormInformacionT(props) {
 
@@ -11,9 +13,10 @@ function ModalFormInformacionT(props) {
         id: '',
         mision: '',
         vision: '',
+        nosotros: '',
         longitud: '',
         latitud: '',
-        nosotros: ''
+
     })
 
     //Es otra estado con el que establezco si es un formulario de registrar o modificar
@@ -30,9 +33,10 @@ function ModalFormInformacionT(props) {
                 id: props.datos.id,
                 mision: props.datos.mision,
                 vision: props.datos.vision,
+                nosotros: props.datos.nosotros,
                 longitud: props.datos.longitud,
                 latitud: props.datos.latitud,
-                nosotros: props.datos.nosotros,
+
             })
         }
         actualizar();
@@ -65,9 +69,10 @@ function ModalFormInformacionT(props) {
             id: '',
             mision: '',
             vision: '',
+            nosotros: '',
             longitud: '',
             latitud: '',
-            nosotros: '',
+
         })
     }
 
@@ -98,22 +103,28 @@ function ModalFormInformacionT(props) {
 
     }
 
-
     //Con este metodo hago el submit
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(datosForm.boton)
 
-            props.putUpdateInformacion({
+        if (datosForm.boton === 'Registrar') {
+            props.postRegisterInformacion({ mision: state.mision, })
+            initForm()
+        }
+        else if (datosForm.boton === 'Modificar') {
+            props.putUpdateIngrediente({
                 id: state.id,
                 mision: state.mision,
                 vision: state.vision,
+                nosotros: state.nosotros,
                 longitud: state.longitud,
                 latitud: state.latitud,
-                nosotros: state.nosotros,
-
-        })
+            }
+            )
+        }
     }
+
 
     return (
         <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
@@ -141,7 +152,7 @@ function ModalFormInformacionT(props) {
                                         name="mision"
                                         value={state.mision}
                                         id="mision"
-                                        placeholder=""
+                                        placeholder="Nuestra mision es..."
                                         maxLength="300"
                                         onChange={handleChange}
                                         required
@@ -159,7 +170,7 @@ function ModalFormInformacionT(props) {
                                         name="vision"
                                         value={state.vision}
                                         id="vision"
-                                        placeholder=""
+                                        placeholder="Ofrecer al cliente..."
                                         maxLength="300"
                                         onChange={handleChange}
                                         required
@@ -187,7 +198,7 @@ function ModalFormInformacionT(props) {
 
                             <div class="card">
                               <div class="card-body">
-                              <Label for="nosotros" sm={5}>
+                              <Label for="nosotros" sm={10}>
                                     Seleccione su ubicacion
                                 </Label>
                                 <Mapa onChange={handlePosition}/>

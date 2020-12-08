@@ -18,7 +18,7 @@ class Factura(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     direccion = models.CharField(max_length=50)
     fecha = models.DateField(auto_now=True)
-    total = models.BigIntegerField()
+    total = models.BigIntegerField(default=0)
 
 class Productos_Factura(models.Model):
     factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
