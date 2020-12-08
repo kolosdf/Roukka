@@ -49,6 +49,7 @@ export default function reducer(state = {
 
             }
         case ActionTypes.DELETE_CARRITO:
+            localStorage.setItem('carrito4', JSON.stringify(state.carrito))
             var totalP = 0
             state.carrito.filter(item => item.id !== action.payload).forEach(function (a) { totalP += a.total })
             return {
