@@ -141,46 +141,25 @@ function MInformacionTenant(props) {
                 titleHeading="informacion"
                 titleDescription="Ingredientes" modal={modalNuevo} />
             <Card className="card-box mb-5">
-                <div className="card-header">
-                    <div className="card-header--title">
-                        <b>Informacion de la empresa</b>
-                    </div>
-                    <div className="card-header--actions">
-                        <Button
-                            tag="a"
-                            href="#/"
-                            onClick={e => e.preventDefault()}
-                            size="sm"
-                            color="link"
-                            className="text-primary"
-                            title="View details">
-                            <FontAwesomeIcon
-                                icon={['far', 'keyboard']}
-                                className="font-size-lg"
-                            />
-                        </Button>
-                    </div>
-                </div>
-                <CardBody className="p-0">
-                    <div className="table-responsive-md">
-                        <Table hover striped className="text-nowrap mb-0 ">
-                            <thead className="thead-light">
-                                <tr>
-                                    <th style={{ width: '40%' }}>Informacion</th>
-                                    <th style={{ width: '40%' }}></th>
-                                    <th className="text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               
-                            </tbody>
-                        </Table>
-                    </div>
-                    <div className="divider" />
-                    <div className="divider" />
-                    <div className="p-3 d-flex justify-content-center">
 
-                    </div>
+                <CardBody className="p-0">
+                    
+                    <div class="card">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">Mision</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+    <h6 class="card-subtitle mb-2 text-muted">Vision</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+    <h6 class="card-subtitle mb-2 text-muted">Nosotros</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+    <h6 class="card-subtitle mb-2 text-muted">Ubicación</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+  </div>
+</div>
                 </CardBody>
             </Card>
         </Fragment>)

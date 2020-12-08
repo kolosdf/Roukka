@@ -126,7 +126,7 @@ function ModalFormInformacionT(props) {
                             size="2x"
                         />
                         <div className="text-center">
-                            <FontAwesomeIcon icon={['fas', 'carrot']} size="3x" /> <h1>{datosForm.titulo}</h1>
+                            <FontAwesomeIcon icon={['fas', 'pen-nib']} size="3x" /> <h1>{datosForm.titulo}</h1>
                         </div>
                     </div>
                     <div className="card-body px-lg-5 py-lg-5">

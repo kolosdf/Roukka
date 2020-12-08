@@ -40,6 +40,15 @@ export const getPlans = (tenant) => (dispacth) => {
 
 }
 
+export const postRegisterPlan = (plan) => (dispatch) => {
+    const url = `${API_URL}/crearPlan/`;
+    return axios.post(url, plan)
+        .then(res => {
+            dispatch(createMessage({ addPlan: 'Plan Añadido' }))
+            dispatch(addPlan(res.data))
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
 
 export const putUpdatePlan = (plan) => (dispatch) => {
     const url = `${API_URL}/modificarPlan/${plan.id}/`;
