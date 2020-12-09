@@ -25,6 +25,7 @@ import {
 
 
 function FilaTable(props) {
+
     return (
         <tr>
             <td>
@@ -96,10 +97,9 @@ function FilaTable(props) {
 
 
 
-
 function MIngredienteTenant(props) {
 
-    console.log(props.ingredientes)
+    console.log(props)
 
     const modificarIngrediente = (id, nombre, imagen) => {
         setState({
