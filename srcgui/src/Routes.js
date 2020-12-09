@@ -319,7 +319,8 @@ class Routes extends Component {
                     transition={this.pageTransition}>
                     <PrivateRoute
                       path="/DashboardRoukka"
-                      component={() => <MDashboardRoukka plans={this.props.plans} />}
+                      component={() => <MDashboardRoukka cantidadPlanes={this.props.plans.plans.length} cantidadFunciones={this.props.funcionalidades.funcionalidades.length}
+                      cantidadEmpresas={this.props.empresas.empresas.length} cantidadUsuarios={this.props.usuarios.usuarios.length}/>}
                     />
                     <PrivateRoute
                       path="/PlanRoukka"
