@@ -1106,4 +1106,32 @@ export const masVentasLoading = () => ({
 
 })
 
+//FUNCIONES ESPECIALES
+
+export const getClientesJson = (tenant) => (dispatch) => {
+    console.log(tenant)
+    const url = `http://${tenant}${API_URL_UT}/exportarCliente/`;
+    return axios.get(url)
+        .then(mensaje => dispatch(createMessage({ download: mensaje.data.msj })))
+        .catch(error => console.log(error));
+}
+
+export const getMenusExcelE = (tenant) => (dispatch) => {
+    console.log(tenant)
+    const url = `http://${tenant}${API_URL_P}/exportarMenu/`;
+    return axios.get(url)
+        .then(mensaje => dispatch(createMessage({ exportar: mensaje.data.msj })))
+        .catch(error => console.log(error));
+}
+
+export const getMenusExcelI = (tenant) => (dispatch) => {
+    console.log(tenant)
+    const url = `http://${tenant}${API_URL_P}/importarMenu/`;
+    return axios.get(url)
+        .then(mensaje => dispatch(createMessage({ importar: mensaje.data.msj })))
+        .catch(error => console.log(error));
+}
+
+
+
 

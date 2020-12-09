@@ -31,6 +31,7 @@ class PageTitle extends Component {
             <UncontrolledTooltip target="AddEntryTooltip20">
               Añadir
             </UncontrolledTooltip>
+          
           </div>
         </div>
       </Fragment>

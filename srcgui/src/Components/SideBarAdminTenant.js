@@ -85,7 +85,7 @@ const sidebarMenuContent = [
   {
     label: ' Reportes ',
 
-    icon: 'pe-7s-user',
+    icon: 'pe-7s-graph3',
     description: 'Implement in your applications Google or vector maps.',
     to: '/Reportes'
   },
@@ -100,7 +100,7 @@ const sidebarMenuContent = [
 ];
 
 
-
+const URLactual = window.location.hostname.split('.').shift();
 const SidebarHeader = () => {
   return (
     <Fragment>
@@ -115,7 +115,7 @@ const SidebarHeader = () => {
                 src={projectLogo}
               />
             </i>
-            <span>Tenant</span>
+              <span>{URLactual}</span>
           </Link>
         </div>
       </div>

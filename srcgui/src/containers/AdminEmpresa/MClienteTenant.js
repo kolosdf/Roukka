@@ -21,6 +21,7 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
+    UncontrolledTooltip,
 } from 'reactstrap';
 
 
@@ -188,27 +189,29 @@ function MClienteTenant(props) {
 
             <PageTitle
                 titleHeading="Clientes"
-                titleDescription="Clientes" modal={modalNuevo} />
+                titleDescription="Clientes" modal={modalNuevo}/>
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
-                        <small>Tables</small>
-                        <b>This table card has custom content</b>
+                        <small>Clientes</small>
                     </div>
                     <div className="card-header--actions">
                         <Button
+                            id="boton"
                             tag="a"
-                            href="#/"
-                            onClick={e => e.preventDefault()}
+                            onClick={props.getClientesJson}
                             size="sm"
                             color="link"
                             className="text-primary"
                             title="View details">
                             <FontAwesomeIcon
-                                icon={['far', 'keyboard']}
+                                icon={['fas', 'download']}
                                 className="font-size-lg"
                             />
                         </Button>
+                        <UncontrolledTooltip target="boton">
+                            Descargar archivo json
+                        </UncontrolledTooltip>
                     </div>
                 </div>
                 <CardBody className="p-0">

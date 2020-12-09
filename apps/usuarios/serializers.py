@@ -101,7 +101,7 @@ class ClienteModificarSerializer(serializers.ModelSerializer):
 class ClienteListaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ['id', 'first_name', 'last_name', 'email', 'direccion']
+        fields = ['id', 'first_name', 'last_name', 'email', 'direccion', 'is_active']
 
 class UbicacionSerializer(serializers.ModelSerializer):
     class Meta:

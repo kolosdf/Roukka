@@ -58,6 +58,10 @@ export class Alerts extends Component {
 
             if (message.editIngre) alert.success(message.editIngre)
             if (message.addIngre) alert.success(message.addIngre)
+
+            if (message.download) alert.success(message.download)
+            if (message.exportar) alert.success(message.exportar)
+            if (message.importar) alert.success(message.importar)
         }
 
 

@@ -21,6 +21,7 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
+    UncontrolledTooltip,
 } from 'reactstrap';
 
 
@@ -199,23 +200,41 @@ function MMenuTenant(props) {
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
-                        <small>Tables</small>
-                        <b>This table card has custom content</b>
+                        <small>Menus</small>
                     </div>
                     <div className="card-header--actions">
                         <Button
+                            id="boton"
                             tag="a"
-                            href="#/"
-                            onClick={e => e.preventDefault()}
+                            onClick={props.getMenusExcelE.bind(this)}
                             size="sm"
                             color="link"
                             className="text-primary"
                             title="View details">
                             <FontAwesomeIcon
-                                icon={['far', 'keyboard']}
+                                icon={['fas', 'download']}
                                 className="font-size-lg"
                             />
                         </Button>
+                        <UncontrolledTooltip target="boton">
+                            Descargar archivo excel
+                        </UncontrolledTooltip>
+                        <Button
+                            id="boton1"
+                            tag="a"
+                            onClick={props.getMenusExcelI}
+                            size="sm"
+                            color="link"
+                            className="text-primary"
+                            title="View details">
+                            <FontAwesomeIcon
+                                icon={['fas', 'upload']}
+                                className="font-size-lg"
+                            />
+                        </Button>
+                        <UncontrolledTooltip target="boton1">
+                            Importar archivo excel
+                        </UncontrolledTooltip>
                     </div>
                 </div>
                 <CardBody className="p-0">
