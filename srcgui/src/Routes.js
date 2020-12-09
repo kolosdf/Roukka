@@ -1,4 +1,3 @@
-
 import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Link, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -359,7 +358,8 @@ class Routes extends Component {
                       <PrivateRoute path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
                         clientes={this.props.clientes}
                         putUpdateCliente={this.props.putUpdateCliente} />} />
-                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
+                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} cantidadIngrediente ={this.props.ingredientes.ingredientes.length} cantidadPlatillos ={this.props.platillos.platillos.length} cantidadMenus ={this.props.menus.menus.length}  
+                      cantidadUsuarios ={this.props.usuariosT.usuariosT.length}  cantidadEmpleados ={this.props.empleados.empleados.length} cantidadCliente ={this.props.clientes.clientes.length} />} />
                       <PrivateRoute path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
                         usuariosT={this.props.usuariosT}
                         putUpdateUsuarioT={this.props.putUpdateUsuarioT} />} />
