@@ -23,18 +23,10 @@ CRUD DE INGREDIENTES
 
 
 class crear_ingrediente(generics.CreateAPIView):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
 
+    queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
 
-    def get_queryset(self):
-        return self.request.usuario.ingrediente.all()
-
-    # No se que hace aun esta funcion
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.usuario)
 
 
 class modificar_ingrediente(generics.RetrieveUpdateAPIView):

@@ -148,7 +148,7 @@ function FilaTable(props) {
 
 
 function MPlatilloTenant(props) {
-
+    console.log(props)
     const modificarPlatillo = (id, nombre, precio, unidades, imagen, estado, ingredientes) => {
         setState({
             id: id,
