@@ -148,7 +148,7 @@ class factura(generics.CreateAPIView):
     queryset = Factura.objects.all()
     serializer_class = FacturaSerializer
 
-    def post(self, request, *args, **kwargs):
+    """def post(self, request, *args, **kwargs):
         
         factura = self.serializer_class(data=request.data)
         
@@ -194,7 +194,67 @@ class factura(generics.CreateAPIView):
             else:
                 return Response({'error': errores}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(factura.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(factura.errors, status=status.HTTP_400_BAD_REQUEST)"""
+
+    def post(self, request, *args, **kwargs):
+        with transaction.atomic():
+            id_cliente = request.data['cliente']
+            productos = request.data['productos']
+            bandera = True
+            errores = []
+
+            for i in productos:
+                p = Platillo.objects.get(id=i['platillo'])
+                if i['cantidad'] > p.unidades:
+                    bandera = False
+                    errores.append("No hay suficientes unidades disponibles de %s" % (p.nombre))
+            if bandera:
+                cliente = Cliente.objects.get(id=id_cliente)
+
+                factura = Factura.objects.create(cliente=cliente,direccion=cliente.direccion,total=0)
+
+                total = 0
+
+                for producto in productos:
+                    platillo = Platillo.objects.get(id=producto['platillo'])
+                    Productos_Factura(platillo=platillo, cantidad=producto['cantidad'], factura=factura).save()
+                    Ventas_Productos.objects.create(platillo=platillo,cantidad=producto['cantidad'])
+                    total = total + (platillo.precio * producto['cantidad'])
+                    platillo.unidades = platillo.unidades - producto['cantidad']
+                    platillo.save()
+
+                factura.total = total
+                factura.save()
+                productos_factura = Productos_Factura.objects.filter(factura=factura)
+                p = ProductosFacturaSerializer(productos_factura, many=True)
+                e = FacturaMostrarSerializer(factura)
+
+                datos ={
+                    'factura': e.data,
+                    'productos': p.data
+                }
+
+                return Response(datos, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error': errores}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        """
+        {
+            "cliente": 3,
+            "productos":[
+                {
+                    "cantidad": 2,
+                    "platillo": 1
+                },
+                {
+                    "cantidad": 2,
+                    "platillo": 2
+                }
+            ]
+        }
+
+        """
 
 
 class consultar_factura(generics.ListAPIView):

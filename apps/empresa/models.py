@@ -44,6 +44,11 @@ class Empresa(TenantMixin):
     titular = models.CharField(max_length=50, verbose_name='Titular')
     imagen = models.TextField(null=True)
     estado = models.BooleanField(default=False)
+    mision = models.TextField(null=True)
+    vision = models.TextField(null=True)
+    nosotros = models.TextField(null=True)
+    longitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)
+    latitud = models.DecimalField(null=True,decimal_places=10, max_digits=300)
 
 
     def __str__(self):

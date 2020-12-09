@@ -200,6 +200,7 @@ function ModalFormInformacionT(props) {
                                 <div class="card-body">
                                     <Label for="nosotros" sm={10}>
                                         Seleccione su ubicacion
+
                                 </Label>
                                     <Mapa onChange={handlePosition} />
 

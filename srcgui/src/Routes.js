@@ -1,4 +1,3 @@
-
 import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Link, Route, Redirect, withRouter } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -16,7 +15,7 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
 import {
-  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
+  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion, getVentasTotales, getMasVendido, getVentasPlatillo, getVentasPlatilloMes, getMasCompras, getMasVentas, getClientesJson, getMenusExcelE, getMenusExcelI,
   postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
   putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito, removeItem,
 } from './config/ActionCreators'
@@ -65,6 +64,8 @@ import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
 import FormFacturaT from './Components/FormFacturaTenant'
 import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
+import MReportes from './containers/AdminEmpresa/MReportes'
+
 // Example Pages
 
 import Buttons from './example-pages/Buttons';
@@ -127,6 +128,12 @@ class Routes extends Component {
       this.props.getMenus(URLactual)
       this.props.getFactura2(URLactual)
       this.props.getInformacion(URLactual)
+      this.props.getVentasTotales(URLactual)
+      this.props.getMasVendido(URLactual)
+      this.props.getVentasPlatillo(URLactual)
+      this.props.getVentasPlatilloMes(URLactual)
+      this.props.getMasCompras(URLactual)
+      this.props.getMasVentas(URLactual)
 
       const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
       return axios.get(url)
@@ -312,7 +319,8 @@ class Routes extends Component {
                     transition={this.pageTransition}>
                     <PrivateRoute
                       path="/DashboardRoukka"
-                      component={() => <MDashboardRoukka plans={this.props.plans} />}
+                      component={() => <MDashboardRoukka cantidadPlanes={this.props.plans.plans.length} cantidadFunciones={this.props.funcionalidades.funcionalidades.length}
+                      cantidadEmpresas={this.props.empresas.empresas.length} cantidadUsuarios={this.props.usuarios.usuarios.length}/>}
                     />
                     <PrivateRoute
                       path="/PlanRoukka"
@@ -346,7 +354,7 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant', '/InformacionTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant','/Reportes', '/InformacionTenant']}>
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -358,8 +366,10 @@ class Routes extends Component {
                       transition={this.pageTransition}>
                       <PrivateRoute path="/ClienteTenant" component={() => <MClienteTenant postRegisterCliente={this.props.postRegisterCliente}
                         clientes={this.props.clientes}
-                        putUpdateCliente={this.props.putUpdateCliente} />} />
-                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} />} />
+                        putUpdateCliente={this.props.putUpdateCliente}
+                        getClientesJson={this.props.getClientesJson} />} />
+                      <PrivateRoute path="/DashboardTenant" component={() => <DashboardTenant tenant={URLactual} cantidadIngrediente ={this.props.ingredientes.ingredientes.length} cantidadPlatillos ={this.props.platillos.platillos.length} cantidadMenus ={this.props.menus.menus.length}  
+                      cantidadUsuarios ={this.props.usuariosT.usuariosT.length}  cantidadEmpleados ={this.props.empleados.empleados.length} cantidadCliente ={this.props.clientes.clientes.length} />} />
                       <PrivateRoute path="/UsuarioTenant" component={() => <MUsuarioTenant postRegisterUsuarioT={this.props.postRegisterUsuarioT}
                         usuariosT={this.props.usuariosT}
                         putUpdateUsuarioT={this.props.putUpdateUsuarioT} />} />
@@ -369,15 +379,29 @@ class Routes extends Component {
                       <PrivateRoute path="/MenuTenant" component={() => <MMenuTenant postRegisterMenu={this.props.postRegisterMenu}
                         menus={this.props.menus}
                         platillos={this.props.platillos}
-                        putUpdateMenu={this.props.putUpdateMenu} />} />
+                        putUpdateMenu={this.props.putUpdateMenu}
+                        getMenusExcelE={this.props.getMenusExcelE}
+                        getMenusExcelI={this.props.getMenusExcelI} />} 
+                        />
                       <PrivateRoute path="/PlatilloTenant" component={() => <MPlatilloTenant postRegisterPlatillo={this.props.postRegisterPlatillo}
                         platillos={this.props.platillos}
                         ingredientes={this.props.ingredientes}
                         putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+                      <PrivateRoute path="/Reportes" component={() => <MReportes 
+                        platillos={this.props.platillos}
+                        ventas={this.props.reportes.ventas}
+                        vendidos={this.props.reportes.vendidos}
+                        ventasPlatillo={this.props.reportes.ventasPlatillo}
+                        ventasPlatilloMes={this.props.reportes.ventasPlatilloMes}
+                        getVentasPlatilloMes={this.props.getVentasPlatilloMes}
+                        compras={this.props.reportes.compras}
+                        ventase={this.props.reportes.ventase} />} />
                       <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
-                      <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+
+                       <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+
                         datos={this.props.datos}
                         putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
                       <PrivateRoute path="/FacturacionTenant" component={() => <MFacturacion
@@ -436,7 +460,15 @@ const mapStateToProps = state => {
     datos: state.datos,
     auth: state.Auth,
     factura: state.Factura,
-    carrito: state.Carrito
+    carrito: state.Carrito,
+    ventas: state.Ventas,
+    vendidos: state.Vendido,
+    ventasPlatillo: state.VentasP,
+    ventasPlatilloMes: state.VentasPM,
+    compras: state.Compras,
+    ventase: state.VentasE,
+    reportes: state.Reportes,
+
   }
 }
 
@@ -454,6 +486,15 @@ const mapDispatchToProps = (dispatch) => ({
   getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   getFactura2: (tenant) => { dispatch(getFactura2(tenant)) },
+  getVentasTotales: (tenant) => { dispatch(getVentasTotales(tenant)) },
+  getMasVendido: (tenant) => { dispatch(getMasVendido(tenant)) },
+  getVentasPlatillo: (tenant) => { dispatch(getVentasPlatillo(tenant)) },
+  getVentasPlatilloMes: (platillo) => { dispatch(getVentasPlatilloMes(platillo, URLactual)) },
+  getMasCompras: (tenant) => { dispatch(getMasCompras(tenant)) },
+  getMasVentas: (tenant) => { dispatch(getMasVentas(tenant)) },
+  getClientesJson: () => { dispatch(getClientesJson(URLactual)) },
+  getMenusExcelE: () => { dispatch(getMenusExcelE(URLactual)) },
+  getMenusExcelI: () => { dispatch(getMenusExcelI(URLactual)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),

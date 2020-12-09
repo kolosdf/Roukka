@@ -27,7 +27,6 @@ class crear_ingrediente(generics.CreateAPIView):
     queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
 
-
 class modificar_ingrediente(generics.RetrieveUpdateAPIView):
     queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer

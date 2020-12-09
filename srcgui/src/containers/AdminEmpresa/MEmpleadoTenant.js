@@ -195,8 +195,7 @@ function MEmpleadoTenant(props) {
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">
-                        <small>Tables</small>
-                        <b>This table card has custom content</b>
+                        <small>Empleados</small>
                     </div>
                     <div className="card-header--actions">
                         <Button
