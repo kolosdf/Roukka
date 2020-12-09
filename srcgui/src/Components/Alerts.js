@@ -29,6 +29,8 @@ export class Alerts extends Component {
 
             //Login
             if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());
+
+            if (error.msg.error) alert.error(`${error.msg.error.join()} `);
         }
 
         if (message !== prevProps.message) {
@@ -58,6 +60,9 @@ export class Alerts extends Component {
 
             if (message.editIngre) alert.success(message.editIngre)
             if (message.addIngre) alert.success(message.addIngre)
+
+
+            if (message.doneFactura) alert.success(message.doneFactura)
 
             if (message.download) alert.success(message.download)
             if (message.exportar) alert.success(message.exportar)

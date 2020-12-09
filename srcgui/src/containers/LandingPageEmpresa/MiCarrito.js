@@ -117,10 +117,10 @@ function FilaTable({ item, plusItem, lessItem }) {
                 </div>
             </td>
             <td className="text-center">
-                <diV>
+                <div>
                     <Button className="mr-1" /* onClick={plusItem.bind(this, item)} */ color="first">+</Button>
                     <Button className="ml-1" /* onClick={lessItem.bind(this, item)} */ color="danger">-</Button>
-                </diV>
+                </div>
 
                 <Button color="danger" className="mt-1"
                     /* onClick={plusItem.bind(this, item)} */>

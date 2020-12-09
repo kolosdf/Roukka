@@ -1,7 +1,13 @@
 import * as ActionTypes from '../config/ActionTypes'
 
 var totalP = 0
-//JSON.parse(localStorage.getItem('carrito4')).forEach(function (a) { totalP += a.total })
+
+if (localStorage.getItem('carrito4') !== null) {
+    JSON.parse(localStorage.getItem('carrito4')).forEach(function (a) { totalP += a.total })
+}
+
+
+
 
 export default function reducer(state = {
     isLoading: false,
@@ -49,6 +55,7 @@ export default function reducer(state = {
 
             }
         case ActionTypes.DELETE_CARRITO:
+            localStorage.setItem('carrito4', JSON.stringify(state.carrito))
             var totalP = 0
             state.carrito.filter(item => item.id !== action.payload).forEach(function (a) { totalP += a.total })
             return {

@@ -29,25 +29,23 @@ const ModalCarrito = (props) => {
                 </div>
             </ModalHeader>
             <ModalBody>
-                <Form>
-                    <Row>
-                        <Col sm={8}>
-                            {!props.carrito.mensaje ? <div></div>
-                                : <Card className="card-box mb-5"><CardBody className="d-flex">
-                                    <FontAwesomeIcon icon={['fas', 'clipboard-check']}
-                                        className="opacity-6 mt-2" size="4x" color="green" />
-                                    <CardTitle className="font-weight-bold font-size-lg p-2">
-                                        El producto se ha agregado al carrito con éxito</CardTitle>
-                                </CardBody></Card>}
-                        </Col>
+                <Row>
+                    <Col sm={8}>
+                        {!props.carrito.mensaje ? <div></div>
+                            : <Card className="card-box mb-5"><CardBody className="d-flex">
+                                <FontAwesomeIcon icon={['fas', 'clipboard-check']}
+                                    className="opacity-6 mt-2" size="4x" color="green" />
+                                <CardTitle className="font-weight-bold font-size-lg p-2">
+                                    El producto se ha agregado al carrito con éxito</CardTitle>
+                            </CardBody></Card>}
+                    </Col>
 
-                    </Row>
+                </Row>
 
-                    <Row>
-                        <Col><TableT plusItem={props.plusItem} lessItem={props.lessItem} carrito={props.carrito} deleteCarrito={props.deleteCarrito} /></Col>
+                <Row>
+                    <Col><TableT plusItem={props.plusItem} lessItem={props.lessItem} carrito={props.carrito} deleteCarrito={props.deleteCarrito} /></Col>
 
-                    </Row>
-                </Form>
+                </Row>
             </ModalBody>
             <ModalFooter>
                 <Button color="danger" onClick={props.toggle}>
@@ -116,7 +114,7 @@ const TableT = ({ carrito, deleteCarrito, plusItem, lessItem }) => {
                                 <th>Platillo</th>
                                 <th className="text-center">Precio</th>
                                 <th className="text-center">Cantidad</th>
-                                <th className="text-right">Totals</th>
+                                <th className="text-right">Total</th>
                                 <th className="text-right">Acciones</th>
                             </tr>
                         </thead>

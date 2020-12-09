@@ -3,7 +3,7 @@ import React, { useState, useEffect, Component } from 'react'
 
 import { Modal, InputGroup, Label, Input, FormGroup, Card, Col, Button } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {Mapa} from './MainMap'
+import { Mapa } from './MainMap'
 
 
 function ModalFormInformacionT(props) {
@@ -95,8 +95,8 @@ function ModalFormInformacionT(props) {
 
         setState({
             ...state,
-            latitud:latitud,
-            longitud:longitud
+            latitud: latitud,
+            longitud: longitud
         });
 
         console.log(state)
@@ -127,7 +127,7 @@ function ModalFormInformacionT(props) {
 
 
     return (
-        <Modal zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
+        <Modal size="lg" zIndex={2000} centered isOpen={props.modalState} toggle={props.modelToggle}>
             <div>
                 <Card className="shadow-none border-0">
                     <div className="card-header d-block bg-info text-white pt-5 pb-5 ">
@@ -197,14 +197,15 @@ function ModalFormInformacionT(props) {
                             </FormGroup>
 
                             <div class="card">
-                              <div class="card-body">
-                              <Label for="nosotros" sm={10}>
-                                    Ubicacion
-                                </Label>
-                                <Mapa onChange={handlePosition}/>
+                                <div class="card-body">
+                                    <Label for="nosotros" sm={10}>
+                                        Seleccione su ubicacion
 
-                               </div>
-                             </div>
+                                </Label>
+                                    <Mapa onChange={handlePosition} />
+
+                                </div>
+                            </div>
 
 
                             <div className="text-center">
