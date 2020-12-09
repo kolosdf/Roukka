@@ -15,6 +15,13 @@ import Messages from './Messages'
 import Auth from './Auth'
 import Factura from './Factura'
 import Informacion from './InformacionTenant'
+import Ventas from './ReporteVentasTotales'
+import Vendido from './ReportePlatilloMasVendido'
+import VentasP from './ReporteVentasPlatillo'
+import VentasPM from './ReporteVentasPlatilloMes'
+import Compras from './ReporteClienteMasCompras'
+import VentasE from './ReporteEmpleadoMasVentas'
+import Reportes from './Reporte'
 
 export default {
   ThemeOptions,
@@ -34,5 +41,12 @@ export default {
   Auth,
   Factura,
   Informacion,
+  Ventas,
+  Vendido,
+  VentasP,
+  VentasPM,
+  Compras,
+  VentasE,
+  Reportes,
 
 };

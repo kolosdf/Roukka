@@ -16,7 +16,7 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 
 //Acciones
 import {
-  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
+  getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion, getVentasTotales, getMasVendido, getVentasPlatillo, getVentasPlatilloMes, getMasCompras, getMasVentas,
   postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
   putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito,
 } from './config/ActionCreators'
@@ -65,6 +65,8 @@ import MIngredienteTenant from './containers/AdminEmpresa/MIngredienteTenant'
 import MFacturacion from './containers/AdminEmpresa/MFacturación'
 import FormFacturaT from './Components/FormFacturaTenant'
 import MInformacionTenant from './containers/AdminEmpresa/MInformacionTenant'
+import MReportes from './containers/AdminEmpresa/MReportes'
+
 // Example Pages
 
 import Buttons from './example-pages/Buttons';
@@ -127,6 +129,12 @@ class Routes extends Component {
       this.props.getMenus(URLactual)
       this.props.getFactura2(URLactual)
       this.props.getInformacion(URLactual)
+      this.props.getVentasTotales(URLactual)
+      this.props.getMasVendido(URLactual)
+      this.props.getVentasPlatillo(URLactual)
+      this.props.getVentasPlatilloMes(URLactual)
+      this.props.getMasCompras(URLactual)
+      this.props.getMasVentas(URLactual)
 
       const url = `http://qbano.${API_URL}usuarios/listarCliente/`;
       return axios.get(url)
@@ -346,7 +354,7 @@ class Routes extends Component {
             {
               //Admin tenant
             }
-            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant', '/InformacionTenant']}>
+            <Route path={['/AdminTenant', '/DashboardTenant', '/UsuarioTenant', '/EmpleadoTenant', '/ClienteTenant', '/MenuTenant', '/PlatilloTenant', '/IngredienteTenant', '/FacturacionTenant', '/CrearFacturaTenant','/Reportes', '/InformacionTenant']}>
               <PresentationLayout>
                 <LeftAdminTenant >
                   <Switch location={this.props.location} key={this.props.location.key}>
@@ -374,6 +382,15 @@ class Routes extends Component {
                         platillos={this.props.platillos}
                         ingredientes={this.props.ingredientes}
                         putUpdatePlatillo={this.props.putUpdatePlatillo} />} />
+                      <PrivateRoute path="/Reportes" component={() => <MReportes 
+                        platillos={this.props.platillos}
+                        ventas={this.props.reportes.ventas}
+                        vendidos={this.props.reportes.vendidos}
+                        ventasPlatillo={this.props.reportes.ventasPlatillo}
+                        ventasPlatilloMes={this.props.reportes.ventasPlatilloMes}
+                        getVentasPlatilloMes={this.props.getVentasPlatilloMes}
+                        compras={this.props.reportes.compras}
+                        ventase={this.props.reportes.ventase} />} />
                       <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
@@ -436,7 +453,15 @@ const mapStateToProps = state => {
     datos: state.datos,
     auth: state.Auth,
     factura: state.Factura,
-    carrito: state.Carrito
+    carrito: state.Carrito,
+    ventas: state.Ventas,
+    vendidos: state.Vendido,
+    ventasPlatillo: state.VentasP,
+    ventasPlatilloMes: state.VentasPM,
+    compras: state.Compras,
+    ventase: state.VentasE,
+    reportes: state.Reportes,
+
   }
 }
 
@@ -454,6 +479,12 @@ const mapDispatchToProps = (dispatch) => ({
   getInformacion: (tenant) => { dispatch(getInformacion(tenant)) },
   getMenus: (tenant) => { dispatch(getMenus(tenant)) },
   getFactura2: (tenant) => { dispatch(getFactura2(tenant)) },
+  getVentasTotales: (tenant) => { dispatch(getVentasTotales(tenant)) },
+  getMasVendido: (tenant) => { dispatch(getMasVendido(tenant)) },
+  getVentasPlatillo: (tenant) => { dispatch(getVentasPlatillo(tenant)) },
+  getVentasPlatilloMes: (platillo) => { dispatch(getVentasPlatilloMes(platillo, URLactual)) },
+  getMasCompras: (tenant) => { dispatch(getMasCompras(tenant)) },
+  getMasVentas: (tenant) => { dispatch(getMasVentas(tenant)) },
   postRegisterPlan: (empresa) => dispatch(postRegisterPlan(empresa)),
   postRegisterFuncionalidad: (funcionalidad) => dispatch(postRegisterFuncionalidad(funcionalidad)),
   postRegisterEmpresa: (empresa) => dispatch(postRegisterEmpresa(empresa)),

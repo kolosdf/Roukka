@@ -5,6 +5,7 @@ const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
 const API_URL_P = '.localhost:8000/productos';
 const API_URL_V = '.localhost:8000/ventas';
+const API_URL_R = '.localhost:8000/reportes';
 
 
 /* export const getPlans =  () => (dispacth) => {
@@ -982,3 +983,127 @@ export const addFacturasT = (facturas) => ({
     type: ActionTypes.ADD_FACTURAS,
     payload: facturas
 })
+
+//REPORTES 
+
+// VENTAS TOTALES
+
+export const getVentasTotales = (tenant) => (dispatch) => {
+    dispatch(ventasTotalesLoading(true));
+    const url = `http://${tenant}${API_URL_R}/ventasTotales/`;
+    return axios.get(url)
+        .then(ventas => dispatch(ventasTotales(ventas.data)))
+        .catch(error => console.log(error));
+}
+
+export const ventasTotales = (ventas) => ({
+    type: ActionTypes.VENTAS_TOTALES,
+    payload: ventas
+})
+
+export const ventasTotalesLoading = () => ({
+    type: ActionTypes.VENTAS_TOTALES_LOADING,
+
+})
+
+//PLATILLO MÁS VENDIDO
+
+export const getMasVendido = (tenant) => (dispatch) => {
+    dispatch(masVendidoLoading(true));
+    const url = `http://${tenant}${API_URL_R}/platilloMasVendido/`;
+    return axios.get(url)
+        .then(vendidos => dispatch(masVendido(vendidos.data)))
+        .catch(error => console.log(error));
+}
+
+export const masVendido = (vendidos) => ({
+    type: ActionTypes.MAS_VENDIDO,
+    payload: vendidos
+})
+
+export const masVendidoLoading = () => ({
+    type: ActionTypes.MAS_VENDIDO_LOADING,
+
+})
+
+//VENTAS POR PLATILLO
+
+export const getVentasPlatillo = (tenant) => (dispatch) => {
+    dispatch(ventasPlatilloLoading(true));
+    const url = `http://${tenant}${API_URL_R}/ventasPlatillo/`;
+    return axios.get(url)
+        .then(res => {dispatch(ventasPlatillo(res.data))})
+        .catch(error => console.log(error));
+}
+
+export const ventasPlatilloLoading = () => ({
+    type: ActionTypes.VENTAS_PLATILLO_LOADING,
+
+})
+
+export const ventasPlatillo = (ventasPlatillo) => ({
+    type: ActionTypes.VENTAS_PLATILLO,
+    payload: ventasPlatillo
+})
+
+// VENTAS POR PLATILLO MES
+
+export const getVentasPlatilloMes = (platillo, tenant) => (dispatch) => {
+    dispatch(ventasPlatilloMesLoading(true));
+    const url = `http://${tenant}${API_URL_R}/ventasMesPlatillo/2/`;
+    return axios.get(url)
+        .then(res => {console.log(res.data);dispatch(ventasPlatilloMes(res.data))})
+        .catch(error => console.log(error));
+}
+
+export const ventasPlatilloMes = (ventasPlatilloM) => ({
+    type: ActionTypes.VENTAS_PLATILLO_MES,
+    payload: ventasPlatilloM
+})
+
+export const ventasPlatilloMesLoading = () => ({
+    type: ActionTypes.VENTAS_PLATILLO_MES_LOADING,
+
+})
+
+// CLIENTES CON MAS COMPRAS
+
+export const getMasCompras = (tenant) => (dispatch) => {
+    dispatch(masComprasLoading(true));
+    const url = `http://${tenant}${API_URL_R}/ventasClientes/`;
+    return axios.get(url)
+        .then(compras => dispatch(masCompras(compras.data)))
+        .catch(error => console.log(error));
+}
+
+export const masCompras = (compras) => ({
+    type: ActionTypes.MAS_COMPRAS,
+    payload: compras
+})
+
+export const masComprasLoading = () => ({
+    type: ActionTypes.MAS_COMPRAS_LOADING,
+
+})
+
+// EMPLEADOS CON MAS VENTAS
+
+export const getMasVentas = (tenant) => (dispatch) => {
+    dispatch(masVentasLoading(true));
+    const url = `http://${tenant}${API_URL_R}/ventasEmpleados/`;
+    return axios.get(url)
+        .then(ventase => dispatch(masVentas(ventase.data)))
+        .catch(error => console.log(error));
+}
+
+export const masVentas = (ventase) => ({
+    type: ActionTypes.MAS_VENTAS,
+    payload: ventase
+})
+
+export const masVentasLoading = () => ({
+    type: ActionTypes.MAS_VENTAS_LOADING,
+
+})
+
+

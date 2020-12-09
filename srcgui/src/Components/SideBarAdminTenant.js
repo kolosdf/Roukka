@@ -83,6 +83,13 @@ const sidebarMenuContent = [
     ]
   },
   {
+    label: ' Reportes ',
+
+    icon: 'pe-7s-user',
+    description: 'Implement in your applications Google or vector maps.',
+    to: '/Reportes'
+  },
+  {
     label: 'Configuracion',
     icon: 'pe-7s-config',
     description: 'Implement',

@@ -105,7 +105,10 @@ class ventas_totales(generics.ListAPIView):
                 'total': ventas_mes6['total'] + ventas_mes6['total']
             }
         
-            ]
+            ],
+            'etiquetas': [switch_mes(mes0), switch_mes(mes1), switch_mes(mes2), switch_mes(mes3), switch_mes(mes4), switch_mes(mes5), switch_mes(mes6)],
+            'valores': [ventas2_mes0['total'] + ventas_mes0['total'], ventas_mes1['total'] + ventas_mes1['total'], ventas_mes2['total'] + ventas_mes2['total'], ventas_mes3['total'] + ventas_mes3['total'],  ventas_mes4['total'] + ventas_mes4['total'], ventas_mes5['total'] + ventas_mes5['total'], ventas_mes6['total'] + ventas_mes6['total']]
+            
         }
         
         
@@ -122,7 +125,7 @@ def switch_mes(argument):
         7: "Julio",
         8: "Agosto",
         9: "Septiembre",
-        10: "Octobre",
+        10: "Octubre",
         11: "Noviembre",
         12: "Diciembre"
     }
@@ -136,6 +139,8 @@ class mas_vendido(generics.ListAPIView):
         producto = Ventas_Productos.objects.values('platillo').annotate(total=Sum('cantidad')).order_by('-total')[:20]
 
         lista = []
+        etiquetas = []
+        valores = []
 
         for p in producto:
             platillo = Platillo.objects.get(id=p['platillo'])
@@ -149,9 +154,13 @@ class mas_vendido(generics.ListAPIView):
                     'total': p['total']
                 }
             )
+            etiquetas.append(platillo.nombre)
+            valores.append(p['total'])
 
         dato = {
-            'más vendidos': lista,
+            'vendidos': lista,
+            'etiquetas': etiquetas,
+            'valores': valores
         }
 
         return Response(dato)
@@ -164,11 +173,12 @@ class ventas_totales_platillo(generics.ListAPIView):
         producto = Ventas_Productos.objects.values('platillo').annotate(total=Sum('cantidad')).order_by('-total')[:20]
 
         lista = []
+        etiquetas = []
+        valores = []
 
         for p in producto:
             platillo = Platillo.objects.get(id=p['platillo'])
             total = p['total'] * platillo.precio
-            print(total)
             lista.append(
                 {
                     'platillo':{
@@ -179,9 +189,13 @@ class ventas_totales_platillo(generics.ListAPIView):
                     'total': total
                 }
             )
+            etiquetas.append(platillo.nombre)
+            valores.append(total)
 
         dato = {
-            'ventas por platillo': lista,
+            'ventasPlatillo': lista,
+            'etiquetas': etiquetas,
+            'valores': valores
         }
 
         return Response(dato)
@@ -326,7 +340,10 @@ class ventas_mes_platillo(generics.RetrieveAPIView):
                 'total': (v_mes6['total'] + v2_mes6['total']) * precio
             }
         
-            ]
+            ],
+            'etiquetas': [switch_mes(mes0), switch_mes(mes1), switch_mes(mes2), switch_mes(mes3), switch_mes(mes4), switch_mes(mes5), switch_mes(mes6)],
+            'valores': [(v_mes0['total'] + v2_mes0['total']) * precio, (v_mes1['total'] + v2_mes1['total']) * precio, (v_mes2['total'] + v2_mes2['total']) * precio, (v_mes3['total'] + v2_mes3['total']) * precio, (v_mes4['total'] + v2_mes4['total']) * precio, (v_mes5['total'] + v2_mes5['total']) * precio, (v_mes6['total'] + v2_mes6['total']) * precio]
+
         }
         
         
@@ -340,6 +357,8 @@ class mas_ventas_clientes(generics.ListAPIView):
         resultado = Factura.objects.values('cliente').annotate(total=Sum('total')).order_by('-total')[:20]
 
         lista = []
+        etiquetas = []
+        valores = []
 
         for p in resultado:
             cliente = Cliente.objects.get(id=p['cliente'])
@@ -354,9 +373,13 @@ class mas_ventas_clientes(generics.ListAPIView):
                     'total': p['total']
                 }
             )
+            etiquetas.append(cliente.first_name)
+            valores.append(p['total'])
 
         dato = {
-            'clientes con más compras': lista,
+            'clientes': lista,
+            'etiquetas': etiquetas,
+            'valores': valores
         }
 
         return Response(dato)
@@ -381,12 +404,14 @@ class mas_ventas_empleados(generics.ListAPIView):
         resultado = Factura2.objects.values('empleado').annotate(total=Sum('total')).order_by('-total')[:20]
 
         lista = []
+        etiquetas = []
+        valores = []
 
         for p in resultado:
             empleado = Empleado.objects.get(id=p['empleado'])
             lista.append(
                 {
-                    'empleado':{
+                    'cliente':{
                         'id': p['empleado'],
                         'nombre': empleado.first_name,
                         'apellido': empleado.last_name,
@@ -395,9 +420,13 @@ class mas_ventas_empleados(generics.ListAPIView):
                     'total': p['total']
                 }
             )
+            etiquetas.append(empleado.first_name)
+            valores.append(p['total'])
 
         dato = {
-            'empleados con más ventas': lista,
+            'empleados': lista,
+            'etiquetas': etiquetas,
+            'valores': valores
         }
 
         return Response(dato)
