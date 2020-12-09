@@ -18,7 +18,7 @@ import { LeftSidebar, PresentationLayout } from './layout-blueprints';
 import {
   getPlans, getEmpresas, getFuncionalidades, getUsuarios, getUsuariosT, getEmpleados, getClientes, getIngredientes, getMenus, getPlatillos, getInformacion,
   postRegisterPlan, postRegisterUsuario, putUpdateUsuario, postRegisterUsuarioT, postRegisterEmpleado, postRegisterCliente, postRegisterEmpresa, postRegisterIngrediente, postRegisterFuncionalidad, postRegisterMenu, postRegisterPlatillo, postRegisterInformacion,
-  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito,
+  putUpdateUsuarioT, putUpdateEmpleado, putUpdateCliente, putUpdatePlan, putUpdateIngrediente, putUpdateFuncionalidad, putUpdateMenu, putUpdatePlatillo, putUpdateInformacion, addCarrito, deleteIngrediente, addItem, plusItem, lessItem, doneFacturaTenant, getFactura2, modalToggle, deleteCarrito, removeItem,
 } from './config/ActionCreators'
 
 
@@ -377,7 +377,7 @@ class Routes extends Component {
                       <PrivateRoute path="/IngredienteTenant" component={() => <MIngredienteTenant postRegisterIngrediente={this.props.postRegisterIngrediente}
                         ingredientes={this.props.ingredientes}
                         putUpdateIngrediente={this.props.putUpdateIngrediente} deleteIngrediente={this.props.deleteIngrediente} />} />
-                       <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
+                      <PrivateRoute path="/InformacionTenant" component={() => <MInformacionTenant postRegisterInformacion={this.props.postRegisterInformacion}
                         datos={this.props.datos}
                         putUpdateInformacion={this.props.putUpdateInformacion} deleteInformacion={this.props.deleteInformacion} />} />
                       <PrivateRoute path="/FacturacionTenant" component={() => <MFacturacion
@@ -397,8 +397,8 @@ class Routes extends Component {
                         addItem={this.props.addItem}
                         plusItem={this.props.plusItem}
                         lessItem={this.props.lessItem}
+                        removeItem={this.props.removeItem}
                         factura={this.props.factura}
-                        //factura={this.props.factura}
                         doneFacturaTenant={this.props.doneFacturaTenant}
                         auth={this.props.auth.usuario}
                       />}
@@ -484,6 +484,7 @@ const mapDispatchToProps = (dispatch) => ({
   addItem: (item) => dispatch(addItem(item)),
   plusItem: (item) => dispatch(plusItem(item)),
   lessItem: (item) => dispatch(lessItem(item)),
+  removeItem: (item) => dispatch(removeItem(item)),
   modalToggle: () => dispatch(modalToggle()),
 
 });

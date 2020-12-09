@@ -23,18 +23,9 @@ CRUD DE INGREDIENTES
 
 
 class crear_ingrediente(generics.CreateAPIView):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
 
+    queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
-
-    def get_queryset(self):
-        return self.request.usuario.ingrediente.all()
-
-    # No se que hace aun esta funcion
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.usuario)
 
 
 class modificar_ingrediente(generics.RetrieveUpdateAPIView):
@@ -102,6 +93,7 @@ class detalle_menu(generics.RetrieveAPIView):
 EXCEL
 """
 
+
 class exportar_menu(generics.ListAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
@@ -124,7 +116,7 @@ class exportar_menu(generics.ListAPIView):
             for i in p:
                 lista.append(i.id)
             platillos.append(lista)
-        
+
         datos = {
             'id': ids,
             'nombre': nombres,
@@ -133,10 +125,12 @@ class exportar_menu(generics.ListAPIView):
             'platillos': platillos
         }
 
-        df = pd.DataFrame(datos, columns = ['id','nombre', 'imagen', 'descripcion', 'platillos'])
+        df = pd.DataFrame(
+            datos, columns=['id', 'nombre', 'imagen', 'descripcion', 'platillos'])
         df.to_excel('menus.xlsx', sheet_name='menus')
 
         return Response({'msj': "Archivo descargado"})
+
 
 class importar_menu(generics.ListAPIView):
     queryset = Menu.objects.all()
@@ -158,7 +152,8 @@ class importar_menu(generics.ListAPIView):
 
         for i in range(max):
             if np.isnan(ids[i]):
-                p = Menu(nombre=nombres[i], imagen=imagenes[i], descripcion=descripciones[i])
+                p = Menu(nombre=nombres[i], imagen=imagenes[i],
+                         descripcion=descripciones[i])
                 p.save()
                 max2 = len(platillos[i])
 
@@ -178,21 +173,19 @@ class importar_menu(generics.ListAPIView):
                 p.descripcion = descripciones[i]
                 p.save()
                 max2 = len(platillos[i])
-                
+
                 lista_platillos = []
-                
+
                 for j in range(max2):
                     try:
                         pl = Platillo.objects.get(id=platillos[i][j])
                         lista_platillos.append(pl)
                     except:
                         continue
-                
+
                 p.platillos.set(lista_platillos)
-                    
+
                 print(p.nombre)
                 print(p.platillos.all())
 
-
         return Response({'msj': "Archivo cargado"})
-

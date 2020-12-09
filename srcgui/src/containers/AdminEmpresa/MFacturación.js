@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import PageTitle from '../../Components/PageTitle'
-import ModalFormPlatillo from '../../Components/ModalFormPlatillo';
+import ModalDetalleFactura from '../../Components/ModalDetalleFactura';
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 
@@ -39,10 +39,10 @@ function FilaTable(props) {
                             onClick={e => e.preventDefault()}
                             className="font-weight-bold text-black"
                             title="...">
-                            {props.factura.empleado.first_name + " " + props.factura.empleado.last_name}
+                            {props.factura.factura.empleado.first_name + " " + props.factura.factura.empleado.last_name}
                         </a>
                         <span className="text-black-50 d-block mt-2">
-                            <h5>{props.factura.empleado.email}</h5>
+                            <h5>{props.factura.factura.empleado.email}</h5>
                         </span>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ function FilaTable(props) {
             <td className="text-center">
                 <span className="text-black-50 d-block mt-2">
                     <Badge color="first" >
-                        <h5>$ {props.factura.total} </h5>
+                        <h5>$ {props.factura.factura.total} </h5>
                     </Badge>
                 </span>
             </td>
@@ -74,25 +74,15 @@ function FilaTable(props) {
                             <NavItem className="px-3">
                                 <NavLink
                                     href="#"
-/*                                     onClick={props.modificar.bind(this, props.platillo.id, props.platillo.nombre, props.platillo.precio, props.platillo.unidades, props.platillo.imagen, props.platillo.estado, props.platillo.ingredientes)}
- */                                    active>
-                                    <span>Modificar </span>
-                                    <Badge color="first" className="ml-auto">
-                                        New
-                        </Badge>
+                                    onClick={props.detalleFactura.bind(this, props.factura.factura.id, props.factura.factura.empleado, props.factura.factura.fecha, props.factura.factura.total, props.factura.productos)}
+                                    active>
+                                    <div className="nav-link-icon">
+                                        <FontAwesomeIcon icon={['fas', 'eye']} />
+                                    </div>
+                                    <span>Ver detalles</span>
                                 </NavLink>
                             </NavItem>
-                            <li className="dropdown-divider" />
-                            <NavItem>
-                                {/*                                 <ModificarEstado id={props.platillo.id} estado={props.platillo.estado} modificarEstado={props.modificarEstado.bind(this, { id: props.platillo.id, nombre: props.platillo.nombre, precio: props.platillo.precio, unidades: props.platillo.unidades, imagen: props.platillo.imagen, estado: !props.platillo.estado, ingredientes: props.platillo.ingredientes })} />
- */}                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    href="#"
-                                    onClick={e => e.preventDefault()}>
-                                    <FontAwesomeIcon icon={['fas', 'angle-double-right']} />
-                                </NavLink>
-                            </NavItem>
+
                         </Nav>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -106,21 +96,38 @@ function FilaTable(props) {
 
 function FacturacionTenant(props) {
 
+    const detalleFactura = (id, empleado, fecha, total, productos) => {
+        setState({
+            id: id,
+            empleado: empleado,
+            fecha: fecha,
+            total: total,
+            productos: productos,
+        }, toggle())
+    }
+
+    const [state, setState] = useState({
+        id: '',
+        empleado: '',
+        fecha: '',
+        total: '',
+        productos: []
+    })
+
     const [modal, setModal] = useState(false);
 
-    const toggle = () => <Redirect to="/CrearFacturaTenant" />
+    const toggle = () => setModal(!modal)
 
-    const facturas = props.factura.facturas.map((factura) => {
+    const facturas = props.factura.facturas.datos.map((factura) => {
         return (
-            <FilaTable factura={factura} key={factura.id} />
+            <FilaTable detalleFactura={detalleFactura} factura={factura} key={factura.id} />
         )
     })
 
 
     return (
         <Fragment>
-            {console.log('se renderiza todo')}
-
+            <ModalDetalleFactura datos={state} modal={modal} toggle={toggle} />
             <div className="app-page-title">
                 <div>
                     <div className="app-page-title--first">

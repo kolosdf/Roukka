@@ -26,7 +26,9 @@ export default function reducer(state = {
                 itemF = {
                     "id": action.payload.id,
                     "nombre": action.payload.nombre,
+                    "imagen": action.payload.imagen,
                     "precio": action.payload.precio,
+                    "unidades": action.payload.unidades,
                     "cantidad": itemBefore.cantidad + 1,
                     "total": action.payload.precio * (itemBefore.cantidad + 1)
                 }
@@ -64,6 +66,8 @@ export default function reducer(state = {
                 "id": action.payload.id,
                 "nombre": action.payload.nombre,
                 "precio": action.payload.precio,
+                "imagen": action.payload.imagen,
+                "unidades": action.payload.unidades,
                 "cantidad": itemBefore.cantidad - 1,
                 "total": (action.payload.precio * (itemBefore.cantidad)) - (action.payload.precio)
             }
@@ -80,7 +84,10 @@ export default function reducer(state = {
 
 
         case ActionTypes.DONE_FACTURA:
-            return { ...state, isLoading: true, errMess: null, modal: !state.modal };
+            return { ...state, items: [], facturaItems: [], isLoading: true, errMess: null, modal: !state.modal };
+
+        case ActionTypes.REMOVE_ITEM:
+            return { ...state, items: state.items.filter(item => item.id !== action.payload), facturaItems: state.facturaItems.filter(item => item.platillo !== action.payload) }
 
         /* case ActionTypes.PLANS_LOADING:
             return { ...state, isLoading: true, errMess: null, plans: [] };

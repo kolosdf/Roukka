@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom'
 import HeaderUserbox from '../../layout-components/HeaderUserbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class Header extends Component {
+class HeaderLandingPage extends Component {
 
     constructor(props) {
         super(props);
@@ -79,11 +79,6 @@ class Header extends Component {
                                         <span className="fa fa-address-card fa-lg"></span> Contactanos
                                 </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink className="nav-link ml-5" to="/PlanRoukka">
-                                        <span className="fa fa-address-card fa-lg"></span> Ir
-                                </NavLink>
-                                </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
@@ -115,4 +110,4 @@ const mapDispatchToProps = dispatch => ({
     setSidebarToggleMobile: enable => dispatch(setSidebarToggleMobile(enable))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderLandingPage);

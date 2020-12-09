@@ -72,6 +72,7 @@ export const ADD_PLATILLOS = 'ADD_PLATILLOS'
 export const UPDATE_PLATILLO = 'UPDATE_PLATILLO'
 export const PLATILLO_LOADING = 'PLATILLO_LOADING'
 export const PLATILLO_FAILED = 'PLATILLO_FAILED'
+export const SALDO_PLATILLO = 'SALDO_PLATILLO'
 
 
 export const ADD_MENU = 'ADD_MENU'
@@ -106,6 +107,7 @@ export const LESS_ITEM = 'LESS_ITEM'
 export const REMOVE_ITEM = 'REMOVE_ITEM'
 
 
+
 export const MODAL_TOGGLE = 'MODAL_TOGGLE'
 
 export const ADD_FACTURAS = 'ADD_FACTURAS'
@@ -113,3 +115,5 @@ export const ADD_FACTURAS = 'ADD_FACTURAS'
 export const DONE_FACTURA = 'DONE_FACTURA'
 
 export const DELETE_CARRITO = 'DELETE_CARRITO'
+
+

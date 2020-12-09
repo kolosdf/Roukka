@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000/empresas';
 const API_URL_U = 'http://localhost:8000/usuarios'; //superusuario roukka
 const API_URL_UT = '.localhost:8000/usuarios'; //usuarios del tenant
+const API_URL_LOGO = 'localhost:8000/usuarios'
 const API_URL_P = '.localhost:8000/productos';
 const API_URL_V = '.localhost:8000/ventas';
 
@@ -103,7 +104,7 @@ export const getEmpresas = () => (dispacth) => {
 }
 
 export const UpdateTema = (empresas) => ({
-    type:ActionTypes.UPDATE_TEMA,
+    type: ActionTypes.UPDATE_TEMA,
     payload: empresas
 })
 
@@ -432,7 +433,7 @@ export const ingredientesFailedT = (errmess) => ({
 export const addIngredienteT = (ingrediente) => ({
     type: ActionTypes.ADD_INGREDIENTE,
     payload: ingrediente
-    
+
 });
 
 export const updateIngredienteT = (ingrediente) => ({
@@ -442,7 +443,7 @@ export const updateIngredienteT = (ingrediente) => ({
 
 
 
-export const  postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
+export const postRegisterIngrediente = (ingrediente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearIngrediente/`;
     return axios.post(url, ingrediente)
 
@@ -482,13 +483,13 @@ export const deleteIngrediente = (id, tenant) => (dispatch) => {
 
 //EMPLEADOS
 
-export const getEmpleados = (tenant) => (dispacth) => { 
+export const getEmpleados = (tenant) => (dispacth) => {
     dispacth(empleadosLoading(true));
     const url = `http://${tenant}${API_URL_UT}/listarEmpleado/`;
     return axios.get(url)
-        .then(empleados => dispacth(addEmpleados(empleados.data)))    
+        .then(empleados => dispacth(addEmpleados(empleados.data)))
         .catch(error => console.log(error));
-    
+
 }
 
 export const addEmpleados = (empleados) => ({
@@ -511,7 +512,7 @@ export const empleafosFailed = (errmess) => ({
 export const addEmpleado = (empleado) => ({
     type: ActionTypes.ADD_EMPLEADO,
     payload: empleado
-    
+
 });
 
 export const updateEmpleado = (empleado) => ({
@@ -521,7 +522,7 @@ export const updateEmpleado = (empleado) => ({
 
 
 
-export const  postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
+export const postRegisterEmpleado = (empleado, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearEmpleado/`;
     return axios.post(url, empleado)
 
@@ -547,13 +548,13 @@ export const putUpdateEmpleado = (empleado, tenant) => (dispatch) => {
 
 // CLIENTES
 
-export const getClientes = (tenant) => (dispacth) => { 
+export const getClientes = (tenant) => (dispacth) => {
     dispacth(clientesLoading(true));
     const url = `http://${tenant}${API_URL_UT}/listarCliente/`;
     return axios.get(url)
-        .then(clientes => dispacth(addClientes(clientes.data)))    
+        .then(clientes => dispacth(addClientes(clientes.data)))
         .catch(error => console.log(error));
-    
+
 }
 
 export const addClientes = (clientes) => ({
@@ -576,7 +577,7 @@ export const clientesFailed = (errmess) => ({
 export const addCliente = (cliente) => ({
     type: ActionTypes.ADD_CLIENTE,
     payload: cliente
-    
+
 });
 
 export const updateCliente = (cliente) => ({
@@ -585,7 +586,7 @@ export const updateCliente = (cliente) => ({
 })
 
 
-export const  postRegisterCliente =  (cliente, tenant) => (dispatch) => {
+export const postRegisterCliente = (cliente, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_UT}/crearCliente/`;
     return axios.post(url, cliente)
 
@@ -642,7 +643,7 @@ export const platillosFailedT = (errmess) => ({
 export const addPlatilloT = (platillo) => ({
     type: ActionTypes.ADD_PLATILLO,
     payload: platillo
-    
+
 });
 
 export const updatePlatilloT = (platillo) => ({
@@ -652,7 +653,7 @@ export const updatePlatilloT = (platillo) => ({
 
 
 
-export const  postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
+export const postRegisterPlatillo = (platillo, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearPlatillo/`;
     return axios.post(url, platillo)
 
@@ -708,7 +709,7 @@ export const menusFailedT = (errmess) => ({
 export const addMenuT = (menu) => ({
     type: ActionTypes.ADD_MENU,
     payload: menu
-    
+
 });
 
 export const updateMenuT = (menu) => ({
@@ -718,7 +719,7 @@ export const updateMenuT = (menu) => ({
 
 
 
-export const  postRegisterMenu = (menu, tenant) => (dispatch) => {
+export const postRegisterMenu = (menu, tenant) => (dispatch) => {
     const url = `http://${tenant}${API_URL_P}/crearMenu/`;
     return axios.post(url, menu)
 
@@ -796,6 +797,7 @@ export const loadUser = () => (dispatch, getState) => {
     axios.get(url, tokenConfig(getState))
         .then(res => {
             dispatch({
+
                 type: ActionTypes.USER_LOADED,
                 payload: res.data
             })
@@ -843,7 +845,7 @@ export const login = (username, password) => dispatch => {
 
 export const logout = (tenant) => (dispatch, getState) => {
 
-    const url = `http://${tenant}${API_URL_UT}/logout/`;
+    const url = `http://${tenant}${API_URL_LOGO}/logout/`;
     axios.post(url, null, tokenConfig(getState))
         .then(res => {
             dispatch({
@@ -952,6 +954,11 @@ export const lessItem = (item) => ({
 
 });
 
+export const removeItem = (item) => ({
+    type: ActionTypes.REMOVE_ITEM,
+    payload: item
+})
+
 
 export const modalToggle = () => ({
     type: ActionTypes.MODAL_TOGGLE,
@@ -964,11 +971,25 @@ export const doneFacturaTenant = (factura, tenant) => (dispatch) => {
 
     axios.post(url, factura)
         .then(res => {
-            console.log('Done')
+            try { // your own try...catch block to catch the error before axios ..catch
+                dispatch(createMessage({ doneFactura: 'Factura creada' }))
+                dispatch(doneFactura())
+                dispatch(saldoPlatillo(res.data.productos))
+            } catch (e) { console.log(e) } // your catch block
+
         }).catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status))
         })
 }
+
+export const doneFactura = () => ({
+    type: ActionTypes.DONE_FACTURA,
+})
+
+export const saldoPlatillo = (platillos) => ({
+    type: ActionTypes.SALDO_PLATILLO,
+    payload: platillos
+})
 
 export const getFactura2 = (tenant) => (dispatch) => {
     dispatch(menusLoadingT(true));

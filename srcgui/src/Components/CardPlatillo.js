@@ -15,13 +15,14 @@ function CardPlatillo({ platillo, addItem, saveCarrito, toggle }) {
                     <h5 className="font-weight-bold mb-0">
                         {platillo.nombre}
                     </h5>
-                    <span className="">$ {platillo.precio}</span>
+                    <span className="">$ {platillo.precio}</span><br />
+                    <span className="">Unidades: {platillo.unidades}</span>
                 </div>
-                <Button color="warning" className="mb-2" onClick={() => { addItem({ id: platillo.id, nombre: platillo.nombre, imagen: platillo.imagen, precio: platillo.precio, cantidad: 1, total: platillo.precio }) }} >
+                <Button disabled={platillo.unidades === 0 ? true : false} color="warning" className="mb-2" onClick={() => { addItem({ id: platillo.id, nombre: platillo.nombre, imagen: platillo.imagen, precio: platillo.precio, unidades: platillo.unidades, cantidad: 1, total: platillo.precio }) }} >
                     <FontAwesomeIcon icon={['fas', 'check-circle']} /> Añadir Plato
                 </Button>
             </Card>
-        </Col>
+        </Col >
     )
 }
 

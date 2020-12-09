@@ -4,8 +4,9 @@ import { useDispatch, connect } from 'react-redux'
 import { getEmpresas } from '../../config/ActionCreators';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {Table,CardBody,Card,CardHeader,CustomInput,Badge,Nav,NavItem,NavLink,Pagination,
-    PaginationItem,PaginationLink,Button,UncontrolledDropdown, DropdownToggle,DropdownMenu
+import {
+    Table, CardBody, Card, CardHeader, CustomInput, Badge, Nav, NavItem, NavLink, Pagination,
+    PaginationItem, PaginationLink, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu
 } from 'reactstrap';
 
 
@@ -19,7 +20,7 @@ function FilaTable(props) {
                 <div className="d-flex align-items-center">
                     <div className="avatar-icon-wrapper mr-2">
                         <div className="avatar-icon">
-                            <p>{props.empresa.id}</p>
+                            <img alt="..." className="" width="100" src={props.empresa.imagen} />
                         </div>
                     </div>
                     <div>
@@ -101,14 +102,12 @@ function MEmpresaRoukka(props) {
 
     console.log(props.Plans)
 
-    
+
 
     return (
-        
+
         <Fragment>
-            <PageTitle
-                titleHeading="Empresa"
-                titleDescription="Conjunto de empresas presentes en la aplicación" />
+
             <Card className="card-box mb-5">
                 <div className="card-header">
                     <div className="card-header--title">

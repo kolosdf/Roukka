@@ -15,10 +15,10 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
                     //spinner
                     return <h2>Loading...</h2>
 
-                } else if (!auth.isAuthenticated && URLactual === '') {
+                } else if (!auth.isAuthenticated && URLactual === 'localhost') {
                     return <Redirect to="/login" />
 
-                } else if (!auth.isAuthenticated && URLactual !== '') {
+                } else if (!auth.isAuthenticated && URLactual !== 'localhost') {
                     return <Redirect to="/loginEmpresa" />
                 } else {
                     return <Component {...props} />

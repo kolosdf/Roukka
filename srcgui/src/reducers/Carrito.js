@@ -1,7 +1,12 @@
 import * as ActionTypes from '../config/ActionTypes'
 
 var totalP = 0
-JSON.parse(localStorage.getItem('carrito4')).forEach(function (a) { totalP += a.total })
+
+if (localStorage.getItem('carrito4') !== null) {
+    JSON.parse(localStorage.getItem('carrito4')).forEach(function (a) { totalP += a.total })
+}
+
+
 
 export default function reducer(state = {
     isLoading: false,

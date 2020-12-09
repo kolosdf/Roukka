@@ -1,27 +1,27 @@
 import React, { Component } from 'react'
 import PageTitle from '../../Components/PageTitle'
 
-import {Card, Col, Row} from 'reactstrap'
+import { Card, Col, Row } from 'reactstrap'
 
 
 
-function CardUser(props){
+function CardUser(props) {
 
-    return(
+    return (
         <Row>
             <Col md={5}>
                 <Card className="p-3 mb-3">
 
                     <h1>nombre :{props.nombre} </h1>
                     <p>edad: {props.edad} </p>
-                    
-                    arroz: {props.arroz} 
+
+                    arroz: {props.arroz}
                 </Card>
             </Col>
         </Row>
     )
 
-} 
+}
 
 
 
@@ -30,22 +30,19 @@ function CardUser(props){
 
 
 
-function MDashBoardRoukka (props) {  
+function MDashBoardRoukka(props) {
 
     const users = props.plans.plans.map(plan => {
-        return(
-            <CardUser  nombre={plan.id} edad={plan.nombre} arroz={plan.precio}/>
+        return (
+            <CardUser nombre={plan.id} edad={plan.nombre} arroz={plan.precio} />
         )
     })
-        return (
-            <div>
-                <PageTitle
-                    titleHeading="Dashboard principal"
-                    titleDescription="Conjunto de datos de la aplicación"/>     
-                    {users}
-            </div>
-        )
-    }
+    return (
+        <div>
+
+        </div>
+    )
+}
 
 
 export default MDashBoardRoukka
